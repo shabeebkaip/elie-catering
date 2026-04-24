@@ -37,16 +37,7 @@ export default function Header() {
           className={`transition-all duration-500 ${scrolled ? "w-12" : "w-16"}`}
           alt="Elie Logo"
         />
-        {scrolled && (
-          <motion.div
-            initial={{ opacity: 0, x: -8 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="hidden md:flex flex-col"
-          >
-            <span className="text-accent font-serif text-sm italic leading-none">Elie</span>
-            <span className="text-cream/50 text-[8px] tracking-[0.3em] uppercase leading-none mt-0.5">Catering</span>
-          </motion.div>
-        )}
+
       </Link>
 
       {/* Desktop Nav */}

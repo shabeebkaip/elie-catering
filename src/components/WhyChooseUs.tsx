@@ -76,13 +76,22 @@ export default function WhyChooseUs() {
 
         {/* ── Ambient background capsule shapes ── */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* Top-right Hanging Gold Capsules (User requested) */}
           <motion.div
-            initial={{ opacity: 0, x: 80 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: -100 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.4 }}
-            className="absolute top-[-5%] right-[-3%] w-32 h-[500px] bg-accent/5 rounded-full rotate-[-28deg]"
+            transition={{ duration: 1.4, delay: 0.2 }}
+            className="absolute z-20 top-[-200px] right-[15%] w-[120px] h-[620px] rounded-full bg-accent/15 rotate-[0deg] border border-accent/20"
           />
+          <motion.div
+            initial={{ opacity: 0, y: -120 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.6, delay: 0.4 }}
+            className="absolute top-[-150px] right-[4%] w-[80px] h-[540px] rounded-full bg-accent/10 rotate-[0deg] border border-accent/15"
+          />
+
           <div className="absolute top-[8%] right-[14%] w-16 h-64 border border-accent/8 rounded-full rotate-[-28deg]" />
           <div className="absolute bottom-[22%] left-[-4%] w-24 h-96 bg-white/3 rounded-full rotate-[24deg]" />
           <div className="absolute bottom-[8%] right-[28%] w-10 h-28 border border-white/6 rounded-full rotate-[-16deg]" />
@@ -198,39 +207,27 @@ export default function WhyChooseUs() {
             {/* ─────────────────────────────────
                 CARD B — Gold stats (col 3, tall)
                 ───────────────────────────────── */}
-            <div className="lg:row-span-2 relative rounded-3xl overflow-hidden bg-accent group cursor-default min-h-[200px] lg:min-h-0">
-              <div className="h-full flex flex-col items-center justify-center p-7 gap-1 min-h-[240px]">
-                <span className="font-serif text-[clamp(52px,5.5vw,76px)] italic text-primary leading-none font-light">
-                  14+
-                </span>
-                <span className="text-[8px] tracking-[0.38em] uppercase text-primary/65 font-bold">
-                  Years of craft
-                </span>
-
-                <div className="w-10 h-px bg-primary/20 my-4" />
-
-                <span className="font-serif text-[clamp(38px,4vw,56px)] italic text-primary leading-none font-light">
-                  500+
-                </span>
-                <span className="text-[8px] tracking-[0.38em] uppercase text-primary/65 font-bold">
-                  Events created
-                </span>
-
-                <div className="w-10 h-px bg-primary/20 my-4" />
-
-                <span className="font-serif text-[clamp(30px,3.5vw,44px)] italic text-primary leading-none font-light">
-                  100%
-                </span>
-                <span className="text-[8px] tracking-[0.38em] uppercase text-primary/65 font-bold">
-                  Satisfaction
-                </span>
+            {/* CARD B — Cinematic Visual Card (Replacing Stats) */}
+            <motion.div
+              {...fadeUp(0.2)}
+              className="lg:row-span-2 relative rounded-3xl overflow-hidden bg-accent/10 border border-accent/20 group cursor-default min-h-[300px] lg:min-h-0"
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop"
+                alt="Excellence"
+                fill
+                className="object-cover transition-transform duration-[3s] group-hover:scale-125 opacity-80"
+                sizes="(max-width: 1024px) 100vw, 33vw"
+              />
+              <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors duration-700" />
+              {/* Internal Arch Frame */}
+              <div className="absolute inset-4 rounded-[64px] border border-white/20 pointer-events-none" />
+              <div className="absolute bottom-6 left-6 right-6 text-center">
+                 <span className="font-serif italic text-accent text-2xl tracking-tight opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    Crafted Perfection.
+                 </span>
               </div>
-
-              {/* Capsule decorations inside gold card */}
-              <div className="absolute -top-5 -right-5 w-16 h-32 rounded-full bg-primary/10 rotate-[-18deg]" />
-              <div className="absolute -bottom-4 -left-4 w-10 h-20 rounded-full border border-primary/18 rotate-[18deg]" />
-              <div className="absolute top-[40%] left-3 w-6 h-12 rounded-full bg-primary/8 rotate-[10deg]" />
-            </div>
+            </motion.div>
 
             {/* ─────────────────────────────────
                 CARD C — Pillar 2 glass card

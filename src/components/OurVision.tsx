@@ -23,9 +23,24 @@ export default function OurVision() {
 
         {/* ── Ambient background decorations ── */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[-6%] right-[-3%] w-[110px] h-[480px] rounded-full bg-accent/6 rotate-[-30deg]" />
-          <div className="absolute top-[2%] right-[12%] w-[65px] h-[280px] rounded-full border border-accent/8 rotate-[-30deg]" />
-          <div className="absolute bottom-[12%] left-[-5%] w-[90px] h-[340px] rounded-full bg-white/3 rotate-[28deg]" />
+          {/* Top-right Hanging Gold Capsules (User requested) */}
+          <motion.div
+            initial={{ opacity: 0, y: -100 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.4, delay: 0.2 }}
+            className="absolute z-20 top-[-200px] right-[15%] w-[120px] h-[620px] rounded-full bg-accent/15 rotate-[0deg] border border-accent/20"
+          />
+          <motion.div
+            initial={{ opacity: 0, y: -120 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.6, delay: 0.4 }}
+            className="absolute top-[-150px] right-[4%] w-[80px] h-[540px] rounded-full bg-accent/10 rotate-[0deg] border border-accent/15"
+          />
+          
+          <div className="absolute top-[2%] right-[12%] w-[65px] h-[280px] rounded-full border border-accent/8 rotate-[30deg]" />
+          <div className="absolute bottom-[12%] left-[-5%] w-[90px] h-[340px] rounded-full bg-white/3 rotate-[0deg]" />
           <div className="absolute bottom-[0%] right-[30%] w-[50px] h-[130px] rounded-full border border-accent/8 rotate-[-18deg]" />
         </div>
 
@@ -78,9 +93,20 @@ export default function OurVision() {
                 className="absolute top-[37%] left-[50%] z-10"
               >
                 <div
-                  className="w-[152px] h-[435px] bg-accent"
+                  className="relative w-[152px] h-[435px] overflow-hidden border-[8px] border-accent shadow-[0_40px_80px_rgba(0,0,0,0.45)]"
                   style={{ borderRadius: "9999px 9999px 56px 56px" }}
-                />
+                >
+                  <Image
+                    src="https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop"
+                    alt="Exquisite plating"
+                    fill
+                    className="object-cover transition-transform duration-[4s] group-hover:scale-110"
+                    sizes="152px"
+                  />
+                  {/* Gold shimmer overlay */}
+                  <div className="absolute inset-0 bg-accent/10 mix-blend-overlay" />
+                  <div className="absolute inset-0 bg-linear-to-t from-primary/80 via-primary/20 to-transparent" />
+                </div>
               </motion.div>
 
               {/* ─ Capsule 3: Small image — anchors the bottom of Mission ─ */}
@@ -156,24 +182,7 @@ export default function OurVision() {
                   </p>
                 </motion.div>
 
-                {/* Vision stats row */}
-                <motion.div
-                  {...fadeUp(0.29)}
-                  className="mt-10 md:mt-12 flex items-center gap-8 md:gap-14"
-                >
-                  {[
-                    { n: "500+", l: "Events" },
-                    { n: "14+", l: "Years" },
-                    { n: "KSA", l: "& Beyond" },
-                  ].map((s) => (
-                    <div key={s.l}>
-                      <div className="font-serif text-[clamp(26px,3.8vw,40px)] italic text-accent leading-none">
-                        {s.n}
-                      </div>
-                      <div className="text-[9px] tracking-[0.22em] uppercase text-cream/38 mt-1">{s.l}</div>
-                    </div>
-                  ))}
-                </motion.div>
+
               </div>
 
               {/* ─────────────────────────
