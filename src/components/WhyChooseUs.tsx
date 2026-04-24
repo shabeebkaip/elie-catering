@@ -3,181 +3,405 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-const expertiseRows = [
+/* ── Three headline pillars ── */
+const pillars = [
   {
-    t: "Unparalleled expertise",
-    d: "With years of experience, Elie Catering has earned a reputation for excellence in event management and catering. Our seasoned professionals are committed to bringing your vision to life with creativity, precision and professionalism.",
-    img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    t: "Luxury and elegance",
-    d: "We ensure luxury in every detail, from concept to presentation, creating sophisticated and elegant experiences that leave a lasting impression.",
-    img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    t: "Customized solutions",
-    d: "Every event is built from a blank page. Allergens, stories, the wine your grandfather loved — a menu made once, exactly for you.",
-    img: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop",
-  },
-  {
-    t: "Culinary excellence",
-    d: "We cook from a pantry built each week at market, guided by the season and the chef's notebook. No dish is ever served twice in quite the same way.",
-    img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop",
-  },
-  {
-    t: "Seamless execution",
-    d: "One producer. One timeline. One standard. The seams you usually see between vendors simply disappear.",
+    n: "01",
+    t: "A single point of contact",
+    d: "One producer from first call to last candle. No vendor seams, no coordination gaps — just one voice carrying your vision from concept to execution.",
     img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
   },
   {
-    t: "Commitment to quality",
-    d: "Quality is not a claim — it is the list of names of the farmers we buy from, the suppliers we've kept for a decade, and the people we trained ourselves.",
-    img: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=1887&auto=format&fit=crop",
+    n: "02",
+    t: "In-house craftspeople",
+    d: "Chefs, florists, service — trained under one roof, to one standard.",
+    img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop",
+  },
+  {
+    n: "03",
+    t: "Fourteen years of memory",
+    d: "Institutional knowledge you can only build by doing this for a long time. We've seen every scenario — and built systems for each one.",
+    img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
   },
 ];
 
-const whyCards = [
-  { 
-    t: "A single point of contact", 
-    d: "One producer from first call to last candle. No vendor seams.",
-    img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop"
+/* ── Six expertise cards ── */
+const expertise = [
+  {
+    t: "Unparalleled expertise",
+    d: "Years of experience delivering excellence in event management.",
+    img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=800&auto=format&fit=crop",
   },
-  { 
-    t: "In-house craftspeople", 
-    d: "Chefs, florists, service — trained under one roof, to one standard.",
-    img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop"
+  {
+    t: "Luxury & elegance",
+    d: "Luxury in every detail — from concept to the final presentation.",
+    img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=800&auto=format&fit=crop",
   },
-  { 
-    t: "Fourteen years of memory", 
-    d: "Institutional knowledge you can only build by doing this for a long time.",
-    img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop"
+  {
+    t: "Customized solutions",
+    d: "Every event built from a blank page — crafted exactly for you.",
+    img: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    t: "Culinary excellence",
+    d: "Seasonal menus by the chef's notebook. No dish served twice the same.",
+    img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    t: "Seamless execution",
+    d: "One timeline, one standard. The seams between vendors disappear.",
+    img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop",
+  },
+  {
+    t: "Commitment to quality",
+    d: "Named farmers, decade-long suppliers, staff trained in-house.",
+    img: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=800&auto=format&fit=crop",
   },
 ];
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.65, delay, ease: [0.19, 1, 0.22, 1] as number[] },
+});
 
 export default function WhyChooseUs() {
   return (
     <div id="why-us" className="overflow-hidden">
-      {/* Marble intro with Image Cards - Updated to Large Serif Title */}
-      <section className="section-padding bg-cream relative text-center pb-32 md:pb-48">
-        {/* Decorative elements */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-[0.05]">
-          <div className="absolute top-[-10%] right-[10%] w-[300px] h-[800px] bg-primary rounded-full rotate-[-45deg]" />
-          <div className="absolute bottom-[-10%] left-[10%] w-[300px] h-[800px] bg-accent rounded-full rotate-[-45deg]" />
+
+      {/* ── Arch transition: CoreValues cream → dark primary ── */}
+      <div className="bg-cream">
+        <div className="h-16 md:h-24 bg-primary rounded-t-[80px] md:rounded-t-[120px]" />
+      </div>
+
+      <section className="relative bg-primary text-cream overflow-hidden">
+
+        {/* ── Ambient background capsule shapes ── */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0, x: 80 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.4 }}
+            className="absolute top-[-5%] right-[-3%] w-32 h-[500px] bg-accent/5 rounded-full rotate-[-28deg]"
+          />
+          <div className="absolute top-[8%] right-[14%] w-16 h-64 border border-accent/8 rounded-full rotate-[-28deg]" />
+          <div className="absolute bottom-[22%] left-[-4%] w-24 h-96 bg-white/3 rounded-full rotate-[24deg]" />
+          <div className="absolute bottom-[8%] right-[28%] w-10 h-28 border border-white/6 rounded-full rotate-[-16deg]" />
         </div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="font-serif font-light tracking-[-0.02em] leading-[0.85] uppercase text-accent mx-auto max-w-5xl text-[clamp(64px,12vw,120px)]"
-        >
-          Why Choose Us
-        </motion.h2>
+        <div className="container-custom px-6 md:px-14 lg:px-20 relative z-10">
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.16 }}
-          className="text-base md:text-xl leading-relaxed text-body max-w-2xl mx-auto mt-12 mb-20 md:mb-32 font-light opacity-80"
-        >
-          Choosing Elie Catering and Event Planning means selecting a partner
-          who understands the nuances of crafting unforgettable events.
-        </motion.p>
-
-        {/* High-End Image Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-14 max-w-7xl mx-auto relative z-10">
-          {whyCards.map((v, i) => (
-            <motion.div
-              key={v.t}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              whileHover="hover"
-              className="flex flex-col group cursor-pointer"
-            >
-              {/* Arched Image Container */}
-              <div className="relative aspect-[4/5] rounded-t-full rounded-b-[40px] overflow-hidden shadow-2xl mb-12 border-[12px] border-white bg-white transition-transform duration-500 group-hover:scale-[1.02]">
-                <motion.div 
-                  variants={{ hover: { scale: 1.1 } }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                  className="absolute inset-0"
-                >
-                  <Image src={v.img} alt={v.t} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
-                </motion.div>
-                {/* Floating Number Badge */}
-                <div className="absolute top-12 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-primary text-accent flex items-center justify-center font-serif italic text-2xl shadow-xl border-2 border-white/20">
-                  {i + 1}
-                </div>
+          {/* ════════════════════════════════════
+              HEADER
+              ════════════════════════════════════ */}
+          <div className="pt-12 md:pt-16 pb-12 md:pb-14">
+            <motion.div {...fadeUp(0)}>
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-8 h-px bg-accent/50" />
+                <span className="text-accent text-[9px] tracking-[0.42em] uppercase font-bold">Our Difference</span>
               </div>
-
-              {/* Text Content */}
-              <div className="text-center px-4 transition-transform duration-500 group-hover:translate-y-[-5px]">
-                <h3 className="font-serif text-2xl md:text-3xl text-primary mb-5 font-normal italic tracking-tight leading-tight group-hover:text-accent transition-colors duration-300">
-                  {v.t}
-                </h3>
-                <p className="text-sm md:text-base leading-relaxed text-body opacity-80 group-hover:opacity-100 transition-opacity font-light">
-                  {v.d}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* Alternating expertise rows - Modernized */}
-      <section className="bg-white">
-        {expertiseRows.map((f, i) => {
-          const imgLeft = i % 2 === 0;
-          return (
-            <motion.div
-              key={f.t}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px] md:min-h-[650px] overflow-hidden"
-            >
-              {/* Image side */}
-              <div className={`relative min-h-[400px] md:min-h-full overflow-hidden ${imgLeft ? "lg:order-1" : "lg:order-2"} flex items-center justify-center p-8 md:p-16`}>
-                <div className="relative w-full h-full rounded-[40px] md:rounded-[80px] overflow-hidden shadow-2xl">
-                  <Image src={f.img} alt={f.t} fill className="object-cover transition-transform duration-1000 hover:scale-110" sizes="50vw" />
-                </div>
-              </div>
-
-              {/* Text side */}
-              <div className={`relative overflow-hidden flex flex-col justify-center p-8 md:p-16 lg:p-24 ${
-                imgLeft ? "lg:order-2 bg-primary text-cream" : "lg:order-1 bg-[#FAF6EF] text-primary"
-              }`}>
-                {/* Background decoration */}
-                <div className={`absolute w-60 h-[500px] rounded-full opacity-[0.07] rotate-[22deg] ${
-                  imgLeft ? "-top-20 -right-20 bg-accent" : "-bottom-20 -left-20 bg-primary"
-                }`} />
-
-                <div className="relative z-10">
-                  <div className={`text-[10px] tracking-[0.4em] uppercase font-bold mb-10 flex items-center gap-4 ${
-                    imgLeft ? "text-accent" : "text-accent"
-                  }`}>
-                    <div className="w-8 h-[1px] bg-accent" />
-                    <span>Expertise 0{i + 1}</span>
-                  </div>
-                  <h3 className={`font-serif font-light tracking-tighter leading-[0.85] uppercase mb-10 text-[clamp(48px,8vw,80px)] ${
-                    imgLeft ? "text-white" : "text-primary"
-                  }`}>
-                    {f.t}
-                  </h3>
-                  <p className={`text-base md:text-xl leading-relaxed font-light ${
-                    imgLeft ? "text-cream/80" : "text-primary/70"
-                  }`}>
-                    {f.d}
+              <div className="flex items-start gap-4 md:gap-6">
+                <span className="font-serif text-[clamp(36px,5vw,66px)] italic text-accent/18 leading-none font-light select-none pt-2">
+                  05
+                </span>
+                <div>
+                  <h2 className="font-serif font-light tracking-tight leading-[0.88] text-cream text-[clamp(48px,8vw,106px)]">
+                    Why<br />
+                    <em className="text-accent italic">Choose Us.</em>
+                  </h2>
+                  <p className="mt-5 text-[clamp(14px,1.4vw,16px)] leading-relaxed text-cream/45 font-light max-w-lg">
+                    Choosing Elie Catering means selecting a partner who understands
+                    every nuance of crafting unforgettable events.
                   </p>
                 </div>
               </div>
             </motion.div>
-          );
-        })}
+          </div>
+
+          {/* ════════════════════════════════════
+              BENTO GRID — asymmetric, 3 pillars
+              Desktop: col-span / row-span bento
+              Mobile: single-column stack
+              ════════════════════════════════════ */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5"
+            style={{ gridAutoRows: "auto" }}
+          >
+
+            {/* ─────────────────────────────────
+                CARD A — Hero 2×2
+                Large capsule image + pillar 1
+                ───────────────────────────────── */}
+            <motion.div
+              {...fadeUp(0.06)}
+              className="lg:col-span-2 relative rounded-3xl overflow-hidden border border-white/8 group cursor-default min-h-[420px] lg:min-h-[520px]"
+              style={{
+                background: "linear-gradient(145deg, rgba(36,24,52,0.97) 0%, rgba(22,14,34,0.99) 100%)",
+              }}
+            >
+              {/* Tall arch capsule image — left portion (desktop) */}
+              <div className="absolute left-7 top-7 bottom-7 w-[42%] hidden lg:block">
+                <motion.div
+                  whileHover={{ scale: 1.03 }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
+                  className="relative h-full w-full overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.45)]"
+                  style={{ borderRadius: "9999px 9999px 52px 52px" }}
+                >
+                  <Image
+                    src={pillars[0].img}
+                    alt={pillars[0].t}
+                    fill
+                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                    sizes="300px"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-primary/55" />
+                  {/* Inner capsule overlay accent */}
+                  <div className="absolute top-5 right-5 w-8 h-16 rounded-full border border-accent/30 rotate-[12deg]" />
+                </motion.div>
+              </div>
+
+              {/* Mobile top image */}
+              <div className="relative lg:hidden w-full h-52">
+                <Image
+                  src={pillars[0].img}
+                  alt={pillars[0].t}
+                  fill
+                  className="object-cover"
+                  sizes="100vw"
+                />
+                <div className="absolute inset-0 bg-linear-to-b from-transparent to-primary/90" />
+              </div>
+
+              {/* Text — right column */}
+              <div className="relative lg:absolute lg:right-0 lg:top-0 lg:bottom-0 lg:w-[55%] flex flex-col justify-end lg:justify-center p-6 lg:pr-9 lg:pl-5">
+                <span className="font-serif text-[clamp(64px,7.5vw,104px)] italic text-accent/9 leading-none select-none group-hover:text-accent/16 transition-colors duration-500">
+                  01
+                </span>
+                <h3 className="font-sans font-black text-cream text-[clamp(18px,2vw,24px)] uppercase tracking-tight leading-tight mt-1 group-hover:text-accent transition-colors duration-400">
+                  A single point<br className="hidden lg:block" /> of contact
+                </h3>
+                <p className="text-cream/46 text-[13px] md:text-[14px] leading-relaxed mt-3 max-w-[300px]">
+                  {pillars[0].d}
+                </p>
+                {/* Dot trail */}
+                <div className="mt-5 flex gap-2">
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent/40" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent/15" />
+                </div>
+              </div>
+
+              {/* Decorative capsule shapes on card */}
+              <div className="absolute top-5 right-5 w-9 h-20 rounded-full border border-accent/16 rotate-[14deg] hidden lg:block" />
+              <div className="absolute bottom-6 right-16 w-5 h-11 rounded-full bg-accent/8 rotate-[-8deg] hidden lg:block" />
+            </motion.div>
+
+            {/* ─────────────────────────────────
+                CARD B — Gold stats (col 3, tall)
+                ───────────────────────────────── */}
+            <div className="lg:row-span-2 relative rounded-3xl overflow-hidden bg-accent group cursor-default min-h-[200px] lg:min-h-0">
+              <div className="h-full flex flex-col items-center justify-center p-7 gap-1 min-h-[240px]">
+                <span className="font-serif text-[clamp(52px,5.5vw,76px)] italic text-primary leading-none font-light">
+                  14+
+                </span>
+                <span className="text-[8px] tracking-[0.38em] uppercase text-primary/65 font-bold">
+                  Years of craft
+                </span>
+
+                <div className="w-10 h-px bg-primary/20 my-4" />
+
+                <span className="font-serif text-[clamp(38px,4vw,56px)] italic text-primary leading-none font-light">
+                  500+
+                </span>
+                <span className="text-[8px] tracking-[0.38em] uppercase text-primary/65 font-bold">
+                  Events created
+                </span>
+
+                <div className="w-10 h-px bg-primary/20 my-4" />
+
+                <span className="font-serif text-[clamp(30px,3.5vw,44px)] italic text-primary leading-none font-light">
+                  100%
+                </span>
+                <span className="text-[8px] tracking-[0.38em] uppercase text-primary/65 font-bold">
+                  Satisfaction
+                </span>
+              </div>
+
+              {/* Capsule decorations inside gold card */}
+              <div className="absolute -top-5 -right-5 w-16 h-32 rounded-full bg-primary/10 rotate-[-18deg]" />
+              <div className="absolute -bottom-4 -left-4 w-10 h-20 rounded-full border border-primary/18 rotate-[18deg]" />
+              <div className="absolute top-[40%] left-3 w-6 h-12 rounded-full bg-primary/8 rotate-[10deg]" />
+            </div>
+
+            {/* ─────────────────────────────────
+                CARD C — Pillar 2 glass card
+                ───────────────────────────────── */}
+            <motion.div
+              {...fadeUp(0.12)}
+              className="relative rounded-3xl overflow-hidden border border-white/8 group hover:border-accent/28 transition-all duration-400 cursor-default min-h-[200px]"
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                backdropFilter: "blur(14px)",
+                WebkitBackdropFilter: "blur(14px)",
+              }}
+            >
+              {/* Floating arch capsule image top-right */}
+              <div className="absolute top-5 right-5">
+                <div
+                  className="relative w-14 h-20 overflow-hidden border-2 border-white/14 shadow-xl group-hover:border-accent/30 transition-all duration-400"
+                  style={{ borderRadius: "9999px 9999px 14px 14px" }}
+                >
+                  <Image
+                    src={pillars[1].img}
+                    alt={pillars[1].t}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="56px"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-b from-transparent to-primary/25" />
+                </div>
+              </div>
+
+              <div className="p-6 h-full flex flex-col justify-between min-h-[200px]">
+                <span className="font-serif text-[clamp(38px,4.5vw,58px)] italic text-accent/18 leading-none font-light group-hover:text-accent/30 transition-colors duration-400">
+                  02
+                </span>
+                <div>
+                  <h3 className="font-sans font-black text-cream text-[14px] uppercase tracking-[0.04em] leading-tight group-hover:text-accent transition-colors duration-300">
+                    In-house<br />craftspeople
+                  </h3>
+                  <p className="text-cream/40 text-[12px] leading-relaxed mt-2">
+                    {pillars[1].d}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* ─────────────────────────────────
+                CARD D — Pillar 3 (col 2, row 2)
+                Pairs with Card C for clean row
+                ───────────────────────────────── */}
+            <motion.div
+              {...fadeUp(0.18)}
+              className="relative rounded-3xl overflow-hidden border border-white/7 group hover:border-accent/22 transition-all duration-400 cursor-default min-h-[200px]"
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                backdropFilter: "blur(10px)",
+                WebkitBackdropFilter: "blur(10px)",
+              }}
+            >
+              {/* Arch capsule image — top right */}
+              <div className="absolute top-5 right-5">
+                <div
+                  className="relative w-14 h-20 overflow-hidden border-2 border-accent/22 shadow-xl group-hover:border-accent/42 transition-all duration-400"
+                  style={{ borderRadius: "9999px 9999px 14px 14px" }}
+                >
+                  <Image
+                    src={pillars[2].img}
+                    alt={pillars[2].t}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    sizes="56px"
+                  />
+                  <div className="absolute inset-0 bg-linear-to-b from-transparent to-primary/25" />
+                </div>
+              </div>
+
+              {/* Background capsule shape */}
+              <div className="absolute -bottom-4 -right-4 w-16 h-32 rounded-full bg-accent/6 rotate-[-14deg]" />
+
+              <div className="p-6 h-full flex flex-col justify-between min-h-[200px]">
+                <span className="font-serif text-[clamp(38px,4.5vw,58px)] italic text-accent/18 leading-none font-light group-hover:text-accent/32 transition-colors duration-400">
+                  03
+                </span>
+                <div>
+                  <h3 className="font-sans font-black text-cream text-[14px] uppercase tracking-[0.04em] leading-tight group-hover:text-accent transition-colors duration-300 mb-2">
+                    Fourteen years<br />of memory
+                  </h3>
+                  <p className="text-cream/38 text-[12px] leading-relaxed">
+                    {pillars[2].d}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* ════════════════════════════════════
+              EXPERTISE CARDS — glass grid 3×2
+              ════════════════════════════════════ */}
+          <div className="mt-5 pb-20 md:pb-28 lg:pb-32">
+
+            {/* Sub-header divider */}
+            <motion.div
+              {...fadeUp(0)}
+              className="flex items-center gap-4 my-10 md:my-14"
+            >
+              <div className="w-5 h-px bg-accent/40" />
+              <span className="text-[9px] tracking-[0.42em] uppercase text-cream/28 font-bold">
+                Areas of Expertise
+              </span>
+              <div className="flex-1 h-px bg-white/5" />
+            </motion.div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {expertise.map((e, i) => (
+                <motion.div
+                  key={e.t}
+                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-20px" }}
+                  transition={{ duration: 0.55, delay: i * 0.07 }}
+                  whileHover={{ y: -7 }}
+                  className="group relative rounded-2xl overflow-hidden border border-white/8 hover:border-accent/24 transition-all duration-400 cursor-default"
+                  style={{
+                    background: "rgba(255,255,255,0.04)",
+                    backdropFilter: "blur(10px)",
+                    WebkitBackdropFilter: "blur(10px)",
+                  }}
+                >
+                  {/* Image strip */}
+                  <div className="relative h-36 overflow-hidden">
+                    <Image
+                      src={e.img}
+                      alt={e.t}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-linear-to-b from-transparent via-primary/20 to-primary/82" />
+
+                    {/* Gold number badge */}
+                    <div className="absolute top-3 left-3 w-7 h-7 rounded-full bg-accent/90 text-primary flex items-center justify-center font-serif italic text-xs font-light shadow-md">
+                      {i + 1}
+                    </div>
+
+                    {/* Tiny capsule accent in image */}
+                    <div className="absolute top-3 right-3 w-5 h-9 rounded-full border border-white/24 rotate-[10deg]" />
+                  </div>
+
+                  {/* Body */}
+                  <div className="px-5 py-4 pb-5">
+                    <h3 className="font-sans text-[13px] font-bold uppercase tracking-[0.06em] text-cream group-hover:text-accent transition-colors duration-300 mb-1.5 leading-tight">
+                      {e.t}
+                    </h3>
+                    <p className="text-[11px] md:text-[12px] leading-relaxed text-cream/40 font-light">
+                      {e.d}
+                    </p>
+                  </div>
+
+                  {/* Bottom gold stripe on hover */}
+                  <div className="absolute bottom-0 inset-x-0 h-[2px] bg-accent/0 group-hover:bg-accent/45 transition-all duration-400" />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );

@@ -16,72 +16,84 @@ const services = [
 
 export default function OurServices() {
   return (
-    <section id="services" className="bg-[#FAF6EF] py-20 md:py-32 px-6">
-      <div className="container-custom">
-        {/* Compact Header */}
+    <section id="services" className="relative bg-primary overflow-hidden py-20 md:py-32 px-6">
+      {/* Capsule cluster background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[-15%] right-[-6%] w-[160px] h-[700px] bg-accent/8 rounded-full rotate-[-38deg]" />
+        <div className="absolute top-[-5%] right-[10%] w-[80px] h-[360px] border border-accent/12 rounded-full rotate-[-38deg]" />
+        <div className="absolute bottom-[-12%] left-[-5%] w-[140px] h-[600px] bg-white/4 rounded-full rotate-[40deg]" />
+        <div className="absolute bottom-[5%] left-[12%] w-[70px] h-[280px] border border-white/8 rounded-full rotate-[40deg]" />
+      </div>
+
+      <div className="container-custom relative z-10">
+        {/* Header */}
         <div className="text-center mb-16 md:mb-24">
           <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-6 md:w-8 h-[1px] bg-[#bb8a3c]" />
-            <span className="text-[#bb8a3c] text-[9px] md:text-[10px] tracking-[0.4em] uppercase font-bold">
-              Expertise
-            </span>
-            <div className="w-6 md:w-8 h-[1px] bg-[#bb8a3c]" />
+            <div className="w-8 h-px bg-accent/60" />
+            <span className="text-accent/80 text-[9px] tracking-[0.42em] uppercase font-bold">What We Offer</span>
+            <div className="w-8 h-px bg-accent/60" />
           </div>
-          <h2 className="font-serif font-light text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#2c1e39] uppercase leading-[0.9] tracking-tight max-w-5xl mx-auto">
+          <h2 className="font-serif font-light text-[clamp(52px,10vw,110px)] text-cream uppercase leading-[0.88] tracking-tight max-w-5xl mx-auto">
             Our Services
           </h2>
+          <p className="text-cream/50 text-[clamp(14px,1.5vw,16px)] max-w-lg mx-auto mt-6 font-light leading-relaxed">
+            From intimate private dinners to grand galas — every occasion elevated.
+          </p>
         </div>
 
-        {/* Services Grid - Using Full Capsule Arches */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-8 md:gap-10">
+        {/* Services grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {services.map((s, i) => {
-            const isDark = i % 2 === 0;
+            const isGold = i % 2 === 0;
             return (
               <motion.div
                 key={s.t}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 32 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.05 }}
-                whileHover={{ y: -10 }}
-                className={`rounded-t-full rounded-b-[40px] overflow-hidden cursor-pointer flex flex-col shadow-2xl transition-all duration-500 min-h-[480px] sm:h-[460px] md:h-[520px] group ${
-                  isDark ? "bg-[#2c1e39] text-[#FAF6EF]" : "bg-[#bb8a3c] text-[#2c1e39]"
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.55, delay: (i % 4) * 0.07 }}
+                whileHover={{ y: -10, transition: { duration: 0.3 } }}
+                className={`group relative rounded-t-full rounded-b-[36px] overflow-hidden cursor-pointer flex flex-col shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-shadow duration-500 hover:shadow-[0_32px_64px_rgba(0,0,0,0.4)] ${
+                  isGold
+                    ? "bg-accent text-primary"
+                    : "bg-[#2c1e39] border border-white/8 text-cream"
                 }`}
+                style={{ minHeight: "460px" }}
               >
-                {/* Image side - Full Capsule Arch */}
-                <div className="aspect-[4/5] sm:h-[240px] md:h-[300px] relative overflow-hidden rounded-t-full flex-shrink-0">
-                  <motion.div 
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.6 }}
+                {/* Image — full capsule arch */}
+                <div className="relative overflow-hidden rounded-t-full flex-shrink-0" style={{ height: "280px" }}>
+                  <motion.div
+                    variants={{ hover: { scale: 1.09 } }}
+                    transition={{ duration: 0.7, ease: "easeOut" }}
                     className="absolute inset-0"
                   >
-                    <Image src={s.img} alt={s.t} fill className="object-cover" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
+                    <Image
+                      src={s.img}
+                      alt={s.t}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    />
                   </motion.div>
+                  {/* Image overlay */}
+                  <div className={`absolute inset-0 ${isGold ? "bg-primary/15" : "bg-primary/20"} group-hover:opacity-0 transition-opacity duration-500`} />
                 </div>
-                
-                {/* Content side */}
-                <div className="p-8 sm:p-6 md:p-10 flex-1 flex flex-col justify-center text-center">
-                  <div className={`text-[9px] tracking-[0.2em] uppercase font-bold mb-3 opacity-60 ${
-                    isDark ? "text-[#FAF6EF]" : "text-[#2c1e39]"
-                  }`}>
-                    0{i + 1}
+
+                {/* Content */}
+                <div className="flex-1 flex flex-col justify-center items-center text-center p-7 md:p-8">
+                  <div className={`text-[9px] tracking-[0.28em] uppercase font-bold mb-3 ${isGold ? "text-primary/55" : "text-cream/45"}`}>
+                    {String(i + 1).padStart(2, "0")}
                   </div>
-                  <h3 className={`font-serif text-2xl sm:text-xl md:text-3xl mb-3 font-normal italic tracking-tight leading-tight transition-colors duration-500 ${
-                    isDark ? "text-[#FAF6EF]" : "text-[#2c1e39]"
-                  }`}>
+                  <h3 className={`font-serif text-[clamp(18px,2.5vw,23px)] mb-3 font-light italic tracking-tight leading-snug ${isGold ? "text-primary" : "text-cream"}`}>
                     {s.t}
                   </h3>
-                  <p className={`text-[12px] md:text-[14px] leading-relaxed line-clamp-2 opacity-70 ${
-                    isDark ? "text-[#FAF6EF]" : "text-[#2c1e39]"
-                  }`}>
+                  <p className={`text-[12px] md:text-[13px] leading-relaxed ${isGold ? "text-primary/65" : "text-cream/60"}`}>
                     {s.d}
                   </p>
                 </div>
 
-                {/* Subtle hover indicator */}
-                <div className={`h-1.5 w-0 group-hover:w-full transition-all duration-700 ${
-                  isDark ? "bg-[#bb8a3c]" : "bg-[#2c1e39]"
-                }`} />
+                {/* Bottom hover indicator */}
+                <div className={`h-1 w-0 group-hover:w-full transition-all duration-700 flex-shrink-0 ${isGold ? "bg-primary/30" : "bg-accent"}`} />
               </motion.div>
             );
           })}

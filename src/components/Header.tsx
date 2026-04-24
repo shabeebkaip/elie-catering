@@ -12,115 +12,129 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const fn = () => setScrolled(window.scrollY > 20);
+    const fn = () => setScrolled(window.scrollY > 30);
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  // Prevent scrolling when mobile menu is open
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    document.body.style.overflow = open ? "hidden" : "unset";
     return () => { document.body.style.overflow = "unset"; };
   }, [open]);
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 flex items-center justify-between px-6 md:px-14 py-5 md:py-6 ${
-        scrolled ? "bg-primary/95 backdrop-blur-md shadow-2xl py-4" : "bg-transparent"
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 flex items-center justify-between px-6 md:px-14 ${
+        scrolled
+          ? "py-3 bg-primary/97 backdrop-blur-xl shadow-[0_4px_32px_rgba(0,0,0,0.3)]"
+          : "py-5 md:py-6 bg-transparent"
       }`}
     >
-      {/* Background fill for mobile when NOT scrolled but menu is closed - ensured by bg-transparent above */}
-      
-      <Link href="/" className="relative z-[60] no-underline">
-        <img src="/images/elite-logo.webp" className={`transition-all duration-500 ${scrolled ? "w-14" : "w-18"}`} alt="Elie Logo" />
+      {/* Logo */}
+      <Link href="/" className="relative z-[60] no-underline flex items-center gap-3">
+        <img
+          src="/images/elite-logo.webp"
+          className={`transition-all duration-500 ${scrolled ? "w-12" : "w-16"}`}
+          alt="Elie Logo"
+        />
+        {scrolled && (
+          <motion.div
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="hidden md:flex flex-col"
+          >
+            <span className="text-accent font-serif text-sm italic leading-none">Elie</span>
+            <span className="text-cream/50 text-[8px] tracking-[0.3em] uppercase leading-none mt-0.5">Catering</span>
+          </motion.div>
+        )}
       </Link>
 
       {/* Desktop Nav */}
-      <nav className="hidden md:flex items-center gap-12 text-[11px] tracking-[0.25em] uppercase">
+      <nav className="hidden md:flex items-center gap-10 text-[10px] tracking-[0.28em] uppercase">
         {NAV.map((l) => (
           <Link
             key={l}
             href={`#${l.toLowerCase()}`}
-            className="text-accent no-underline transition-all duration-300 hover:text-white hover:tracking-[0.35em]"
+            className="relative text-cream/70 no-underline transition-all duration-300 hover:text-accent group"
           >
             {l}
+            <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all duration-300 group-hover:w-full" />
           </Link>
         ))}
       </nav>
 
-      {/* Reserve button */}
+      {/* Reserve CTA */}
       <Link
         href="#book"
-        className="hidden md:inline-flex items-center px-8 py-3.5 rounded-full text-[10px] tracking-[0.2em] uppercase font-bold bg-accent text-primary no-underline transition-all duration-300 hover:scale-105 hover:bg-white active:scale-95 shadow-lg"
+        className="hidden md:inline-flex items-center gap-2 px-7 py-3 rounded-full text-[10px] tracking-[0.22em] uppercase font-bold bg-accent text-primary no-underline transition-all duration-300 hover:bg-cream hover:scale-105 active:scale-95 shadow-lg"
       >
         Reserve
+        <span className="text-[8px]">→</span>
       </Link>
 
       {/* Mobile toggle */}
       <button
-        className="md:hidden relative z-[60] text-accent bg-transparent border-none cursor-pointer p-2 transition-transform hover:scale-110 active:scale-90"
+        aria-label={open ? "Close menu" : "Open menu"}
+        className="md:hidden relative z-[60] text-accent bg-transparent border-none cursor-pointer p-2"
         onClick={() => setOpen(!open)}
       >
-        {open ? <X size={28} /> : <Menu size={28} />}
+        {open ? <X size={26} strokeWidth={1.5} /> : <Menu size={26} strokeWidth={1.5} />}
       </button>
 
-      {/* Premium Mobile Menu Overlay */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {open && (
-          <motion.div 
-            initial={{ opacity: 0, y: "-100%" }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: "-100%" }}
+          <motion.div
+            initial={{ opacity: 0, clipPath: "circle(0% at 95% 5%)" }}
+            animate={{ opacity: 1, clipPath: "circle(150% at 95% 5%)" }}
+            exit={{ opacity: 0, clipPath: "circle(0% at 95% 5%)" }}
             transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
-            className="fixed inset-0 bg-primary z-[50] flex flex-col items-center justify-center md:hidden"
+            className="fixed inset-0 bg-primary z-[50] flex flex-col items-center justify-center md:hidden overflow-hidden"
           >
-            {/* Geometric background accents for mobile menu */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-10">
-              <div className="absolute top-[-10%] right-[-20%] w-[300px] h-[600px] bg-accent rounded-full rotate-45" />
-              <div className="absolute bottom-[-10%] left-[-20%] w-[300px] h-[600px] bg-accent rounded-full rotate-45" />
+            {/* Capsule decorations */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-[-15%] right-[-10%] w-[160px] h-[400px] bg-accent/10 rounded-full rotate-[-30deg]" />
+              <div className="absolute top-[-5%] right-[5%] w-[80px] h-[200px] border border-accent/20 rounded-full rotate-[-30deg]" />
+              <div className="absolute bottom-[-15%] left-[-10%] w-[160px] h-[400px] bg-accent/8 rounded-full rotate-[30deg]" />
+              <div className="absolute bottom-[-5%] left-[5%] w-[80px] h-[200px] border border-accent/15 rounded-full rotate-[30deg]" />
             </div>
 
-            <nav className="relative z-10 flex flex-col items-center gap-8">
+            <nav className="relative z-10 flex flex-col items-center gap-7">
               {NAV.map((l, i) => (
                 <motion.div
                   key={l}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 24 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 + i * 0.1 }}
+                  transition={{ delay: 0.25 + i * 0.08, ease: "easeOut" }}
                 >
                   <Link
                     href={`#${l.toLowerCase()}`}
                     onClick={() => setOpen(false)}
-                    className="text-white no-underline text-3xl tracking-[0.2em] uppercase font-serif italic transition-all hover:text-accent"
+                    className="text-cream/80 no-underline text-[clamp(28px,8vw,40px)] tracking-[0.15em] uppercase font-serif italic transition-all hover:text-accent"
                   >
                     {l}
                   </Link>
                 </motion.div>
               ))}
-              
+
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.7 }}
-                className="mt-12"
+                transition={{ delay: 0.7, ease: "easeOut" }}
+                className="mt-8"
               >
                 <Link
                   href="#book"
                   onClick={() => setOpen(false)}
-                  className="px-12 py-5 rounded-full text-[12px] tracking-[0.3em] uppercase font-bold bg-accent text-primary no-underline shadow-2xl"
+                  className="px-12 py-5 rounded-full text-[11px] tracking-[0.28em] uppercase font-bold bg-accent text-primary no-underline shadow-2xl transition-all hover:bg-cream active:scale-95"
                 >
                   Reserve Now
                 </Link>
               </motion.div>
             </nav>
 
-            {/* Bottom info for mobile menu */}
-            <div className="absolute bottom-12 text-accent/40 text-[10px] tracking-[0.3em] uppercase">
-              Elie Catering &copy; 2024
+            <div className="absolute bottom-10 text-accent/30 text-[9px] tracking-[0.35em] uppercase">
+              Elie Catering &amp; Event Planning
             </div>
           </motion.div>
         )}

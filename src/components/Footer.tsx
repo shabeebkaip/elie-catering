@@ -1,61 +1,108 @@
 "use client";
 
 import Link from "next/link";
-import ElieLogo from "./ElieLogo";
 
 const cols = [
-  { h: "Atelier", l: ["Riyadh, Saudi Arabia", "Sun–Thu · 10—18"] },
-  { h: "Contact", l: ["+966 54 435 6564", "hello@eliecatering.com", "www.eliecatering.com"] },
-  { h: "Services", l: ["Weddings", "Corporate", "Private dinners", "Galas"] },
-  { h: "Journal", l: ["A dispatch from the kitchen,", "four times a year.", "→ Subscribe"] },
+  {
+    h: "Atelier",
+    l: [
+      { label: "Riyadh, Saudi Arabia", href: "#" },
+      { label: "Sun–Thu · 10—18", href: "#" },
+    ],
+  },
+  {
+    h: "Contact",
+    l: [
+      { label: "+966 54 435 6564", href: "tel:+966544356564" },
+      { label: "hello@eliecatering.com", href: "mailto:hello@eliecatering.com" },
+      { label: "www.eliecatering.com", href: "#" },
+    ],
+  },
+  {
+    h: "Services",
+    l: [
+      { label: "Weddings", href: "#services" },
+      { label: "Corporate", href: "#services" },
+      { label: "Private dinners", href: "#services" },
+      { label: "Galas", href: "#services" },
+    ],
+  },
+  {
+    h: "Journal",
+    l: [
+      { label: "A dispatch from the kitchen,", href: "#" },
+      { label: "four times a year.", href: "#" },
+      { label: "→ Subscribe", href: "#" },
+    ],
+  },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-primary text-cream pt-20 md:pt-32 pb-10 px-6 md:px-14 relative overflow-hidden">
-      {/* Decorative background accent */}
-      <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+    <footer className="bg-primary text-cream relative overflow-hidden">
+      {/* Capsule decorations */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[-10%] right-[-4%] w-[120px] h-[480px] bg-accent/6 rounded-full rotate-[-35deg]" />
+        <div className="absolute top-[-2%] right-[10%] w-[60px] h-[240px] border border-accent/10 rounded-full rotate-[-35deg]" />
+        <div className="absolute bottom-[-10%] left-[-3%] w-[100px] h-[380px] bg-white/3 rounded-full rotate-[30deg]" />
+      </div>
 
-      <div className="container-custom relative z-10">
-        {/* Top section: Logo and Branding */}
-        <div className="text-center mb-16 md:mb-24">
-          <div className="flex justify-center mb-6">
-            <Link href="/">
-              <img src="/images/elite-logo.webp" className="w-20 md:w-24 transition-transform hover:scale-110" alt="Elie Logo" />
-            </Link>
-          </div>
-          <div className="text-[10px] md:text-[11px] tracking-[0.4em] uppercase text-accent/60 font-medium">
+      <div className="relative z-10 container-custom px-6 md:px-14 pt-16 md:pt-24 pb-10">
+
+        {/* Top: logo + tagline */}
+        <div className="flex flex-col items-center text-center mb-14 md:mb-20">
+          <Link href="/" className="no-underline inline-block mb-5">
+            <img
+              src="/images/elite-logo.webp"
+              className="w-16 md:w-20 transition-all duration-300 hover:scale-110 hover:opacity-90"
+              alt="Elie Logo"
+            />
+          </Link>
+          <div className="text-[9px] md:text-[10px] tracking-[0.45em] uppercase text-accent/55 font-medium">
             Catering &nbsp;&amp;&nbsp; Event Planning
+          </div>
+          {/* Decorative capsule divider */}
+          <div className="flex items-center gap-3 mt-6">
+            <div className="w-12 h-px bg-white/10" />
+            <div className="w-1.5 h-4 rounded-full bg-accent/30" />
+            <div className="w-12 h-px bg-white/10" />
           </div>
         </div>
 
-        {/* Middle section: Grid Links */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16 pt-16 border-t border-white/10">
+        {/* Grid columns */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-14 pt-12 border-t border-white/8">
           {cols.map((col) => (
             <div key={col.h} className="group">
-              <div className="text-[10px] md:text-[11px] tracking-[0.3em] uppercase text-accent mb-6 md:mb-8 font-bold group-hover:translate-x-2 transition-transform">
-                {col.h}
+              <div className="flex items-center gap-2 mb-6">
+                <div className="w-4 h-px bg-accent/40" />
+                <span className="text-[9px] md:text-[10px] tracking-[0.35em] uppercase text-accent font-bold">
+                  {col.h}
+                </span>
               </div>
-              <div className="flex flex-col gap-3 md:gap-4 text-[13px] md:text-[14px] text-cream/70 font-light">
+              <div className="flex flex-col gap-3 text-[12px] md:text-[13px] text-cream/55 font-light">
                 {col.l.map((x) => (
-                  <span key={x} className="hover:text-white transition-colors cursor-default">
-                    {x}
-                  </span>
+                  <Link
+                    key={x.label}
+                    href={x.href}
+                    className="no-underline hover:text-cream transition-colors duration-200 cursor-pointer w-fit"
+                  >
+                    {x.label}
+                  </Link>
                 ))}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Bottom section: Copyright and Watermark */}
-        <div className="mt-20 md:mt-32 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] md:text-[11px] text-white/40 tracking-[0.2em] uppercase">
+        {/* Bottom bar */}
+        <div className="mt-16 md:mt-24 pt-7 border-t border-white/8 flex flex-col md:flex-row justify-between items-center gap-5 text-[9px] md:text-[10px] text-white/30 tracking-[0.22em] uppercase">
           <div className="order-2 md:order-1">
             © 2026 Elie Catering &amp; Event Planning
           </div>
           <div className="order-1 md:order-2 flex items-center gap-6">
-             <Link href="#" className="hover:text-accent transition-colors no-underline">Terms</Link>
-             <Link href="#" className="hover:text-accent transition-colors no-underline">Privacy</Link>
-             <Link href="#" className="hover:text-accent transition-colors no-underline">Instagram</Link>
+            <Link href="#" className="hover:text-accent transition-colors no-underline">Terms</Link>
+            <Link href="#" className="hover:text-accent transition-colors no-underline">Privacy</Link>
+            <Link href="#" className="hover:text-accent transition-colors no-underline">Instagram</Link>
           </div>
           <div className="order-3 hidden md:block">
             All rights reserved

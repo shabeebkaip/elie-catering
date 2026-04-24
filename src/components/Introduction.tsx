@@ -2,66 +2,136 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import ElieLogo from "./ElieLogo";
+import Link from "next/link";
 
-const marqueeItems = ["Weddings", "Private dinners", "Corporate events", "Buffets", "Galas", "Cocktail receptions", "Destination events"];
+/* ─── Marquee items ─── */
+const MARQUEE = [
+  "Weddings", "Private Dinners", "Corporate Events",
+  "Buffets", "Galas", "Cocktail Receptions", "Destination Events",
+];
+
+/* ─── Service capsule tags ─── */
+const TAGS = [
+  "Full-service planning",
+  "Gourmet catering",
+  "Floral design",
+  "Event décor",
+  "Fine chocolates",
+  "Exclusive accessories",
+];
+
+/* ─── Stats ─── */
+const STATS = [
+  { n: "14+", l: "Years of craft" },
+  { n: "500+", l: "Events created" },
+  { n: "100%", l: "Client satisfaction" },
+  { n: "KSA", l: "& beyond" },
+];
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 28 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.75, delay, ease: [0.19, 1, 0.22, 1] as number[] },
+});
 
 export default function Introduction() {
   return (
     <>
-      {/* Marquee ticker */}
-      <section className="py-5 md:py-6 bg-cream overflow-hidden border-b border-primary/10">
-        <div 
-          className="flex gap-10 md:gap-20 whitespace-nowrap font-serif text-[clamp(14px,3vw,24px)] text-primary italic font-light animate-[elMarquee_40s_linear_infinite] w-max"
-        >
+      {/* ══════════════════════════════
+          MARQUEE TICKER
+          ══════════════════════════════ */}
+      <section className="py-4 md:py-5 bg-cream overflow-hidden border-y border-primary/8">
+        <div className="flex gap-10 md:gap-16 whitespace-nowrap font-serif text-[clamp(13px,2.6vw,20px)] text-primary italic font-light animate-[elMarquee_38s_linear_infinite] w-max">
           {[0, 1, 2].map((k) =>
-            marqueeItems.map((w) => (
-              <span key={`${k}-${w}`} className="inline-flex items-center gap-10 md:gap-20">
+            MARQUEE.map((w) => (
+              <span key={`${k}-${w}`} className="inline-flex items-center gap-10 md:gap-16">
                 <span>{w}</span>
-                <span className="text-accent">✦</span>
+                <span className="text-accent text-[0.55em] not-italic">✦</span>
               </span>
             ))
           )}
         </div>
       </section>
 
-      {/* Introduction section */}
-      <section className="relative overflow-hidden bg-cream section-padding min-h-[800px] flex items-center">
-        {/* Bolder Capsule Connection Effect */}
+      {/* ══════════════════════════════
+          INTRODUCTION — Main Section
+          ══════════════════════════════ */}
+      <section className="relative bg-cream overflow-hidden">
+
+        {/* Decorative capsule BG shapes */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <motion.div 
-            initial={{ opacity: 0, x: 100, y: -100 }}
-            whileInView={{ opacity: 0.12, x: 0, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="absolute top-[-10%] right-[10%] w-[180px] h-[800px] bg-accent rounded-full rotate-[-45deg]" 
-          />
-          <motion.div 
-            initial={{ opacity: 0, x: 150, y: -50 }}
-            whileInView={{ opacity: 0.15, x: 0, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.2, ease: "easeOut" }}
-            className="absolute top-[20%] right-[-5%] w-[180px] h-[800px] border-[2px] border-accent/30 rounded-full rotate-[-45deg]" 
-          />
-        </div>
-
-        {/* Watermark Logo - Moved more towards the middle for better visibility */}
-        <div className="hidden lg:block absolute bottom-[15%] left-[-5%] opacity-[0.1] pointer-events-none select-none rotate-[-15deg] z-0">
-          <ElieLogo size={1000} onlyName={true} />
-        </div>
-
-        <div className="container-custom grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-40 items-center relative z-10">
-          {/* Text content */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, rotate: -38 }}
+            whileInView={{ opacity: 0.07, rotate: -38 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 1.4 }}
+            className="absolute -top-24 -right-10 w-36 h-[560px] rounded-full bg-primary"
+          />
+          <motion.div
+            initial={{ opacity: 0, rotate: -38 }}
+            whileInView={{ opacity: 0.1, rotate: -38 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.6, delay: 0.15 }}
+            className="absolute -top-8 right-20 w-20 h-72 rounded-full bg-accent"
+          />
+          <div className="absolute -bottom-16 -left-8 w-24 h-64 rounded-full bg-accent/8 rotate-[28deg]" />
+        </div>
+
+        {/* ── Section header row ── */}
+        <div className="container-custom px-6 md:px-14 lg:px-20 pt-16 md:pt-20">
+          <motion.div
+            {...fadeUp(0)}
+            className="flex items-center gap-4 md:gap-6 border-b border-primary/10 pb-6"
           >
-            <h2 className="font-serif font-light tracking-tight leading-[0.85] uppercase text-primary mb-10 text-[clamp(48px,10vw,100px)]">
-              Introduction
-            </h2>
-            <div className="space-y-8 text-body text-[clamp(16px,2vw,19px)] leading-relaxed max-w-xl font-light">
+            <span className="font-serif text-[clamp(42px,7vw,80px)] italic text-accent/30 leading-none font-light select-none">
+              01
+            </span>
+            <div className="flex-1">
+              <div className="flex items-center gap-3">
+                <div className="w-6 h-px bg-accent/50" />
+                <span className="text-[9px] tracking-[0.45em] uppercase text-body/50 font-bold">
+                  Who we are
+                </span>
+              </div>
+              <h2 className="font-sans text-[clamp(13px,1.5vw,15px)] font-bold tracking-[0.35em] uppercase text-primary/60 mt-1">
+                Introduction
+              </h2>
+            </div>
+            {/* Stat pills — desktop only */}
+            <div className="hidden lg:flex items-center gap-3">
+              {STATS.slice(0, 3).map((s) => (
+                <div
+                  key={s.l}
+                  className="flex flex-col items-center px-4 py-2 rounded-full border border-primary/12 bg-primary/4"
+                >
+                  <span className="font-serif text-lg italic text-accent leading-none">{s.n}</span>
+                  <span className="text-[8px] tracking-[0.2em] uppercase text-body/50 mt-0.5">{s.l}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* ── Main content grid ── */}
+        <div className="container-custom px-6 md:px-14 lg:px-20 grid grid-cols-1 lg:grid-cols-[1fr_0.82fr] gap-0 lg:gap-16 xl:gap-24 pb-0">
+
+          {/* LEFT — editorial text block */}
+          <div className="py-12 md:py-16 flex flex-col justify-between">
+
+            {/* Pull quote / hook headline */}
+            <motion.div {...fadeUp(0.1)}>
+              <h3 className="font-serif font-light text-[clamp(32px,5.5vw,64px)] leading-[0.92] tracking-tight text-primary max-w-[580px]">
+                Complete event packages,{" "}
+                <em className="text-accent italic">start to finish.</em>
+              </h3>
+            </motion.div>
+
+            {/* Body text */}
+            <motion.div
+              {...fadeUp(0.2)}
+              className="mt-8 md:mt-10 space-y-5 text-[clamp(15px,1.6vw,17px)] leading-relaxed text-body/80 font-light max-w-[520px]"
+            >
               <p>
                 <strong className="text-primary font-semibold">At Elie Catering and Event Planning,</strong> we
                 specialize in delivering complete event packages from A to Z. From
@@ -71,75 +141,189 @@ export default function Introduction() {
               </p>
               <p>
                 Our high-standard packages ensure that your event is not only
-                memorable but also one-of-a-kind — blending luxury, creativity and
-                precision at every turn.
+                memorable but also one-of-a-kind — blending luxury, creativity
+                and precision at every turn.
               </p>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          {/* Layered Image Composition */}
-          <div className="relative flex justify-center lg:justify-end">
+            {/* Service capsule tags */}
             <motion.div
-              initial={{ opacity: 0, x: -50, y: 30 }}
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="absolute -left-12 bottom-10 z-20 hidden xl:block"
+              {...fadeUp(0.3)}
+              className="mt-8 md:mt-10 flex flex-wrap gap-2 md:gap-3"
             >
-              <div className="relative w-40 h-64 rounded-full overflow-hidden rotate-[-12deg] shadow-xl border-8 border-white bg-white">
+              {TAGS.map((tag, i) => (
+                <motion.span
+                  key={tag}
+                  initial={{ opacity: 0, scale: 0.88 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: 0.32 + i * 0.06 }}
+                  className="px-4 py-2 rounded-full text-[10px] md:text-[11px] tracking-[0.18em] uppercase font-semibold border border-primary/14 text-primary/65 bg-primary/4 hover:bg-primary hover:text-cream hover:border-primary transition-all duration-300 cursor-default"
+                >
+                  {tag}
+                </motion.span>
+              ))}
+            </motion.div>
+
+            {/* CTA + mobile stats */}
+            <div className="mt-10 md:mt-12">
+              {/* Mobile stats */}
+              <motion.div
+                {...fadeUp(0.35)}
+                className="flex items-center gap-6 mb-8 lg:hidden"
+              >
+                {STATS.map((s) => (
+                  <div key={s.l}>
+                    <div className="font-serif text-[clamp(22px,5vw,34px)] italic text-accent leading-none">{s.n}</div>
+                    <div className="text-[9px] tracking-[0.22em] uppercase text-body/50 mt-1">{s.l}</div>
+                  </div>
+                ))}
+              </motion.div>
+
+              <motion.div {...fadeUp(0.42)}>
+                <Link
+                  href="#services"
+                  className="inline-flex items-center gap-3 px-9 py-4 rounded-full text-[10px] tracking-[0.26em] uppercase font-bold bg-primary text-cream no-underline transition-all duration-300 hover:bg-accent hover:text-primary hover:scale-[1.04] active:scale-95 shadow-[0_8px_28px_rgba(44,30,57,0.2)] cursor-pointer"
+                >
+                  Explore our services <span>→</span>
+                </Link>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* RIGHT — image composition */}
+          <div className="relative hidden lg:flex items-stretch py-10 lg:py-14">
+
+            {/* Main tall capsule image */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.9, delay: 0.18, ease: [0.19, 1, 0.22, 1] }}
+              className="relative w-full rounded-t-full overflow-hidden shadow-[0_40px_80px_rgba(44,30,57,0.18)]"
+              style={{ minHeight: 520 }}
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop"
+                alt="Luxury event setup"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 45vw"
+              />
+              {/* Bottom gradient overlay */}
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-cream/80 to-transparent" />
+
+              {/* ── Glassmorphism floating card — skill: Liquid Glass ── */}
+              <motion.div
+                initial={{ opacity: 0, x: -24, y: 10 }}
+                whileInView={{ opacity: 1, x: 0, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7, delay: 0.5 }}
+                className="absolute bottom-8 left-6 right-6 rounded-2xl overflow-hidden"
+                style={{
+                  background: "rgba(250,246,239,0.22)",
+                  backdropFilter: "blur(18px)",
+                  WebkitBackdropFilter: "blur(18px)",
+                  border: "1px solid rgba(255,255,255,0.35)",
+                  boxShadow: "0 8px 32px rgba(44,30,57,0.18)",
+                }}
+              >
+                <div className="px-5 py-4 flex items-center justify-between gap-4">
+                  <div>
+                    <p className="text-[9px] tracking-[0.38em] uppercase font-bold text-primary/60 mb-1">
+                      Full service
+                    </p>
+                    <p className="font-serif text-[15px] italic text-primary font-light leading-snug">
+                      From concept to last candle
+                    </p>
+                  </div>
+                  <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center flex-shrink-0 shadow-md">
+                    <span className="text-primary text-sm font-serif italic font-light leading-none">A–Z</span>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Small accent capsule — overlapping top-left */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.85, x: -16 }}
+              whileInView={{ opacity: 1, scale: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.75, delay: 0.4 }}
+              className="absolute -left-12 top-[12%] z-10"
+            >
+              <div className="relative w-[100px] h-[160px] rounded-full overflow-hidden border-8 border-cream shadow-xl rotate-[-12deg]">
                 <div className="absolute inset-0 rotate-[12deg] scale-[1.4]">
                   <Image
                     src="https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=2070&auto=format&fit=crop"
-                    alt="Luxury event detail"
-                    fill 
+                    alt="Event detail"
+                    fill
                     className="object-cover"
-                    sizes="160px"
+                    sizes="100px"
                   />
                 </div>
               </div>
             </motion.div>
 
+            {/* Tiny circle accent — top right */}
             <motion.div
-              initial={{ opacity: 0, x: 30, y: -40 }}
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              initial={{ opacity: 0, y: -16 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="absolute -right-8 -top-12 z-0 hidden lg:block"
+              transition={{ duration: 0.65, delay: 0.52 }}
+              className="absolute -right-4 top-[8%] z-0"
             >
-              <div className="relative w-32 h-32 rounded-full overflow-hidden shadow-lg border-4 border-accent/20">
+              <div className="relative w-16 h-16 rounded-full overflow-hidden border-4 border-accent/30 shadow-lg">
                 <Image
                   src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop"
-                  alt="Floral detail"
-                  fill 
+                  alt="Floral"
+                  fill
                   className="object-cover"
-                  sizes="128px"
+                  sizes="64px"
                 />
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative z-10"
-            >
-              <div className="relative w-[min(320px,75vw)] h-[min(480px,110vw)] rounded-full overflow-hidden rotate-[15deg] shadow-[0_40px_80px_rgba(59,42,90,0.15)] border-[12px] border-white flex-shrink-0 bg-white">
-                <div className="absolute inset-0 -rotate-[15deg] scale-[1.35]">
-                  <Image
-                    src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop"
-                    alt="Luxury buffet spread"
-                    fill 
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 75vw, 320px"
-                  />
-                </div>
               </div>
             </motion.div>
           </div>
         </div>
 
-        <div className="absolute left-0 right-0 bottom-0 h-1 bg-accent/30 hidden md:block" />
+        {/* ══════════════════════════════
+            STATS DARK STRIP
+            ══════════════════════════════ */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.75, delay: 0.1 }}
+          className="relative bg-primary mt-0"
+        >
+          {/* Capsule decorations inside strip */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute -top-8 right-[15%] w-14 h-40 rounded-full bg-accent/8 rotate-[-30deg]" />
+            <div className="absolute -bottom-6 left-[10%] w-10 h-28 rounded-full border border-accent/12 rotate-[25deg]" />
+          </div>
+
+          <div className="container-custom px-6 md:px-14 lg:px-20 py-10 md:py-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x md:divide-white/10">
+              {STATS.map((s, i) => (
+                <motion.div
+                  key={s.l}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: 0.12 + i * 0.08 }}
+                  className="flex flex-col items-center text-center md:px-8"
+                >
+                  <span className="font-serif text-[clamp(36px,6vw,60px)] italic text-accent leading-none font-light">
+                    {s.n}
+                  </span>
+                  <span className="text-[10px] tracking-[0.28em] uppercase text-cream/45 mt-2 font-light">
+                    {s.l}
+                  </span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </section>
     </>
   );
