@@ -1,113 +1,145 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import CapsuleGraphic from "./CapsuleGraphic";
-import CapsuleImage from "./CapsuleImage";
+import Image from "next/image";
+import { motion } from "framer-motion";
 
-const sliderImages = [
-  "https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1498579150354-979475d54334?q=80&w=2070&auto=format&fit=crop",
+const expertiseRows = [
+  {
+    t: "Unparalleled expertise",
+    d: "With years of experience, Elie Catering has earned a reputation for excellence in event management and catering. Our seasoned professionals are committed to bringing your vision to life with creativity, precision and professionalism.",
+    img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
+  },
+  {
+    t: "Luxury and elegance",
+    d: "We ensure luxury in every detail, from concept to presentation, creating sophisticated and elegant experiences that leave a lasting impression.",
+    img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=2070&auto=format&fit=crop",
+  },
+  {
+    t: "Customized solutions",
+    d: "Every event is built from a blank page. Allergens, stories, the wine your grandfather loved — a menu made once, exactly for you.",
+    img: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop",
+  },
+  {
+    t: "Culinary excellence",
+    d: "We cook from a pantry built each week at market, guided by the season and the chef's notebook. No dish is ever served twice in quite the same way.",
+    img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop",
+  },
+  {
+    t: "Seamless execution",
+    d: "One producer. One timeline. One standard. The seams you usually see between vendors simply disappear.",
+    img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
+  },
+  {
+    t: "Commitment to quality",
+    d: "Quality is not a claim — it is the list of names of the farmers we buy from, the suppliers we've kept for a decade, and the people we trained ourselves.",
+    img: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=1887&auto=format&fit=crop",
+  },
+];
+
+const whyCards = [
+  { t: "A single point of contact", d: "One producer from first call to last candle. No vendor seams." },
+  { t: "In-house craftspeople", d: "Chefs, florists, service — trained under one roof, to one standard." },
+  { t: "Fourteen years of memory", d: "Institutional knowledge you can only build by doing this for a long time." },
 ];
 
 export default function WhyChooseUs() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const points = [
-    {
-      title: "INNOVATION",
-      description: "Creativity and fresh ideas are at the heart of everything we do.",
-    },
-    {
-      title: "INTEGRITY",
-      description: "Trust and transparency are the foundation of our client relationships.",
-    },
-    {
-      title: "SERVICE",
-      description: "Our dedicated team ensures flawless execution and attentive hospitality.",
-    },
-  ];
-
   return (
-    <section className="bg-white py-32 relative overflow-hidden text-primary min-h-[800px] flex items-center">
-      
-      {/* Decorative Capsules (Now smaller and positioned as frames) */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-         <CapsuleGraphic color="primary" className="w-[800px] h-[200px] -top-[5%] left-[60%] opacity-20" angle="-rotate-[35deg]" />
-         <CapsuleGraphic color="accent" className="w-[600px] h-[150px] top-[40%] left-[55%] opacity-10" angle="-rotate-[35deg]" delay={0.2} />
-      </div>
+    <div id="why-us" className="overflow-hidden">
+      {/* Marble intro */}
+      <section className="section-padding bg-gradient-to-br from-[#F3F0EB] to-[#ebe6db] relative text-center">
+        {/* Capsule outline accents */}
+        <div className="hidden md:block absolute top-20 right-16 w-30 h-70 rounded-full border border-primary/15 rotate-18" />
+        <div className="hidden md:block absolute top-50 right-44 w-20 h-50 rounded-full border border-accent/25 rotate-18" />
 
-      <div className="container mx-auto px-6 md:px-12 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-16">
-          
-          {/* Text Side (Left) */}
-          <div className="w-full lg:w-1/2 flex flex-col justify-center max-w-xl">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="font-sans font-extrabold tracking-[-0.04em] leading-[0.9] uppercase text-accent mx-auto max-w-4xl text-[clamp(48px,12vw,110px)]"
+        >
+          Why<br className="md:hidden" /> Choose Us
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.16 }}
+          className="text-base md:text-[17px] leading-relaxed text-body max-w-2xl mx-auto mt-10 mb-16 md:mb-20"
+        >
+          Choosing Elie Catering and Event Planning means selecting a partner
+          who understands the nuances of crafting unforgettable events. Here
+          is why clients across the region choose us.
+        </motion.p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto">
+          {whyCards.map((v, i) => (
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              key={v.t}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="mb-12"
+              transition={{ duration: 0.6, delay: i * 0.08 }}
+              className="bg-white rounded-[32px] p-8 md:p-10 text-left shadow-sm border border-ink/10 hover:shadow-md transition-shadow"
             >
-              <h2 className="font-serif text-5xl md:text-6xl lg:text-7xl mb-4 leading-none font-bold text-primary tracking-tight">
-                OUR <br/> VALUES
-              </h2>
+              <div className="w-12 h-12 rounded-full bg-primary text-accent flex items-center justify-center font-serif italic text-xl mb-6">
+                {String(i + 1).padStart(2, "0")}
+              </div>
+              <h3 className="font-serif text-2xl text-primary mb-3 font-normal tracking-tight">
+                {v.t}
+              </h3>
+              <p className="text-sm leading-relaxed text-body m-0">{v.d}</p>
             </motion.div>
-
-            <div className="space-y-12">
-              {points.map((point, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.2 + index * 0.15 }}
-                >
-                  <h3 className="text-2xl font-bold mb-3 tracking-wider text-primary border-l-4 border-accent pl-4">{point.title}</h3>
-                  <p className="text-gray-600 leading-relaxed font-medium text-lg max-w-md">
-                    {point.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-          
-          {/* Image Slider Side (Right) - Image in a Capsule Shape */}
-          <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
-            <div className="relative">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentSlide}
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -50 }}
-                  transition={{ duration: 0.8 }}
-                >
-                  <CapsuleImage 
-                    src={sliderImages[currentSlide]} 
-                    alt="Our Values" 
-                    widthClass="w-[300px] md:w-[450px]"
-                    heightClass="h-[500px] md:h-[650px]"
-                    angle="-rotate-[35deg]"
-                  />
-                </motion.div>
-              </AnimatePresence>
-              
-              {/* Decorative accent capsule behind the slider */}
-              <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/3 -translate-y-1/2 w-[110%] h-[110%] border-2 border-accent/20 rounded-full transform -rotate-[35deg]"></div>
-            </div>
-          </div>
-
+          ))}
         </div>
-      </div>
-    </section>
+      </section>
+
+      {/* Alternating expertise rows */}
+      <section>
+        {expertiseRows.map((f, i) => {
+          const imgLeft = i % 2 === 0;
+          return (
+            <motion.div
+              key={f.t}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="grid grid-cols-1 md:grid-cols-2 min-h-[450px] md:min-h-[500px]"
+            >
+              {/* Image side */}
+              <div className={`relative min-h-[300px] md:min-h-full overflow-hidden ${imgLeft ? "md:order-1" : "md:order-2"}`}>
+                <Image src={f.img} alt={f.t} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+              </div>
+
+              {/* Text side */}
+              <div className={`relative overflow-hidden flex flex-col justify-center p-8 md:p-16 lg:p-20 ${
+                imgLeft ? "md:order-2 bg-primary text-cream" : "md:order-1 bg-cream text-ink"
+              }`}>
+                {/* Background decoration */}
+                <div className={`absolute w-40 h-80 rounded-full opacity-10 rotate-[22deg] ${
+                  imgLeft ? "-top-20 -right-20 bg-accent" : "-bottom-20 -left-20 bg-primary"
+                }`} />
+
+                <div className="relative max-w-lg">
+                  <div className={`text-[10px] tracking-[0.3em] uppercase font-semibold mb-6 ${
+                    imgLeft ? "text-accent" : "text-accent"
+                  }`}>
+                    0{i + 1} &nbsp;·&nbsp; Expertise
+                  </div>
+                  <h3 className={`font-sans font-extrabold tracking-tight leading-none uppercase mb-6 text-[clamp(28px,5vw,48px)] ${
+                    imgLeft ? "text-accent" : "text-primary"
+                  }`}>
+                    {f.t}
+                  </h3>
+                  <p className="text-sm md:text-base leading-relaxed opacity-90">{f.d}</p>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </section>
+    </div>
   );
 }

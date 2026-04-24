@@ -2,117 +2,93 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { Menu, X, ChevronDown, Globe } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import ElieLogo from "./ElieLogo";
+
+const NAV = ["Atelier", "Menus", "Services", "Journal", "Contact"];
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const fn = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "About Us", href: "#about" },
-    { name: "Services", href: "#services" },
-    { name: "Catering", href: "#catering" },
-    { name: "Venues", href: "#venues" },
-    { name: "Gallery", href: "#gallery" },
-  ];
-
   return (
-    <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "bg-primary shadow-lg py-4" : "bg-transparent py-6"
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 flex items-center justify-between px-6 md:px-14 py-4 md:py-5 ${
+        scrolled ? "bg-primary/95 backdrop-blur-md shadow-lg" : "bg-primary md:bg-transparent"
       }`}
+      style={{
+        background: scrolled ? undefined : scrolled === false && typeof window !== 'undefined' && window.innerWidth < 768 ? "#3B2A5A" : undefined
+      }}
     >
-      <div className="container mx-auto px-6 md:px-12 flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="flex items-center">
-          <Image
-            src="https://elie-catering.webcrowdsolutions.com/images/header_logos/header_logo_1775112023_c1eff258.webp"
-            alt="Elie Catering Logo"
-            width={180}
-            height={60}
-            className="object-contain h-12 w-auto md:h-16"
-            priority
-          />
-        </Link>
+      <Link href="/" className="relative z-50 no-underline">
+        <ElieLogo size={24} color="#C89B3C" />
+      </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="text-white hover:text-accent transition-colors text-sm uppercase tracking-wider font-semibold"
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Right Section (Language & CTA) */}
-        <div className="hidden lg:flex items-center gap-6">
-          <button className="flex items-center gap-1 text-white hover:text-accent transition-colors">
-            <Globe className="w-4 h-4" />
-            <span className="text-sm font-semibold uppercase">En</span>
-            <ChevronDown className="w-4 h-4" />
-          </button>
-          
+      {/* Desktop Nav */}
+      <nav className="hidden md:flex items-center gap-10 text-[11px] tracking-[0.2em] uppercase">
+        {NAV.map((l) => (
           <Link
-            href="#book"
-            className="bg-accent hover:bg-accent-hover text-white px-6 py-2.5 rounded-sm uppercase tracking-widest text-sm font-semibold transition-all duration-300 shadow-md"
+            key={l}
+            href={`#${l.toLowerCase()}`}
+            className="text-cream no-underline transition-colors hover:text-accent"
           >
-            Book An Event
+            {l}
           </Link>
-        </div>
+        ))}
+      </nav>
 
-        {/* Mobile Menu Toggle */}
-        <button
-          className="lg:hidden text-white focus:outline-none"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+      {/* Reserve button */}
+      <Link
+        href="#book"
+        className="hidden md:inline-flex items-center px-7 py-3 rounded-full text-[10px] tracking-[0.15em] uppercase font-medium bg-accent text-primary no-underline transition-transform hover:scale-105 active:scale-95"
+      >
+        Reserve
+      </Link>
+
+      {/* Mobile toggle */}
+      <button
+        className="md:hidden relative z-50 text-cream bg-transparent border-none cursor-pointer"
+        onClick={() => setOpen(!open)}
+      >
+        {open ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      {/* Mobile menu */}
+      <div 
+        className={`fixed inset-0 bg-primary z-40 flex flex-col items-center justify-center gap-8 transition-transform duration-500 ease-in-out md:hidden ${
+          open ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
+        {NAV.map((l, i) => (
+          <Link
+            key={l}
+            href={`#${l.toLowerCase()}`}
+            onClick={() => setOpen(false)}
+            className={`text-cream no-underline text-2xl tracking-[0.1em] uppercase font-light transition-all duration-300 ${
+              open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            }`}
+            style={{ transitionDelay: `${i * 50}ms` }}
+          >
+            {l}
+          </Link>
+        ))}
+        <Link
+          href="#book"
+          onClick={() => setOpen(false)}
+          className={`mt-4 px-10 py-4 rounded-full text-sm tracking-[0.2em] uppercase font-medium bg-accent text-primary no-underline transition-all duration-300 ${
+            open ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          }`}
+          style={{ transitionDelay: `${NAV.length * 50}ms` }}
         >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+          Reserve
+        </Link>
       </div>
-
-      {/* Mobile Nav */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-primary border-t border-white/10 shadow-xl">
-          <nav className="flex flex-col py-4 px-6 space-y-4">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-white hover:text-accent transition-colors text-sm uppercase tracking-wider font-semibold"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {link.name}
-              </Link>
-            ))}
-            <div className="pt-4 border-t border-white/10 flex flex-col gap-4">
-              <button className="flex items-center gap-2 text-white hover:text-accent transition-colors w-fit">
-                <Globe className="w-4 h-4" />
-                <span className="text-sm font-semibold uppercase">English</span>
-              </button>
-              <Link
-                href="#book"
-                className="bg-accent text-white px-6 py-3 rounded-sm uppercase tracking-widest text-sm font-semibold text-center w-full"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Book An Event
-              </Link>
-            </div>
-          </nav>
-        </div>
-      )}
     </header>
   );
 }

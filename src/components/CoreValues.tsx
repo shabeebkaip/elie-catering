@@ -1,77 +1,54 @@
 "use client";
 
 import { motion } from "framer-motion";
-import CapsuleGraphic from "./CapsuleGraphic";
+
+const values = [
+  { t: "Excellence", d: "We strive for perfection in every detail, from planning to execution." },
+  { t: "Innovation", d: "Creativity and fresh ideas are at the heart of everything we do." },
+  { t: "Luxury", d: "We specialize in curating high-end experiences that exude sophistication and elegance." },
+  { t: "Integrity", d: "Trust and transparency are the foundation of our client relationships." },
+  { t: "Client-centered service", d: "Every event is uniquely tailored to reflect our clients’ visions and preferences." },
+  { t: "Discretion", d: "The evening belongs to you. We are the quiet architects of it." },
+];
 
 export default function CoreValues() {
   return (
-    <section className="bg-white py-32 relative overflow-hidden text-primary min-h-[800px] flex items-center">
-      {/* Decorative Right-Side Capsules (Matching Reference exactly) */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-         <CapsuleGraphic color="primary" className="w-[1800px] h-[400px] -top-[15%] left-[55%] origin-center" angle="-rotate-[35deg]" />
-         <CapsuleGraphic color="accent" className="w-[1000px] h-[300px] top-[30%] left-[60%] origin-center" angle="-rotate-[35deg]" delay={0.2} />
-         <CapsuleGraphic color="accent" className="w-[800px] h-[250px] top-[75%] left-[50%] origin-center" angle="-rotate-[35deg]" delay={0.4} />
+    <section className="relative bg-cream overflow-hidden section-padding min-h-[600px] md:min-h-[760px]">
+      {/* Tilted capsule cluster top-right — hidden on mobile for cleaner look or adjusted */}
+      <div className="absolute -top-20 -right-20 w-[300px] md:w-[420px] h-[450px] md:h-[620px] pointer-events-none opacity-20 md:opacity-100">
+        <div className="absolute top-10 right-32 w-32 md:w-40 h-72 md:h-[380px] rounded-full bg-primary rotate-[-20deg]" />
+        <div className="absolute top-40 md:top-52 right-8 md:right-10 w-24 md:w-30 h-56 md:h-[280px] rounded-full bg-accent rotate-[-20deg]" />
+        <div className="absolute top-80 md:top-[420px] right-40 md:right-44 w-20 md:w-24 h-44 md:h-[220px] rounded-full bg-accent rotate-[-20deg] opacity-85" />
       </div>
 
-      <div className="container mx-auto px-6 md:px-12 relative z-10">
-        
-        {/* Title */}
+      <div className="container-custom relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mb-16"
+          transition={{ duration: 0.7 }}
         >
-          <h2 className="font-serif text-6xl md:text-8xl leading-none font-bold text-primary tracking-tight">
-            CORE <br/> VALUES
+          <h2 className="font-sans font-extrabold tracking-[-0.04em] leading-[0.9] uppercase text-primary m-0 max-w-2xl text-[clamp(64px,12vw,140px)]">
+            Core<br />Values
           </h2>
         </motion.div>
 
-        {/* 2-Column Grid */}
-        <div className="flex flex-col md:flex-row gap-12 lg:gap-24 max-w-4xl relative">
-          
-          {/* Column 1 */}
-          <div className="flex-1 space-y-12 pr-4 border-r-0 md:border-r border-gray-300">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.2 }}>
-              <h3 className="text-2xl font-bold mb-3 tracking-wider text-primary">EXCELLENCE</h3>
-              <p className="text-gray-600 leading-relaxed font-medium text-lg">
-                We strive for perfection in every detail, from planning to execution.
-              </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 md:gap-x-16 gap-y-12 md:gap-y-14 max-w-4xl mt-16 md:mt-20">
+          {values.map((v, i) => (
+            <motion.div
+              key={v.t}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.07 }}
+              className="pl-6 md:pl-8 border-l-[3px] border-accent"
+            >
+              <h3 className="font-sans text-xl md:text-2xl font-extrabold text-ink mb-3 uppercase tracking-tight">
+                {v.t}
+              </h3>
+              <p className="text-sm md:text-base leading-relaxed text-body m-0">{v.d}</p>
             </motion.div>
-
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.3 }}>
-              <h3 className="text-2xl font-bold mb-3 tracking-wider text-primary">LUXURY</h3>
-              <p className="text-gray-600 leading-relaxed font-medium text-lg">
-                We specialize in curating high-end experiences that exude sophistication and elegance.
-              </p>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.4 }}>
-              <h3 className="text-2xl font-bold mb-3 tracking-wider text-primary">CLIENT - CENTERED SERVICE</h3>
-              <p className="text-gray-600 leading-relaxed font-medium text-lg">
-                Every event is uniquely tailored to reflect our clients' visions and preferences.
-              </p>
-            </motion.div>
-          </div>
-
-          {/* Column 2 */}
-          <div className="flex-1 space-y-12">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.5 }}>
-              <h3 className="text-2xl font-bold mb-3 tracking-wider text-primary">INNOVATION</h3>
-              <p className="text-gray-600 leading-relaxed font-medium text-lg">
-                Creativity and fresh ideas are at the heart of everything we do.
-              </p>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.6 }}>
-              <h3 className="text-2xl font-bold mb-3 tracking-wider text-primary">INTEGRITY</h3>
-              <p className="text-gray-600 leading-relaxed font-medium text-lg">
-                Trust and transparency are the foundation of our client relationships.
-              </p>
-            </motion.div>
-          </div>
-
+          ))}
         </div>
       </div>
     </section>

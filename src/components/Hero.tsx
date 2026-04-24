@@ -4,115 +4,165 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import CapsuleGraphic from "./CapsuleGraphic";
+import ElieLogo from "./ElieLogo";
 
-const heroImages = [
+const BG_IMAGES = [
   "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
   "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
 ];
 
 export default function Hero() {
-  const [currentImage, setCurrentImage] = useState(0);
+  const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentImage((prev) => (prev + 1) % heroImages.length);
-    }, 5000);
-    return () => clearInterval(timer);
+    const t = setInterval(() => setCurrent((c) => (c + 1) % BG_IMAGES.length), 5000);
+    return () => clearInterval(t);
   }, []);
 
   return (
-    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-primary">
-      {/* Background Image Slider */}
-      <div className="absolute inset-0 z-0">
+    <section className="relative min-h-[100svh] overflow-hidden bg-primary text-cream">
+
+      {/* ── Decorative layer (clipped) ── */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Sliding background images */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={currentImage}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 0.4, scale: 1 }}
+            key={current}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.15 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5, ease: "easeInOut" }}
             className="absolute inset-0"
           >
-            <Image
-              src={heroImages[currentImage]}
-              alt="Luxury Catering"
-              fill
-              priority
-              className="object-cover"
-            />
+            <Image src={BG_IMAGES[current]} alt="" fill priority className="object-cover" sizes="100vw" />
           </motion.div>
         </AnimatePresence>
-        
-        {/* Decorative Capsules */}
-        <CapsuleGraphic color="primary" className="w-[600px] h-[200px] -top-[5%] -right-[5%] opacity-60 z-10" angle="-rotate-[35deg]" />
-        <CapsuleGraphic color="accent" className="w-[400px] h-[100px] top-[15%] -right-[10%] opacity-40 z-10" angle="-rotate-[35deg]" delay={0.2} />
-        <CapsuleGraphic color="transparent" className="w-[800px] h-[300px] -bottom-[15%] -left-[5%] opacity-30 z-10" angle="-rotate-[35deg]" delay={0.4} />
+
+        {/* Gold capsule — top right */}
+        <div
+          className="hidden lg:block absolute -top-20 -right-10 w-[220px] h-[420px] rounded-full bg-accent opacity-90"
+          style={{
+            animation: "elFloat 10s ease-in-out infinite",
+            ["--r" as string]: "-18deg",
+          } as React.CSSProperties}
+        />
+
+        {/* Dark accent capsule — bottom left */}
+        <div
+          className="hidden lg:block absolute -bottom-16 left-[200px] w-[140px] h-[300px] rounded-full bg-purple-deep rotate-[25deg] opacity-60"
+        />
       </div>
 
-      {/* Content */}
-      <div className="relative z-20 container mx-auto px-6 flex flex-col items-center text-center mt-20">
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-accent uppercase tracking-[0.2em] text-sm md:text-base font-semibold mb-6 bg-primary/50 px-4 py-1 rounded-full backdrop-blur-sm"
-        >
-          Welcome to Elie Catering
-        </motion.p>
-        
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="font-serif text-5xl md:text-7xl lg:text-8xl text-white leading-tight mb-8 max-w-5xl drop-shadow-2xl"
-        >
-          Exquisite Tastes, <br />
-          <span className="italic font-light">Unforgettable</span> Events
-        </motion.h1>
-        
+      {/* ── Content grid ── */}
+      <div className="relative grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16 px-6 md:px-16 lg:px-20 pt-32 md:pt-40 lg:pt-30 pb-20 lg:pb-24">
+
+        {/* Left: text */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 0.7 }}
+          className="text-center lg:text-left flex flex-col items-center lg:items-start"
         >
-          <Link
-            href="#discover"
-            className="border-2 border-accent text-white bg-accent/20 hover:bg-accent hover:text-white px-8 py-4 uppercase tracking-widest text-sm transition-all duration-300 inline-block backdrop-blur-md rounded-full shadow-[0_0_20px_rgba(193,143,59,0.3)]"
-          >
-            Discover Our Menus
-          </Link>
-        </motion.div>
-      </div>
+          <ElieLogo size={56} color="#C89B3C" />
+          <div className="mt-4 text-[10px] md:text-[11px] tracking-[0.4em] uppercase text-cream opacity-70">
+            Catering &nbsp;&amp;&nbsp; Event Planning
+          </div>
 
-      {/* Modern Curved Transition Divider */}
-      <div className="absolute bottom-0 left-0 w-full z-30 leading-[0]">
-        <svg 
-          viewBox="0 0 1440 120" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-auto"
+          <h1 className="font-sans font-extrabold tracking-tight leading-[0.95] uppercase text-cream my-8 lg:my-10 max-w-[680px] text-[clamp(40px,10vw,100px)]">
+            Luxury,{" "}
+            <span className="text-accent">plated.</span>
+            <br />
+            Events,{" "}
+            <span className="font-serif italic font-light lowercase tracking-[-0.05em] normal-case">
+              composed.
+            </span>
+          </h1>
+
+          <p className="text-base md:text-lg leading-relaxed text-cream/80 max-w-[520px] mb-10 md:mb-12">
+            A full-service catering and event house crafting sophisticated,
+            memorable experiences — from intimate weddings to corporate
+            evenings — across Saudi Arabia and beyond.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+            <Link
+              href="#book"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm tracking-[0.1em] uppercase font-medium bg-accent text-primary no-underline transition-all hover:scale-105 active:scale-95"
+            >
+              Book an event →
+            </Link>
+            <Link
+              href="#services"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm tracking-[0.1em] uppercase font-medium bg-transparent text-cream no-underline border border-cream/40 transition-all hover:bg-cream/10 active:scale-95"
+            >
+              Explore services
+            </Link>
+          </div>
+        </motion.div>
+
+        {/* Right: capsule image + badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="relative flex justify-center lg:justify-end h-[min(450px,80vw)] lg:h-[580px]"
         >
-          <path 
-            d="M0 120H1440V40C1440 40 1080 0 720 0C360 0 0 40 0 40V120Z" 
-            fill="#1D1933" 
+          {/* Frosted Pillar Connection */}
+          <div
+            className="absolute hidden md:block"
+            style={{
+              top: -160, left: "15%",
+              width: "2px", height: "100%",
+              background: "linear-gradient(to bottom, rgba(200,155,60,0) 0%, rgba(200,155,60,0.6) 50%, rgba(200,155,60,1) 100%)",
+              zIndex: 1,
+            }}
           />
-        </svg>
-        
-        {/* Centered Explore Button on Curve Peak */}
-        <motion.div 
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 1, duration: 0.6, type: "spring" }}
-          className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2"
-        >
-          <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-accent flex flex-col items-center justify-center shadow-2xl border-4 border-primary group cursor-pointer hover:scale-110 transition-transform duration-300">
-            <span className="text-[10px] md:text-[12px] text-white font-bold tracking-widest mb-1">EXPLORE</span>
-            <span className="text-white text-xl md:text-2xl">&darr;</span>
+          <div
+            className="absolute hidden md:block"
+            style={{
+              top: -160, left: "10%",
+              width: "40px", height: "80%",
+              background: "linear-gradient(170deg, rgba(180,165,220,0.3) 0%, rgba(200,185,240,0.15) 55%, rgba(160,140,210,0.02) 100%)",
+              borderRadius: "0 0 9999px 9999px",
+              backdropFilter: "blur(12px)",
+              WebkitBackdropFilter: "blur(12px)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderTop: "none",
+            }}
+          />
+
+          {/* Capsule image container */}
+          <div className="relative w-[min(280px,50vw)] h-[min(420px,75vw)] lg:w-[320px] lg:h-[500px] rounded-full overflow-hidden rotate-[12deg] shadow-2xl border-4 border-primary/20">
+            <div className="absolute inset-0 -rotate-[12deg] scale-[1.3]">
+              <Image
+                src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop"
+                alt="Luxury catering plate"
+                fill priority
+                className="object-cover"
+                sizes="(max-width: 768px) 50vw, 320px"
+              />
+            </div>
+          </div>
+
+          {/* 14 Years badge */}
+          <div 
+            className="absolute -left-4 md:left-0 bottom-[10%] w-[min(140px,25vw)] h-[min(140px,25vw)] lg:w-[160px] lg:h-[160px] rounded-full bg-accent text-primary flex flex-col items-center justify-center font-serif shadow-xl z-10"
+            style={{
+              animation: "elFloat 9s ease-in-out infinite",
+              ["--r" as string]: "-8deg",
+            } as React.CSSProperties}
+          >
+            <span className="text-3xl md:text-4xl lg:text-5xl italic font-light leading-none">14</span>
+            <span className="text-[8px] md:text-[10px] tracking-[0.2em] uppercase mt-2 font-sans font-semibold text-center">
+              Years of craft
+            </span>
           </div>
         </motion.div>
       </div>
+
+      {/* Gold bottom band */}
+      <div className="h-10 md:h-12 bg-accent relative z-10" />
     </section>
   );
 }

@@ -1,7 +1,9 @@
-import { HTMLAttributes } from "react";
+"use client";
+
 import { motion } from "framer-motion";
 
-interface CapsuleGraphicProps extends HTMLAttributes<HTMLDivElement> {
+interface CapsuleGraphicProps {
+  className?: string;
   color?: "primary" | "accent" | "transparent" | "white" | "violet";
   angle?: string;
   animate?: boolean;
@@ -14,7 +16,6 @@ export default function CapsuleGraphic({
   angle = "-rotate-[35deg]",
   animate = true,
   delay = 0,
-  ...props
 }: CapsuleGraphicProps) {
   const baseClasses = `absolute rounded-full transform ${angle}`;
   
@@ -47,7 +48,6 @@ export default function CapsuleGraphic({
       viewport={{ once: true }}
       transition={{ duration: 1, delay, ease: "easeOut" }}
       className={`${baseClasses} ${colorClasses} ${className}`}
-      {...props}
     />
   );
 }
