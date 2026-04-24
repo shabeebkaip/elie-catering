@@ -16,84 +16,72 @@ const services = [
 
 export default function OurServices() {
   return (
-    <section id="services" className="bg-cream">
-      {/* Purple header */}
-      <div className="bg-primary text-cream px-6 md:px-16 lg:px-20 py-24 md:py-32 relative overflow-hidden">
-        {/* Decorative elements */}
-        <div className="absolute left-0 top-0 bottom-0 w-2 bg-accent" />
-        <div className="hidden md:block absolute -top-24 -right-16 w-52 h-96 rounded-full bg-accent rotate-[-18deg] opacity-90" />
-        <div className="hidden lg:block absolute -bottom-20 right-24 w-36 h-72 rounded-full bg-cream rotate-[-18deg] opacity-10" />
+    <section id="services" className="bg-[#FAF6EF] py-20 md:py-32 px-6">
+      <div className="container-custom">
+        {/* Compact Header */}
+        <div className="text-center mb-16 md:mb-24">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <div className="w-6 md:w-8 h-[1px] bg-[#bb8a3c]" />
+            <span className="text-[#bb8a3c] text-[9px] md:text-[10px] tracking-[0.4em] uppercase font-bold">
+              Expertise
+            </span>
+            <div className="w-6 md:w-8 h-[1px] bg-[#bb8a3c]" />
+          </div>
+          <h2 className="font-serif font-light text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-[#2c1e39] uppercase leading-[0.9] tracking-tight max-w-5xl mx-auto">
+            Our Services
+          </h2>
+        </div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="font-sans font-extrabold tracking-[-0.04em] leading-[0.9] uppercase text-cream m-0 relative z-10 text-[clamp(64px,12vw,140px)]"
-        >
-          Our<br />Services
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.16 }}
-          className="text-base md:text-lg leading-relaxed text-cream/80 mt-10 max-w-xl relative z-10"
-        >
-          Elie Catering and Event Planning offers a comprehensive range of
-          services designed to create unforgettable experiences.
-        </motion.p>
-      </div>
-
-      {/* Services grid — capsule cards */}
-      <div className="px-6 md:px-16 lg:px-20 py-20 md:py-32">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        {/* Services Grid - Using Full Capsule Arches */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 sm:gap-8 md:gap-10">
           {services.map((s, i) => {
             const isDark = i % 2 === 0;
             return (
               <motion.div
                 key={s.t}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: i * 0.05 }}
-                className={`rounded-[160px] overflow-hidden cursor-pointer h-[480px] flex flex-col shadow-lg transition-transform hover:scale-[1.02] active:scale-95 ${
-                  isDark ? "bg-primary" : "bg-accent"
+                whileHover={{ y: -10 }}
+                className={`rounded-t-full rounded-b-[40px] overflow-hidden cursor-pointer flex flex-col shadow-2xl transition-all duration-500 min-h-[480px] sm:h-[460px] md:h-[520px] group ${
+                  isDark ? "bg-[#2c1e39] text-[#FAF6EF]" : "bg-[#bb8a3c] text-[#2c1e39]"
                 }`}
               >
-                {/* Image side */}
-                <div className="h-[280px] relative overflow-hidden rounded-t-[160px] flex-shrink-0">
-                  <Image src={s.img} alt={s.t} fill className="object-cover" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
+                {/* Image side - Full Capsule Arch */}
+                <div className="aspect-[4/5] sm:h-[240px] md:h-[300px] relative overflow-hidden rounded-t-full flex-shrink-0">
+                  <motion.div 
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.6 }}
+                    className="absolute inset-0"
+                  >
+                    <Image src={s.img} alt={s.t} fill className="object-cover" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" />
+                  </motion.div>
                 </div>
                 
                 {/* Content side */}
-                <div className="p-8 pb-10 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className={`text-[10px] tracking-[0.2em] uppercase font-bold mb-3 ${
-                      isDark ? "text-accent" : "text-primary"
-                    }`}>
-                      Service 0{i + 1}
-                    </div>
-                    <h3 className={`font-serif text-2xl mb-2 font-normal tracking-tight ${
-                      isDark ? "text-cream" : "text-primary"
-                    }`}>
-                      {s.t}
-                    </h3>
-                    <p className={`text-[13px] leading-relaxed line-clamp-2 ${
-                      isDark ? "text-cream/70" : "text-primary/75"
-                    }`}>
-                      {s.d}
-                    </p>
+                <div className="p-8 sm:p-6 md:p-10 flex-1 flex flex-col justify-center text-center">
+                  <div className={`text-[9px] tracking-[0.2em] uppercase font-bold mb-3 opacity-60 ${
+                    isDark ? "text-[#FAF6EF]" : "text-[#2c1e39]"
+                  }`}>
+                    0{i + 1}
                   </div>
-                  
-                  <div className="flex justify-end mt-4">
-                    <span className={`w-10 h-10 rounded-full flex items-center justify-center text-xl transition-colors ${
-                      isDark ? "bg-accent text-primary" : "bg-primary text-accent"
-                    }`}>
-                      →
-                    </span>
-                  </div>
+                  <h3 className={`font-serif text-2xl sm:text-xl md:text-3xl mb-3 font-normal italic tracking-tight leading-tight transition-colors duration-500 ${
+                    isDark ? "text-[#FAF6EF]" : "text-[#2c1e39]"
+                  }`}>
+                    {s.t}
+                  </h3>
+                  <p className={`text-[12px] md:text-[14px] leading-relaxed line-clamp-2 opacity-70 ${
+                    isDark ? "text-[#FAF6EF]" : "text-[#2c1e39]"
+                  }`}>
+                    {s.d}
+                  </p>
                 </div>
+
+                {/* Subtle hover indicator */}
+                <div className={`h-1.5 w-0 group-hover:w-full transition-all duration-700 ${
+                  isDark ? "bg-[#bb8a3c]" : "bg-[#2c1e39]"
+                }`} />
               </motion.div>
             );
           })}

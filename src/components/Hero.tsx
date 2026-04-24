@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import ElieLogo from "./ElieLogo";
 
 const BG_IMAGES = [
   "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
@@ -64,14 +63,15 @@ export default function Hero() {
           transition={{ duration: 0.7 }}
           className="text-center lg:text-left flex flex-col items-center lg:items-start"
         >
-          <ElieLogo size={56} color="#C89B3C" />
-          <div className="mt-4 text-[10px] md:text-[11px] tracking-[0.4em] uppercase text-cream opacity-70">
+          {/* Logo removed from Hero as requested */}
+          
+          <div className="text-[10px] md:text-[11px] tracking-[0.4em] uppercase text-accent font-bold">
             Catering &nbsp;&amp;&nbsp; Event Planning
           </div>
 
-          <h1 className="font-sans font-extrabold tracking-tight leading-[0.95] uppercase text-cream my-8 lg:my-10 max-w-[680px] text-[clamp(40px,10vw,100px)]">
+          <h1 className="font-serif font-light tracking-tight leading-[0.85] uppercase text-cream my-10 md:my-12 max-w-[720px] text-[clamp(48px,10vw,110px)]">
             Luxury,{" "}
-            <span className="text-accent">plated.</span>
+            <span className="text-accent italic">plated.</span>
             <br />
             Events,{" "}
             <span className="font-serif italic font-light lowercase tracking-[-0.05em] normal-case">
@@ -79,22 +79,22 @@ export default function Hero() {
             </span>
           </h1>
 
-          <p className="text-base md:text-lg leading-relaxed text-cream/80 max-w-[520px] mb-10 md:mb-12">
+          <p className="text-base md:text-lg leading-relaxed text-cream/70 max-w-[520px] mb-12 md:mb-14 font-light">
             A full-service catering and event house crafting sophisticated,
             memorable experiences — from intimate weddings to corporate
             evenings — across Saudi Arabia and beyond.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
             <Link
               href="#book"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm tracking-[0.1em] uppercase font-medium bg-accent text-primary no-underline transition-all hover:scale-105 active:scale-95"
+              className="inline-flex items-center justify-center gap-2 px-10 py-5 rounded-full text-[11px] tracking-[0.2em] uppercase font-bold bg-accent text-primary no-underline transition-all hover:scale-105 active:scale-95 shadow-xl"
             >
               Book an event →
             </Link>
             <Link
               href="#services"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full text-sm tracking-[0.1em] uppercase font-medium bg-transparent text-cream no-underline border border-cream/40 transition-all hover:bg-cream/10 active:scale-95"
+              className="inline-flex items-center justify-center gap-2 px-10 py-5 rounded-full text-[11px] tracking-[0.2em] uppercase font-bold bg-transparent text-cream no-underline border border-cream/30 transition-all hover:bg-cream/10 active:scale-95"
             >
               Explore services
             </Link>
@@ -106,7 +106,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="relative flex justify-center lg:justify-end h-[min(450px,80vw)] lg:h-[580px]"
+          className="relative flex justify-center lg:justify-end h-[min(450px,80vw)] lg:h-[620px]"
         >
           {/* Frosted Pillar Connection */}
           <div
@@ -114,7 +114,7 @@ export default function Hero() {
             style={{
               top: -160, left: "15%",
               width: "2px", height: "100%",
-              background: "linear-gradient(to bottom, rgba(200,155,60,0) 0%, rgba(200,155,60,0.6) 50%, rgba(200,155,60,1) 100%)",
+              background: "linear-gradient(to bottom, rgba(187,138,60,0) 0%, rgba(187,138,60,0.6) 50%, rgba(187,138,60,1) 100%)",
               zIndex: 1,
             }}
           />
@@ -133,28 +133,28 @@ export default function Hero() {
           />
 
           {/* Capsule image container */}
-          <div className="relative w-[min(280px,50vw)] h-[min(420px,75vw)] lg:w-[320px] lg:h-[500px] rounded-full overflow-hidden rotate-[12deg] shadow-2xl border-4 border-primary/20">
-            <div className="absolute inset-0 -rotate-[12deg] scale-[1.3]">
+          <div className="relative w-[min(300px,55vw)] h-[min(450px,80vw)] lg:w-[360px] lg:h-[550px] rounded-full overflow-hidden rotate-[12deg] shadow-2xl border-[12px] border-white/10 bg-white/5">
+            <div className="absolute inset-0 -rotate-[12deg] scale-[1.35]">
               <Image
                 src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop"
                 alt="Luxury catering plate"
                 fill priority
                 className="object-cover"
-                sizes="(max-width: 768px) 50vw, 320px"
+                sizes="(max-width: 768px) 55vw, 360px"
               />
             </div>
           </div>
 
           {/* 14 Years badge */}
           <div 
-            className="absolute -left-4 md:left-0 bottom-[10%] w-[min(140px,25vw)] h-[min(140px,25vw)] lg:w-[160px] lg:h-[160px] rounded-full bg-accent text-primary flex flex-col items-center justify-center font-serif shadow-xl z-10"
+            className="absolute -left-4 md:left-0 bottom-[10%] w-[min(150px,28vw)] h-[min(150px,28vw)] lg:w-[180px] lg:h-[180px] rounded-full bg-accent text-primary flex flex-col items-center justify-center font-serif shadow-2xl z-10 border-4 border-primary/20"
             style={{
               animation: "elFloat 9s ease-in-out infinite",
               ["--r" as string]: "-8deg",
             } as React.CSSProperties}
           >
-            <span className="text-3xl md:text-4xl lg:text-5xl italic font-light leading-none">14</span>
-            <span className="text-[8px] md:text-[10px] tracking-[0.2em] uppercase mt-2 font-sans font-semibold text-center">
+            <span className="text-4xl md:text-5xl lg:text-6xl italic font-light leading-none">14</span>
+            <span className="text-[9px] md:text-[11px] tracking-[0.25em] uppercase mt-3 font-sans font-bold text-center px-4">
               Years of craft
             </span>
           </div>
