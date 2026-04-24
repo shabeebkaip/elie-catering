@@ -283,31 +283,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Right: 14-yr badge + established year */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.75, delay: 0.82 }}
-          className="flex items-center gap-4 md:gap-5"
-        >
-          <div className="hidden md:block text-right">
-            <div className="text-[8px] tracking-[0.32em] uppercase text-cream/32">Est.</div>
-            <div className="font-serif text-[28px] italic text-accent leading-none">2010</div>
-          </div>
-          <div className="w-px h-10 bg-cream/14 hidden md:block" />
-          {/* Badge capsule */}
-          <div
-            className="w-[58px] h-[58px] md:w-[66px] md:h-[66px] rounded-full bg-accent text-primary flex flex-col items-center justify-center font-serif shadow-[0_10px_30px_rgba(187,138,60,0.5)] border-[3px] border-primary/22 flex-shrink-0"
-            style={{
-              animation: "elFloat 9s ease-in-out infinite",
-              ["--r" as string]: "0deg",
-            } as React.CSSProperties}
-          >
-            <span className="text-[22px] md:text-[26px] italic font-light leading-none">14</span>
-            <span className="text-[6px] tracking-[0.18em] uppercase font-sans font-bold leading-snug mt-0.5">
-              Yrs
-            </span>
-          </div>
-        </motion.div>
+
       </div>
 
       {/* ══════════════════════════════════════

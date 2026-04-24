@@ -20,13 +20,7 @@ const TAGS = [
   "Exclusive accessories",
 ];
 
-/* ─── Stats ─── */
-const STATS = [
-  { n: "14+", l: "Years of craft" },
-  { n: "500+", l: "Events created" },
-  { n: "100%", l: "Client satisfaction" },
-  { n: "KSA", l: "& beyond" },
-];
+
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
@@ -84,9 +78,7 @@ export default function Introduction() {
             {...fadeUp(0)}
             className="flex items-center gap-4 md:gap-6 border-b border-primary/10 pb-6"
           >
-            <span className="font-serif text-[clamp(42px,7vw,80px)] italic text-accent/30 leading-none font-light select-none">
-              01
-            </span>
+
             <div className="flex-1">
               <div className="flex items-center gap-3">
                 <div className="w-6 h-px bg-accent/50" />
@@ -98,18 +90,7 @@ export default function Introduction() {
                 Introduction
               </h2>
             </div>
-            {/* Stat pills — desktop only */}
-            <div className="hidden lg:flex items-center gap-3">
-              {STATS.slice(0, 3).map((s) => (
-                <div
-                  key={s.l}
-                  className="flex flex-col items-center px-4 py-2 rounded-full border border-primary/12 bg-primary/4"
-                >
-                  <span className="font-serif text-lg italic text-accent leading-none">{s.n}</span>
-                  <span className="text-[8px] tracking-[0.2em] uppercase text-body/50 mt-0.5">{s.l}</span>
-                </div>
-              ))}
-            </div>
+
           </motion.div>
         </div>
 
@@ -167,18 +148,7 @@ export default function Introduction() {
 
             {/* CTA + mobile stats */}
             <div className="mt-10 md:mt-12">
-              {/* Mobile stats */}
-              <motion.div
-                {...fadeUp(0.35)}
-                className="flex items-center gap-6 mb-8 lg:hidden"
-              >
-                {STATS.map((s) => (
-                  <div key={s.l}>
-                    <div className="font-serif text-[clamp(22px,5vw,34px)] italic text-accent leading-none">{s.n}</div>
-                    <div className="text-[9px] tracking-[0.22em] uppercase text-body/50 mt-1">{s.l}</div>
-                  </div>
-                ))}
-              </motion.div>
+
 
               <motion.div {...fadeUp(0.42)}>
                 <Link
@@ -289,41 +259,7 @@ export default function Introduction() {
         {/* ══════════════════════════════
             STATS DARK STRIP
             ══════════════════════════════ */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75, delay: 0.1 }}
-          className="relative bg-primary mt-0"
-        >
-          {/* Capsule decorations inside strip */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute -top-8 right-[15%] w-14 h-40 rounded-full bg-accent/8 rotate-[-30deg]" />
-            <div className="absolute -bottom-6 left-[10%] w-10 h-28 rounded-full border border-accent/12 rotate-[25deg]" />
-          </div>
 
-          <div className="container-custom px-6 md:px-14 lg:px-20 py-10 md:py-12">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 md:divide-x md:divide-white/10">
-              {STATS.map((s, i) => (
-                <motion.div
-                  key={s.l}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.12 + i * 0.08 }}
-                  className="flex flex-col items-center text-center md:px-8"
-                >
-                  <span className="font-serif text-[clamp(36px,6vw,60px)] italic text-accent leading-none font-light">
-                    {s.n}
-                  </span>
-                  <span className="text-[10px] tracking-[0.28em] uppercase text-cream/45 mt-2 font-light">
-                    {s.l}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
       </section>
     </>
   );

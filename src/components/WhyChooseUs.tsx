@@ -6,19 +6,16 @@ import { motion } from "framer-motion";
 /* ── Three headline pillars ── */
 const pillars = [
   {
-    n: "01",
     t: "A single point of contact",
     d: "One producer from first call to last candle. No vendor seams, no coordination gaps — just one voice carrying your vision from concept to execution.",
     img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
   },
   {
-    n: "02",
     t: "In-house craftspeople",
     d: "Chefs, florists, service — trained under one roof, to one standard.",
     img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop",
   },
   {
-    n: "03",
     t: "Fourteen years of memory",
     d: "Institutional knowledge you can only build by doing this for a long time. We've seen every scenario — and built systems for each one.",
     img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
@@ -103,9 +100,7 @@ export default function WhyChooseUs() {
                 <span className="text-accent text-[9px] tracking-[0.42em] uppercase font-bold">Our Difference</span>
               </div>
               <div className="flex items-start gap-4 md:gap-6">
-                <span className="font-serif text-[clamp(36px,5vw,66px)] italic text-accent/18 leading-none font-light select-none pt-2">
-                  05
-                </span>
+
                 <div>
                   <h2 className="font-serif font-light tracking-tight leading-[0.88] text-cream text-[clamp(48px,8vw,106px)]">
                     Why<br />
@@ -180,9 +175,7 @@ export default function WhyChooseUs() {
 
               {/* Text — right column */}
               <div className="relative lg:absolute lg:right-0 lg:top-0 lg:bottom-0 lg:w-[55%] flex flex-col justify-end lg:justify-center p-6 lg:pr-9 lg:pl-5">
-                <span className="font-serif text-[clamp(64px,7.5vw,104px)] italic text-accent/9 leading-none select-none group-hover:text-accent/16 transition-colors duration-500">
-                  01
-                </span>
+
                 <h3 className="font-sans font-black text-cream text-[clamp(18px,2vw,24px)] uppercase tracking-tight leading-tight mt-1 group-hover:text-accent transition-colors duration-400">
                   A single point<br className="hidden lg:block" /> of contact
                 </h3>
@@ -269,9 +262,7 @@ export default function WhyChooseUs() {
               </div>
 
               <div className="p-6 h-full flex flex-col justify-between min-h-[200px]">
-                <span className="font-serif text-[clamp(38px,4.5vw,58px)] italic text-accent/18 leading-none font-light group-hover:text-accent/30 transition-colors duration-400">
-                  02
-                </span>
+
                 <div>
                   <h3 className="font-sans font-black text-cream text-[14px] uppercase tracking-[0.04em] leading-tight group-hover:text-accent transition-colors duration-300">
                     In-house<br />craftspeople
@@ -317,9 +308,7 @@ export default function WhyChooseUs() {
               <div className="absolute -bottom-4 -right-4 w-16 h-32 rounded-full bg-accent/6 rotate-[-14deg]" />
 
               <div className="p-6 h-full flex flex-col justify-between min-h-[200px]">
-                <span className="font-serif text-[clamp(38px,4.5vw,58px)] italic text-accent/18 leading-none font-light group-hover:text-accent/32 transition-colors duration-400">
-                  03
-                </span>
+
                 <div>
                   <h3 className="font-sans font-black text-cream text-[14px] uppercase tracking-[0.04em] leading-tight group-hover:text-accent transition-colors duration-300 mb-2">
                     Fourteen years<br />of memory
@@ -376,10 +365,7 @@ export default function WhyChooseUs() {
                     />
                     <div className="absolute inset-0 bg-linear-to-b from-transparent via-primary/20 to-primary/82" />
 
-                    {/* Gold number badge */}
-                    <div className="absolute top-3 left-3 w-7 h-7 rounded-full bg-accent/90 text-primary flex items-center justify-center font-serif italic text-xs font-light shadow-md">
-                      {i + 1}
-                    </div>
+
 
                     {/* Tiny capsule accent in image */}
                     <div className="absolute top-3 right-3 w-5 h-9 rounded-full border border-white/24 rotate-[10deg]" />

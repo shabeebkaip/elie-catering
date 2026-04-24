@@ -81,9 +81,7 @@ export default function OurServices() {
 
                 {/* Content */}
                 <div className="flex-1 flex flex-col justify-center items-center text-center p-7 md:p-8">
-                  <div className={`text-[9px] tracking-[0.28em] uppercase font-bold mb-3 ${isGold ? "text-primary/55" : "text-cream/45"}`}>
-                    {String(i + 1).padStart(2, "0")}
-                  </div>
+
                   <h3 className={`font-serif text-[clamp(18px,2.5vw,23px)] mb-3 font-light italic tracking-tight leading-snug ${isGold ? "text-primary" : "text-cream"}`}>
                     {s.t}
                   </h3>

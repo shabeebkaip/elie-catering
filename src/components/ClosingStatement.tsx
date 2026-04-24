@@ -1,85 +1,125 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import ElieLogo from "./ElieLogo";
 
 export default function ClosingStatement() {
   return (
-    <section className="relative px-6 py-20 md:py-36 lg:py-44 bg-accent text-primary overflow-hidden">
+    <section className="relative bg-primary text-cream overflow-hidden">
+      
+      {/* ── Background cinematic image layer ── */}
+      <div className="absolute inset-0">
+        <Image
+          src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop"
+          alt="Luxury event atmosphere"
+          fill
+          className="object-cover opacity-25 grayscale-[20%]"
+          sizes="100vw"
+        />
+        {/* Deep vignette gradients */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/85 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-primary/40" />
+      </div>
 
-      {/* Capsule cluster — top right */}
+      {/* ── Decorative capsule cluster ── */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <motion.div
-          initial={{ opacity: 0, x: 80, y: -80 }}
-          whileInView={{ opacity: 0.92, x: 0, y: 0 }}
+          initial={{ opacity: 0, x: 120 }}
+          whileInView={{ opacity: 0.12, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="absolute top-[-80px] right-[-50px] w-[160px] md:w-[200px] h-[320px] md:h-[400px] rounded-full bg-cream rotate-[-26deg]"
+          transition={{ duration: 1.5 }}
+          className="absolute top-[-10%] right-[-5%] w-48 h-[600px] bg-accent rounded-full rotate-[-32deg]"
         />
-        <motion.div
-          initial={{ opacity: 0, x: 100, y: -40 }}
-          whileInView={{ opacity: 0.55, x: 0, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.4, delay: 0.18, ease: "easeOut" }}
-          className="absolute top-[60px] right-[90px] md:right-[130px] w-[90px] md:w-[120px] h-[190px] md:h-[250px] rounded-full bg-primary rotate-[-26deg]"
-        />
-        {/* Outline capsule — bottom left */}
-        <div className="absolute bottom-[-40px] left-[8%] w-[90px] h-[220px] border border-primary/18 rounded-full rotate-[18deg] hidden md:block" />
-        <div className="absolute bottom-[10%] left-[18%] w-[50px] h-[120px] border border-primary/10 rounded-full rotate-[18deg] hidden lg:block" />
+        <div className="absolute bottom-[15%] left-[-2%] w-24 h-80 rounded-full border border-white/8 rotate-[22deg]" />
       </div>
 
-      {/* Giant watermark logo */}
-      <div className="absolute bottom-[-12%] right-[-2%] opacity-35 pointer-events-none select-none rotate-[-10deg] z-0 hidden lg:block">
-        <ElieLogo size={760} color="#fff" onlyName={true} />
-      </div>
+      <div className="container-custom px-6 md:px-14 lg:px-20 relative z-10 py-24 md:py-36 lg:py-48">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-16 lg:gap-24 items-center">
+          
+          {/* LEFT: Editorial Content */}
+          <motion.div
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.85 }}
+          >
+            {/* Eyebrow */}
+            <div className="flex items-center gap-4 mb-10 md:mb-14">
+              <div className="w-10 h-px bg-accent/60" />
+              <span className="text-accent/80 text-[10px] tracking-[0.45em] uppercase font-bold">
+                Begin the journey
+              </span>
+            </div>
 
-      <div className="container-custom relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.75 }}
-          className="max-w-4xl"
-        >
-          {/* Eyebrow */}
-          <div className="flex items-center gap-3 mb-10 md:mb-12">
-            <div className="w-8 h-px bg-primary/40" />
-            <span className="text-primary/70 text-[9px] tracking-[0.4em] uppercase font-bold">Begin the journey</span>
-          </div>
-
-          {/* Quote / intro paragraph */}
-          <div className="relative pl-6 md:pl-8 border-l-4 border-primary/30 mb-12 md:mb-16 max-w-2xl">
-            <p className="text-[clamp(15px,1.7vw,18px)] leading-relaxed text-white font-light">
-              <strong className="font-semibold text-primary">At Elie Catering and Event Planning,</strong> we believe in creating
-              extraordinary experiences through luxury, creativity and impeccable
-              service. Whether it is a wedding, corporate event, or private
-              gathering, we are committed to making your event a masterpiece of
-              sophistication and elegance.
+            {/* Intro text */}
+            <p className="font-serif italic text-[clamp(18px,2.2vw,26px)] text-cream/70 leading-relaxed mb-10 md:mb-14 max-w-xl font-light">
+              "We believe in creating extraordinary experiences where luxury meets impeccable craft."
             </p>
-          </div>
 
-          {/* Main headline */}
-          <h2 className="font-serif font-light text-[clamp(60px,11vw,130px)] text-white uppercase leading-[0.87] tracking-tight mb-12 md:mb-16">
-            Book your<br />
-            <span className="text-primary">event.</span>
-          </h2>
+            {/* Headline */}
+            <h2 className="font-serif font-light text-[clamp(64px,10vw,140px)] text-cream uppercase leading-[0.82] tracking-tighter mb-12 md:mb-16">
+              Book your<br />
+              <em className="text-accent italic not-italic">Event.</em>
+            </h2>
 
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-            <Link
-              href="#contact"
-              className="inline-flex items-center justify-center gap-3 px-10 md:px-14 py-5 md:py-6 rounded-full text-[10px] md:text-[11px] tracking-[0.28em] uppercase font-bold bg-primary text-cream no-underline transition-all hover:bg-white hover:text-primary hover:scale-105 active:scale-95 shadow-[0_16px_48px_rgba(28,20,40,0.3)]"
+            {/* CTA Group */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8">
+              <Link
+                href="#contact"
+                className="group relative inline-flex items-center justify-center gap-3 px-12 py-5 rounded-full text-[11px] tracking-[0.32em] uppercase font-bold bg-accent text-primary no-underline transition-all duration-500 hover:bg-cream hover:scale-105 active:scale-95 shadow-[0_20px_50px_rgba(187,138,60,0.35)]"
+              >
+                Start a conversation
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
+              </Link>
+              
+              <div className="flex flex-col">
+                <span className="text-accent/40 text-[9px] tracking-[0.2em] uppercase font-bold mb-1">Direct Line</span>
+                <span className="text-cream text-[15px] tracking-[0.05em] font-light">
+                  +966 54 435 6564
+                </span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* RIGHT: Iconic Arch Capsule Image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.92, y: 40 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.0, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
+            className="relative hidden lg:block"
+          >
+            <div 
+              className="relative w-full aspect-[3/4] overflow-hidden border-[12px] border-white/5 shadow-2xl"
+              style={{ borderRadius: "9999px 9999px 64px 64px" }}
             >
-              Begin a conversation
-              <span className="text-[9px]">→</span>
-            </Link>
-            <span className="text-primary/55 text-[11px] tracking-[0.2em] uppercase font-light">
-              +966 54 435 6564
-            </span>
-          </div>
-        </motion.div>
+              <Image
+                src="https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=2070&auto=format&fit=crop"
+                alt="Table detail"
+                fill
+                className="object-cover hover:scale-110 transition-transform duration-[2s] ease-out"
+                sizes="400px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
+            </div>
+
+            {/* Floating accent badge */}
+            <motion.div
+              animate={{ y: [0, -15, 0] }}
+              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
+              className="absolute -bottom-6 -left-10 w-24 h-24 rounded-full bg-accent text-primary flex items-center justify-center p-4 shadow-xl border-4 border-primary z-20"
+            >
+              <ElieLogo size={52} color="#1c1428" onlyLogo={true} />
+            </motion.div>
+          </motion.div>
+
+        </div>
       </div>
+
+
+
     </section>
   );
 }

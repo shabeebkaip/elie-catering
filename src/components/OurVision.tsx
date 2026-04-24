@@ -126,9 +126,7 @@ export default function OurVision() {
 
                 <motion.div {...fadeUp(0.06)}>
                   <div className="flex items-center gap-3 mb-5">
-                    <span className="font-serif text-[clamp(34px,4vw,52px)] italic text-accent/22 leading-none font-light select-none">
-                      02
-                    </span>
+
                     <div className="w-5 h-px bg-accent/40 mx-1" />
                     <span className="text-[9px] tracking-[0.42em] uppercase text-cream/38 font-bold">
                       Our Vision
@@ -202,9 +200,7 @@ export default function OurVision() {
 
                 <motion.div {...fadeUp(0.06)}>
                   <div className="flex items-center gap-3 mb-5">
-                    <span className="font-serif text-[clamp(34px,4vw,52px)] italic text-accent/22 leading-none font-light select-none">
-                      03
-                    </span>
+
                     <div className="w-5 h-px bg-accent/40 mx-1" />
                     <span className="text-[9px] tracking-[0.42em] uppercase text-cream/38 font-bold">
                       Our Mission
