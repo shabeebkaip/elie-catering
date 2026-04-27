@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { services } from "@/lib/services";
 
 /* ── Planning Mega Menu Data ── */
 const PLANNING_ITEMS = [
@@ -95,78 +96,21 @@ const DECORATING_ITEMS = [
 ];
 
 /* ── Mega Menu Data ── */
-const MEGA_CATEGORIES = [
-  {
-    title: "Catering",
-    eyebrow: "Food & Beverage",
-    img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
-    color: "from-amber-900/80",
-    items: [
-      "Full-Service Catering",
-      "Buffet & Live Stations",
-      "Luxury Menu Creation",
-      "Fine Dining Setup",
-      "Arabic Coffee & Dates",
-      "Seafood & Sushi Bar",
-      "Live Cooking Stations",
-    ],
-    tag: "Our signature",
-  },
-  {
-    title: "Event Planning",
-    eyebrow: "Full Coordination",
-    img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
-    color: "from-violet-900/80",
-    items: [
-      "Wedding Planning",
-      "Corporate Events",
-      "Private Dinners",
-      "Royal Ceremonies",
-      "Gala & Cocktail Events",
-      "Destination Events",
-      "Event Management",
-    ],
-    tag: "Most booked",
-  },
-  {
-    title: "Décor & Design",
-    eyebrow: "Ambiance & Aesthetics",
-    img: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2070&auto=format&fit=crop",
-    color: "from-rose-900/70",
-    items: [
-      "Floral Arrangements",
-      "Display & Dessert Tables",
-      "Luxury Cakes",
-      "Lighting Design",
-      "Venue Dressing & Styling",
-      "Exclusive Accessories",
-      "Stage & Backdrop Design",
-    ],
-    tag: "Bespoke",
-  },
-  {
-    title: "Premium Add-ons",
-    eyebrow: "Elevate Your Event",
-    img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop",
-    color: "from-slate-900/80",
-    items: [
-      "Professional Photography",
-      "Entertainment & Live Music",
-      "Valet Parking (Valia)",
-      "Stage & AV Solutions",
-      "Branded Luxury Details",
-      "Silverware & Tableware",
-      "Hall Coordination",
-    ],
-    tag: "Exclusive",
-  },
-];
+const MEGA_CATS = [
+  { id: "catering", title: "Catering",         titleAr: "التموين",              eyebrow: "Food & Beverage",      eyebrowAr: "الأغذية والمشروبات",  color: "from-amber-900/80",  tag: "Our Signature", tagAr: "علامتنا المميزة" },
+  { id: "planning", title: "Event Planning",   titleAr: "تنظيم الفعاليات",      eyebrow: "Full Coordination",    eyebrowAr: "التنسيق الكامل",       color: "from-violet-900/80", tag: "Most Booked",   tagAr: "الأكثر حجزاً"   },
+  { id: "decor",    title: "Décor & Design",   titleAr: "الديكور والتصميم",     eyebrow: "Ambiance & Aesthetics",eyebrowAr: "الأجواء والجماليات",   color: "from-rose-900/70",   tag: "Bespoke",       tagAr: "مخصص"            },
+  { id: "addons",   title: "Premium Add-ons",  titleAr: "الإضافات المميزة",     eyebrow: "Elevate Your Event",   eyebrowAr: "ارفع مستوى فعاليتك",  color: "from-slate-900/80",  tag: "Exclusive",     tagAr: "حصري"            },
+] as const;
 
 const MEGA_FEATURED = {
   img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=2070&auto=format&fit=crop",
   tag: "Signature Experience",
+  tagAr: "تجربة مميزة",
   title: "Crafted for the extraordinary.",
+  titleAr: "مصمم للاستثنائيين.",
   cta: "Book a Consultation",
+  ctaAr: "احجز استشارة",
 };
 
 export default function Header() {
@@ -345,80 +289,91 @@ export default function Header() {
                 <div className="absolute bottom-0 left-[6%] w-[40px] h-[140px] border border-accent/8 rounded-full rotate-[22deg]" />
               </div>
 
-              <div className="relative z-10 p-6 grid grid-cols-[1fr_280px] gap-5">
+              <div className="relative z-10 p-6 grid grid-cols-[1fr_260px] gap-5">
 
-                {/* LEFT: 4 image cards */}
+                {/* LEFT: 4 category columns */}
                 <div className="grid grid-cols-4 gap-4">
-                  {MEGA_CATEGORIES.map((cat, ci) => (
-                    <motion.div
-                      key={cat.title}
-                      initial={{ opacity: 0, y: 14 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.04 + ci * 0.06, ease: [0.19, 1, 0.22, 1] }}
-                    >
-                      <Link
-                        href={`/${locale}/services`}
-                        onClick={() => setMegaOpen(false)}
-                        className="group/card block no-underline rounded-2xl overflow-hidden border border-white/8 hover:border-accent/35 transition-all duration-400 hover:shadow-[0_16px_48px_rgba(0,0,0,0.5)]"
+                  {MEGA_CATS.map((cat, ci) => {
+                    const catServices = services.filter((s) => s.category === cat.id);
+                    const heroImg = catServices[0]?.img ?? "";
+                    return (
+                      <motion.div
+                        key={cat.id}
+                        initial={{ opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.04 + ci * 0.06, ease: [0.19, 1, 0.22, 1] }}
+                        className="group/card rounded-2xl overflow-hidden border border-white/8 hover:border-accent/35 transition-all duration-400 hover:shadow-[0_16px_48px_rgba(0,0,0,0.5)] flex flex-col"
                         style={{ background: "rgba(255,255,255,0.03)" }}
                       >
-                        {/* Card image */}
-                        <div className="relative h-[200px] overflow-hidden">
+                        {/* Category image header — links to category filter */}
+                        <Link
+                          href={`/${locale}/services?category=${cat.id}`}
+                          onClick={() => setMegaOpen(false)}
+                          className="relative block h-[150px] overflow-hidden flex-shrink-0 no-underline"
+                        >
                           <Image
-                            src={cat.img}
-                            alt={cat.title}
+                            src={heroImg}
+                            alt={isRTL ? cat.titleAr : cat.title}
                             fill
                             className="object-cover transition-transform duration-700 group-hover/card:scale-110"
                             sizes="240px"
                           />
-                          {/* Dark gradient */}
                           <div className={`absolute inset-0 bg-gradient-to-t ${cat.color} via-primary/30 to-transparent`} />
                           <div className="absolute inset-0 bg-primary/25 group-hover/card:bg-primary/10 transition-colors duration-500" />
-
-                          {/* Tag pill */}
                           <div className="absolute top-3 left-3">
-                            <span className="px-3 py-1.5 rounded-full text-[11px] tracking-[0.15em] uppercase font-bold bg-accent/20 border border-accent/30 text-accent backdrop-blur-sm">
-                              {cat.tag}
+                            <span className="px-2.5 py-1 rounded-full text-[10px] tracking-[0.15em] uppercase font-bold bg-accent/20 border border-accent/30 text-accent backdrop-blur-sm">
+                              {isRTL ? cat.tagAr : cat.tag}
                             </span>
                           </div>
+                          <div className="absolute top-3 right-3 w-4 h-8 rounded-full border border-white/15 rotate-[-12deg] group-hover/card:border-accent/30 transition-colors duration-400" />
+                        </Link>
 
-                          {/* Capsule shape overlay accent */}
-                          <div className="absolute top-3 right-3 w-5 h-10 rounded-full border border-white/15 rotate-[-12deg] group-hover/card:border-accent/30 transition-colors duration-400" />
-
-                          {/* Hover arrow */}
-                          <div className="absolute bottom-3 right-3 w-7 h-7 rounded-full bg-accent/0 group-hover/card:bg-accent flex items-center justify-center transition-all duration-300 opacity-0 group-hover/card:opacity-100 translate-y-2 group-hover/card:translate-y-0">
-                            <span className="text-primary text-[10px] font-bold">→</span>
-                          </div>
-                        </div>
-
-                        {/* Card body */}
-                        <div className="p-5">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-accent/60 font-bold mb-1.5">
-                            {cat.eyebrow}
+                        {/* Category title */}
+                        <Link
+                          href={`/${locale}/services?category=${cat.id}`}
+                          onClick={() => setMegaOpen(false)}
+                          className="block no-underline px-4 pt-3 pb-2"
+                        >
+                          <p className="text-[9px] tracking-[0.3em] uppercase text-accent/60 font-bold mb-1">
+                            {isRTL ? cat.eyebrowAr : cat.eyebrow}
                           </p>
-                          <h3 className="font-serif text-cream text-[20px] font-light italic leading-tight mb-4 group-hover/card:text-accent transition-colors duration-300">
-                            {cat.title}
+                          <h3 className="font-serif text-cream text-[17px] font-light italic leading-tight group-hover/card:text-accent transition-colors duration-300">
+                            {isRTL ? cat.titleAr : cat.title}
                           </h3>
+                        </Link>
 
-                          <ul className="space-y-1.5">
-                            {cat.items.map((item) => (
-                              <li key={item} className="flex items-center gap-2">
-                                <span className="w-1 h-1 rounded-full bg-accent/40 flex-shrink-0 group-hover/card:bg-accent transition-colors duration-300" />
-                                <span className="text-[13px] text-cream/60 group-hover/card:text-cream/80 transition-colors duration-300 leading-snug">
-                                  {item}
+                        {/* Individual service links */}
+                        <ul className="flex-1 px-4 pb-4 space-y-1 mt-1">
+                          {catServices.map((s) => (
+                            <li key={s.slug}>
+                              <Link
+                                href={`/${locale}/services/${s.slug}`}
+                                onClick={() => setMegaOpen(false)}
+                                className="group/item flex items-center gap-2 no-underline py-0.5"
+                              >
+                                <span className="w-1 h-1 rounded-full bg-accent/35 flex-shrink-0 group-hover/item:bg-accent transition-colors duration-200" />
+                                <span className="text-[12px] text-cream/55 group-hover/item:text-accent transition-colors duration-200 leading-snug">
+                                  {isRTL ? s.titleAr : s.title}
                                 </span>
-                              </li>
-                            ))}
-                          </ul>
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
 
-                          <div className="mt-4 flex items-center gap-1.5 text-[11px] tracking-[0.15em] uppercase text-accent/50 group-hover/card:text-accent transition-colors duration-300 font-semibold">
-                            <span>Explore all</span>
-                            <span className="translate-x-0 group-hover/card:translate-x-1 transition-transform duration-300">→</span>
-                          </div>
-                        </div>
-                      </Link>
-                    </motion.div>
-                  ))}
+                        {/* View all category link */}
+                        <Link
+                          href={`/${locale}/services?category=${cat.id}`}
+                          onClick={() => setMegaOpen(false)}
+                          className="block no-underline px-4 pb-4 pt-1 border-t border-white/6 mt-1"
+                        >
+                          <span className="flex items-center gap-1.5 text-[10px] tracking-[0.15em] uppercase text-accent/45 hover:text-accent transition-colors duration-200 font-semibold">
+                            {isRTL ? "استعرض الكل" : "View all"}
+                            <span>{isRTL ? "←" : "→"}</span>
+                          </span>
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
                 </div>
 
                 {/* RIGHT: Featured panel */}
@@ -427,7 +382,7 @@ export default function Header() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
                   className="relative rounded-2xl overflow-hidden border border-accent/20 flex flex-col"
-                  style={{ minHeight: 380 }}
+                  style={{ minHeight: 360 }}
                 >
                   <Image
                     src={MEGA_FEATURED.img}
@@ -445,23 +400,26 @@ export default function Header() {
                   {/* Content */}
                   <div className="relative z-10 mt-auto p-7">
                     <span className="text-[11px] tracking-[0.3em] uppercase text-accent font-bold">
-                      {MEGA_FEATURED.tag}
+                      {isRTL ? MEGA_FEATURED.tagAr : MEGA_FEATURED.tag}
                     </span>
                     <h4 className="font-serif text-cream text-[26px] font-light italic leading-tight mt-2 mb-6">
-                      {MEGA_FEATURED.title}
+                      {isRTL ? MEGA_FEATURED.titleAr : MEGA_FEATURED.title}
                     </h4>
 
                     <Link
-                      href="#booking"
+                      href={`/${locale}/contact`}
                       onClick={() => setMegaOpen(false)}
                       className="inline-flex items-center gap-2 w-full justify-center px-5 py-3.5 rounded-full text-[12px] tracking-[0.18em] uppercase font-bold bg-accent text-primary no-underline transition-all duration-300 hover:bg-cream active:scale-95 shadow-[0_8px_28px_rgba(187,138,60,0.45)]"
                     >
-                      {MEGA_FEATURED.cta} <span>→</span>
+                      {isRTL ? MEGA_FEATURED.ctaAr : MEGA_FEATURED.cta} <span>{isRTL ? "←" : "→"}</span>
                     </Link>
 
                     {/* Stats */}
                     <div className="mt-5 pt-4 border-t border-white/10 grid grid-cols-2 gap-2">
-                      {[["14+", "Years"], ["500+", "Events"]].map(([num, lbl]) => (
+                      {(isRTL
+                        ? [["14+", "سنة"], ["500+", "فعالية"]]
+                        : [["14+", "Years"], ["500+", "Events"]]
+                      ).map(([num, lbl]) => (
                         <div key={lbl}>
                           <p className="font-serif text-accent text-[28px] font-light leading-none">{num}</p>
                           <p className="text-[11px] tracking-[0.2em] uppercase text-cream/40 mt-1">{lbl}</p>
@@ -475,14 +433,14 @@ export default function Header() {
               {/* Bottom strip */}
               <div className="border-t border-white/6 px-6 py-4 flex items-center justify-between">
                 <p className="text-[11px] text-cream/25 tracking-[0.15em] uppercase">
-                  Elie Catering &amp; Event Planning — Riyadh, Saudi Arabia
+                  {isRTL ? "إيلي للتموين وتنظيم الفعاليات — الرياض، المملكة العربية السعودية" : "Elie Catering & Event Planning — Riyadh, Saudi Arabia"}
                 </p>
                 <Link
                   href={`/${locale}/services`}
                   onClick={() => setMegaOpen(false)}
                   className="text-[12px] tracking-[0.15em] uppercase text-accent/60 hover:text-accent transition-colors no-underline font-semibold"
                 >
-                  View all services →
+                  {isRTL ? "← جميع الخدمات" : "View all services →"}
                 </Link>
               </div>
             </div>
@@ -583,7 +541,7 @@ export default function Header() {
               {/* Bottom strip */}
               <div className="border-t border-white/6 px-6 py-4 flex items-center justify-between">
                 <p className="text-[11px] text-cream/25 tracking-[0.15em] uppercase">
-                  Elie Catering &amp; Event Planning — Riyadh, Saudi Arabia
+                  {isRTL ? "إيلي للتموين وتنظيم الفعاليات — الرياض، المملكة العربية السعودية" : "Elie Catering & Event Planning — Riyadh, Saudi Arabia"}
                 </p>
                 <Link
                   href={`/${locale}/decorating`}
@@ -693,7 +651,7 @@ export default function Header() {
               {/* Bottom strip */}
               <div className="border-t border-white/6 px-6 py-4 flex items-center justify-between">
                 <p className="text-[11px] text-cream/25 tracking-[0.15em] uppercase">
-                  Elie Catering &amp; Event Planning — Riyadh, Saudi Arabia
+                  {isRTL ? "إيلي للتموين وتنظيم الفعاليات — الرياض، المملكة العربية السعودية" : "Elie Catering & Event Planning — Riyadh, Saudi Arabia"}
                 </p>
                 <Link
                   href={`/${locale}/planning`}
