@@ -6,7 +6,11 @@ import OurMission from "@/components/OurMission";
 import CoreValues from "@/components/CoreValues";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import OurServices from "@/components/OurServices";
+import CateringOptions from "@/components/CateringOptions";
+import EliteServices from "@/components/EliteServices";
+import ClientsReach from "@/components/ClientsReach";
 import ClosingStatement from "@/components/ClosingStatement";
+import BookingForm from "@/components/BookingForm";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -20,7 +24,11 @@ export default function Home() {
       <CoreValues />
       <WhyChooseUs />
       <OurServices />
+      <CateringOptions />
+      <EliteServices />
+      <ClientsReach />
       <ClosingStatement />
+      <BookingForm />
       <Footer />
     </main>
   );

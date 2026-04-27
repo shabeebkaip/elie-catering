@@ -15,6 +15,30 @@
   --font-serif: var(--font-fraunces), ui-serif, Georgia, serif;
 }
 
+/* All italic text uses Instrument Serif — reference next/font variable directly at runtime */
+em,
+i,
+.italic {
+  font-family: var(--font-instrument-serif), 'Instrument Serif', ui-serif, Georgia, serif;
+  font-style: italic;
+}
+
+/* Arabic font utility */
+.font-arabic {
+  font-family: var(--font-almarai), 'Almarai', system-ui, sans-serif;
+}
+
+[dir="rtl"] {
+  font-family: var(--font-almarai), 'Almarai', system-ui, sans-serif;
+}
+
+[dir="rtl"] em,
+[dir="rtl"] i,
+[dir="rtl"] .italic {
+  font-family: var(--font-almarai), 'Almarai', system-ui, sans-serif;
+  font-style: normal;
+}
+
 :root {
   --background: #FAF6EF;
   --foreground: #2c1e39;

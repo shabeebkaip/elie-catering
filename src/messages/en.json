@@ -1,0 +1,222 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "services": "Services",
+    "decorating": "Decorating",
+    "planning": "Planning",
+    "eventStyles": "Event Styles",
+    "contact": "Contact Us",
+    "bookCta": "Book an Event",
+    "reserveNow": "Book an Event",
+    "tagline": "Elie Catering & Event Planning"
+  },
+  "hero": {
+    "eyebrow": "Catering & Event Planning",
+    "headline1": "Luxury,",
+    "headline2": "plated.",
+    "sub": "Events, composed.",
+    "body": "A full-service catering and event house — from intimate weddings to grand corporate evenings — across Saudi Arabia and beyond.",
+    "cta1": "Book an event",
+    "cta2": "Our services",
+    "scroll": "Scroll",
+    "band": "Weddings  ·  Corporate  ·  Private Dinners  ·  Galas  ·  Buffets",
+    "slides": {
+      "weddings": "Weddings",
+      "corporate": "Corporate Events",
+      "galas": "Private Galas"
+    },
+    "thumbs": {
+      "dining": "Dining",
+      "events": "Events",
+      "florals": "Florals"
+    }
+  },
+  "intro": {
+    "eyebrow": "Who we are",
+    "label": "Introduction",
+    "headline": "Complete event packages,",
+    "headlineEm": "start to finish.",
+    "body1": "At Elie Catering and Event Planning, we specialize in delivering complete event packages from A to Z. From creative concepts to flawless execution, we handle every detail — exclusive accessories, gourmet food, elegant flowers, fine chocolates and exquisite decorations.",
+    "body2": "Our high-standard packages ensure that your event is not only memorable but also one-of-a-kind — blending luxury, creativity and precision at every turn.",
+    "cta": "Explore our services",
+    "cardLabel": "Full service",
+    "cardSub": "From concept to last candle",
+    "marquee": ["Weddings", "Private Dinners", "Corporate Events", "Buffets", "Galas", "Cocktail Receptions", "Destination Events"],
+    "tags": ["Full-service planning", "Gourmet catering", "Floral design", "Event décor", "Fine chocolates", "Exclusive accessories"]
+  },
+  "vision": {
+    "eyebrow": "Our Vision",
+    "headline1": "Our",
+    "headline2": "Vision.",
+    "p1": "To be the premier provider of luxury catering and event planning services globally, setting the standard for elegance, creativity, and flawless execution.",
+    "p2": "We redefine excellence at every occasion — from intimate private gatherings to grand royal ceremonies — across the Kingdom of Saudi Arabia and beyond.",
+    "missionEyebrow": "Our Mission",
+    "missionH1": "Our",
+    "missionH2": "Mission.",
+    "missionBrand": "At Elie Catering and Event Planning,",
+    "missionP1": " we craft extraordinary events that exceed our clients' expectations — delivering innovative culinary masterpieces, exquisite décor, and seamless event management.",
+    "missionP2": "We are dedicated to creating memorable experiences that celebrate life's most significant moments with sophistication and unparalleled service.",
+    "missionCta": "Explore our services"
+  },
+  "values": {
+    "eyebrow": "Our Foundation",
+    "headline1": "The pillars of",
+    "headline2": "Excellence.",
+    "sub": "Five core principles that guide our craft, ensuring every event we produce is a masterpiece of luxury and precision.",
+    "items": [
+      { "t": "Exceptional Excellence", "d": "We strive for perfection in every detail, from planning to execution." },
+      { "t": "Innovation", "d": "Creativity and fresh ideas are at the heart of everything we do." },
+      { "t": "Luxury", "d": "We specialize in curating high-end experiences that exude sophistication and elegance." },
+      { "t": "Integrity", "d": "Trust and transparency are the foundation of our client relationships." },
+      { "t": "Client-Centered Service", "d": "Every event is uniquely tailored to reflect our clients' visions and preferences." }
+    ]
+  },
+  "services": {
+    "eyebrow": "What We Offer",
+    "headline1": "Our",
+    "headline2": "Services.",
+    "items": [
+      "Event Management & Planning", "Catering", "Buffet Events", "Wedding Planning",
+      "Menu Creation", "Luxury & Elite Dishes", "Décor Preparation", "Display Tables",
+      "Luxury Cakes", "Silverware", "Corporate Events", "Exclusive Setup"
+    ]
+  },
+  "catering": {
+    "eyebrow": "Exquisite Catering Options",
+    "headline": "A World of Flavour",
+    "items": [
+      { "t": "Finger Food", "d": "Delicate and sophisticated bite-sized treats for elegant receptions" },
+      { "t": "Coffee Break", "d": "Premium coffee and refreshments for seamless event interludes" },
+      { "t": "Live Cooking Stations", "d": "Interactive culinary experiences where our chefs cook fresh before your guests" },
+      { "t": "BBQ Section", "d": "High-end grilled specialties crafted with the finest meats and ingredients" },
+      { "t": "Eastern & Italian Cuisine", "d": "Authentic Eastern flavors and exquisite Italian dishes by master chefs" },
+      { "t": "Seafood & Sushi", "d": "Fresh, premium seafood and artfully prepared vibrant sushi rolls" },
+      { "t": "Specialty & Arabic Coffee", "d": "Authentic Arabian hospitality and specialty coffee served with elegance" }
+    ]
+  },
+  "elite": {
+    "eyebrow": "Premium Add-ons",
+    "headline1": "Beyond",
+    "headline2": "the Table.",
+    "sub": "Elevate your event with our curated premium services.",
+    "items": [
+      { "t": "Professional Photography", "d": "Cinematic coverage of your event's finest moments." },
+      { "t": "Entertainment & Live Music", "d": "Curated performers tailored to your event's atmosphere." },
+      { "t": "Hall & Decor Coordination", "d": "Transforming venues into immersive luxury environments." },
+      { "t": "Valet Parking (Valia)", "d": "Seamless, professional valet service for your guests." },
+      { "t": "Stage & AV Solutions", "d": "Professional staging and audio-visual production." }
+    ]
+  },
+  "closing": {
+    "eyebrow": "Begin the journey",
+    "quote": "\"We believe in creating extraordinary experiences where luxury meets impeccable craft.\"",
+    "headline1": "Book your",
+    "headline2": "Event.",
+    "cta": "Start a conversation",
+    "directLine": "Direct Line"
+  },
+  "booking": {
+    "eyebrow": "Reserve Your Date",
+    "headline1": "Begin the",
+    "headline2": "Conversation.",
+    "sub": "Tell us about your vision — we will reach out within 24 hours to craft something extraordinary together.",
+    "name": "Full Name",
+    "namePh": "Your full name",
+    "email": "Email Address",
+    "emailPh": "you@example.com",
+    "phone": "Phone Number",
+    "phonePh": "+966 xx xxx xxxx",
+    "date": "Event Date",
+    "eventType": "Event Type",
+    "guests": "Number of Guests",
+    "guestsPh": "e.g. 120",
+    "venue": "Venue / Location",
+    "venuePh": "Venue name or city",
+    "budget": "Budget Range",
+    "serviceType": "Service Type",
+    "dietary": "Dietary Requirements",
+    "message": "Additional Notes",
+    "messagePh": "Tell us about your vision, theme, special requests, or anything else we should know…",
+    "submit": "Send Enquiry",
+    "disclaimer": "We respond within 24 hours. All enquiries are handled with complete discretion.",
+    "successTitle": "Request Received.",
+    "successBody": "Our team will be in touch within 24 hours to begin planning your event.",
+    "successCta": "Submit another enquiry →",
+    "eventTypes": ["Wedding", "Corporate", "Birthday", "Gala", "Private Dinner", "Other"],
+    "budgetRanges": ["Under $5,000", "$5,000 – $15,000", "$15,000 – $30,000", "$30,000+"],
+    "serviceTypes": ["Full Catering", "Canapés & Cocktails", "Desserts Only", "Bar Service", "Full Event Planning"],
+    "dietaryOptions": ["Vegetarian", "Vegan", "Halal", "Gluten-Free", "Nut-Free", "Dairy-Free"]
+  },
+  "footer": {
+    "tagline": "Catering & Event Planning",
+    "atelier": "Atelier",
+    "atelierAddr": "Riyadh, Saudi Arabia",
+    "atelierHours": "Sun–Thu · 10—18",
+    "contact": "Contact",
+    "services": "Services",
+    "journal": "Journal",
+    "journalLine1": "A dispatch from the kitchen,",
+    "journalLine2": "four times a year.",
+    "journalCta": "→ Subscribe",
+    "copyright": "© 2026 Elie Catering & Event Planning",
+    "terms": "Terms",
+    "privacy": "Privacy",
+    "instagram": "Instagram",
+    "rights": "All rights reserved",
+    "serviceLinks": ["Weddings", "Corporate", "Private dinners", "Galas"]
+  },
+  "langSwitch": {
+    "en": "EN",
+    "ar": "AR"
+  },
+  "about": {
+    "heroEyebrow": "Our Story",
+    "heroH1": "Crafting",
+    "heroH2": "Extraordinary.",
+    "heroSub": "A luxury event house born in Riyadh, dedicated to moments that endure.",
+    "heroBand": "Riyadh · Saudi Arabia · Est. 2010",
+    "storyEyebrow": "The Beginning",
+    "storyH1": "Born from a passion",
+    "storyH2": "for Perfection.",
+    "storyP1": "Elie Catering & Event Planning was founded with a singular vision: to bring world-class luxury hospitality to the Kingdom of Saudi Arabia. What began as a dream has grown into the region's most trusted name in bespoke event experiences.",
+    "storyP2": "Every event we create is a reflection of our unwavering commitment to excellence — from the first consultation to the final flourish. We blend culinary artistry, meticulous planning, and inspired décor into moments that endure long after the last guest departs.",
+    "storyTag": "Est. 2010 · Riyadh, KSA",
+    "statsLabel": "By the numbers",
+    "stats": [
+      { "num": "14+", "label": "Years of Excellence" },
+      { "num": "500+", "label": "Events Delivered" },
+      { "num": "12+", "label": "Cities Reached" },
+      { "num": "98%", "label": "Client Satisfaction" }
+    ],
+    "pillarsEyebrow": "Why Elie",
+    "pillarsH1": "More than",
+    "pillarsH2": "a caterer.",
+    "pillarsSub": "We are architects of atmosphere — every element conceived, coordinated, and crafted under one roof.",
+    "pillars": [
+      { "t": "In-House Expertise", "d": "Our culinary team, decorators, and planners operate under one roof — ensuring seamless coordination from concept to close." },
+      { "t": "Bespoke by Design", "d": "No two events are alike. Every menu, every arrangement, every detail is tailored to your unique vision and preferences." },
+      { "t": "Luxury at Scale", "d": "Whether ten guests or a thousand, our standards never waver. Every event receives the same white-glove dedication." }
+    ],
+    "founderEyebrow": "Our Leadership",
+    "founderName": "Elie Nassar",
+    "founderTitle": "Founder & Creative Director",
+    "founderQuote": "\"Luxury is not about expense. It is about the invisible effort behind every flawless moment.\"",
+    "founderBio": "With over 14 years shaping the event landscape of Saudi Arabia, Elie has cultivated a philosophy rooted in precision and beauty. His approach — part culinary director, part creative visionary — sets the tone for every experience the brand delivers.",
+    "journeyEyebrow": "Our Journey",
+    "journeyH1": "A decade of",
+    "journeyH2": "Milestones.",
+    "milestones": [
+      { "year": "2010", "t": "Founded in Riyadh", "d": "Elie Catering launches with a focus on intimate luxury events and bespoke dining experiences." },
+      { "year": "2013", "t": "Corporate Expansion", "d": "First major corporate contracts, bringing our luxury standard to KSA's top enterprises." },
+      { "year": "2016", "t": "Full Event Planning", "d": "Expanded services to include complete event planning, décor, and floral design in-house." },
+      { "year": "2019", "t": "Regional Reach", "d": "Events delivered across 12 cities in Saudi Arabia and the wider Gulf region." },
+      { "year": "2024", "t": "500+ Events", "d": "Celebrated a landmark of over 500 events executed with flawless precision and luxury." }
+    ],
+    "ctaEyebrow": "Begin the journey",
+    "ctaH1": "Let's create",
+    "ctaH2": "something extraordinary.",
+    "ctaBody": "Tell us your vision — we will handle every last detail.",
+    "ctaBtn": "Book a Consultation"
+  }
+}

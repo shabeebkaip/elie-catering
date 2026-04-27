@@ -76,21 +76,11 @@ export default function WhyChooseUs() {
 
         {/* ── Ambient background capsule shapes ── */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {/* Top-right Hanging Gold Capsules (User requested) */}
-          <motion.div
-            initial={{ opacity: 0, y: -100 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.4, delay: 0.2 }}
-            className="absolute z-20 top-[-200px] right-[15%] w-[120px] h-[620px] rounded-full bg-accent/15 rotate-[0deg] border border-accent/20"
-          />
-          <motion.div
-            initial={{ opacity: 0, y: -120 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.6, delay: 0.4 }}
-            className="absolute top-[-150px] right-[4%] w-[80px] h-[540px] rounded-full bg-accent/10 rotate-[0deg] border border-accent/15"
-          />
+          {/* Top-right outline capsules — desktop only, subtle */}
+          <div className="absolute top-0 right-[4%] hidden xl:flex flex-row items-start gap-0 z-20">
+            <div className="w-[60px] h-[380px] rounded-full border border-[#c38ed8]/12" />
+            <div className="w-[90px] h-[460px] rounded-full border border-[#c38ed8]/16" />
+          </div>
 
           <div className="absolute top-[8%] right-[14%] w-16 h-64 border border-accent/8 rounded-full rotate-[-28deg]" />
           <div className="absolute bottom-[22%] left-[-4%] w-24 h-96 bg-white/3 rounded-full rotate-[24deg]" />

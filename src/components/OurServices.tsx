@@ -1,101 +1,255 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
+import { useLocale } from "next-intl";
 
-const services = [
-  { t: "Event Management", d: "End-to-end coordination", img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop" },
-  { t: "Catering", d: "Seasonal, sourced, exact", img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop" },
-  { t: "Buffet Events", d: "Long tables, generous spreads", img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=2070&auto=format&fit=crop" },
-  { t: "Wedding Planning", d: "Two years for one evening", img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop" },
-  { t: "Menu Creation", d: "Composed, not copied", img: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=1887&auto=format&fit=crop" },
-  { t: "Luxury Dishes", d: "Signatures, quietly", img: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop" },
-  { t: "Decor Preparation", d: "The room as a stage", img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop" },
-  { t: "Corporate Events", d: "Discreet, punctual, elegant", img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop" },
+const CATEGORIES = [
+  {
+    badge: "Our Signature",
+    category: "Food & Beverage",
+    title: "Catering",
+    slug: "catering",
+    img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
+    items: [
+      "Full-Service Catering",
+      "Buffet & Live Stations",
+      "Luxury Menu Creation",
+      "Fine Dining Setup",
+      "Arabic Coffee & Dates",
+      "Seafood & Sushi Bar",
+      "Live Cooking Stations",
+    ],
+  },
+  {
+    badge: "Most Booked",
+    category: "Full Coordination",
+    title: "Event Planning",
+    slug: "planning",
+    img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
+    items: [
+      "Wedding Planning",
+      "Corporate Events",
+      "Private Dinners",
+      "Royal Ceremonies",
+      "Gala & Cocktail Events",
+      "Destination Events",
+      "Event Management",
+    ],
+  },
+  {
+    badge: "Explore",
+    category: "Ambiance & Aesthetics",
+    title: "Décor & Design",
+    slug: "decor",
+    img: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=2070&auto=format&fit=crop",
+    items: [
+      "Floral Arrangements",
+      "Display & Dessert Tables",
+      "Luxury Cakes",
+      "Lighting Design",
+      "Venue Dressing & Styling",
+      "Exclusive Accessories",
+      "Stage & Backdrop Design",
+    ],
+  },
+  {
+    badge: "Exclusive",
+    category: "Elevate Your Event",
+    title: "Premium Add-ons",
+    slug: "addons",
+    img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop",
+    items: [
+      "Professional Photography",
+      "Entertainment & Live Music",
+      "Valet Parking (Valia)",
+      "Stage & AV Solutions",
+      "Branded Luxury Details",
+      "Silverware & Tableware",
+      "Hall Coordination",
+    ],
+  },
 ];
 
 export default function OurServices() {
+  const locale = useLocale();
   return (
-    <section id="services" className="relative bg-primary overflow-hidden py-20 md:py-32 px-6">
-      {/* Capsule cluster background */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[-15%] right-[-6%] w-[160px] h-[700px] bg-accent/8 rounded-full rotate-[-38deg]" />
-        <div className="absolute top-[-5%] right-[10%] w-[80px] h-[360px] border border-accent/12 rounded-full rotate-[-38deg]" />
-        <div className="absolute bottom-[-12%] left-[-5%] w-[140px] h-[600px] bg-white/4 rounded-full rotate-[40deg]" />
-        <div className="absolute bottom-[5%] left-[12%] w-[70px] h-[280px] border border-white/8 rounded-full rotate-[40deg]" />
+    <section id="services" className="relative bg-primary overflow-hidden py-16 md:py-24">
+
+      {/* Section header */}
+      <div className="container-custom px-6 md:px-14 lg:px-20 mb-10 md:mb-14">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="flex flex-col md:flex-row md:items-end md:justify-between gap-4"
+        >
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-px bg-accent/60" />
+              <span className="text-accent/80 text-[9px] tracking-[0.42em] uppercase font-bold">What We Offer</span>
+            </div>
+            <h2 className="font-serif font-light text-[clamp(44px,8vw,96px)] text-cream uppercase leading-[0.88] tracking-tight">
+              Our Services
+            </h2>
+          </div>
+          <p className="text-cream/40 text-[13px] md:text-[14px] max-w-xs font-light leading-relaxed md:text-right pb-2">
+            Elie Catering & Event Planning — Riyadh, Saudi Arabia
+          </p>
+        </motion.div>
       </div>
 
-      <div className="container-custom relative z-10">
-        {/* Header */}
-        <div className="text-center mb-16 md:mb-24">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="w-8 h-px bg-accent/60" />
-            <span className="text-accent/80 text-[9px] tracking-[0.42em] uppercase font-bold">What We Offer</span>
-            <div className="w-8 h-px bg-accent/60" />
-          </div>
-          <h2 className="font-serif font-light text-[clamp(52px,10vw,110px)] text-cream uppercase leading-[0.88] tracking-tight max-w-5xl mx-auto">
-            Our Services
-          </h2>
-          <p className="text-cream/50 text-[clamp(14px,1.5vw,16px)] max-w-lg mx-auto mt-6 font-light leading-relaxed">
-            From intimate private dinners to grand galas — every occasion elevated.
-          </p>
-        </div>
-
-        {/* Services grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {services.map((s, i) => {
-            const isGold = i % 2 === 0;
-            return (
-              <motion.div
-                key={s.t}
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.55, delay: (i % 4) * 0.07 }}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-                className={`group relative rounded-t-full rounded-b-[36px] overflow-hidden cursor-pointer flex flex-col shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-shadow duration-500 hover:shadow-[0_32px_64px_rgba(0,0,0,0.4)] ${
-                  isGold
-                    ? "bg-accent text-primary"
-                    : "bg-[#2c1e39] border border-white/8 text-cream"
-                }`}
-                style={{ minHeight: "460px" }}
+      {/* Cards row — horizontal scroll on mobile, grid on desktop */}
+      <div className="px-6 md:px-14 lg:px-20">
+        <div className="flex gap-4 md:gap-5 overflow-x-auto pb-4 snap-x snap-mandatory no-scrollbar lg:grid lg:grid-cols-5 lg:overflow-visible lg:pb-0"
+          style={{ scrollbarWidth: "none" }}
+        >
+          {/* Service category cards */}
+          {CATEGORIES.map((cat, i) => (
+            <motion.div
+              key={cat.title}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.6, delay: i * 0.08 }}
+              className="group relative flex-shrink-0 w-[280px] sm:w-[300px] lg:w-auto snap-start"
+            >
+              <Link
+                href={`/${locale}/services?category=${cat.slug}`}
+                className="no-underline block h-full rounded-2xl overflow-hidden border border-white/8 hover:border-accent/30 transition-all duration-500 flex flex-col hover:shadow-[0_24px_60px_rgba(0,0,0,0.5)] hover:-translate-y-1"
+                style={{ minHeight: 540 }}
               >
-                {/* Image — full capsule arch */}
-                <div className="relative overflow-hidden rounded-t-full flex-shrink-0" style={{ height: "280px" }}>
-                  <motion.div
-                    variants={{ hover: { scale: 1.09 } }}
-                    transition={{ duration: 0.7, ease: "easeOut" }}
-                    className="absolute inset-0"
-                  >
-                    <Image
-                      src={s.img}
-                      alt={s.t}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    />
-                  </motion.div>
-                  {/* Image overlay */}
-                  <div className={`absolute inset-0 ${isGold ? "bg-primary/15" : "bg-primary/20"} group-hover:opacity-0 transition-opacity duration-500`} />
+                {/* Image */}
+                <div className="relative overflow-hidden flex-shrink-0" style={{ height: 200 }}>
+                  <Image
+                    src={cat.img}
+                    alt={cat.title}
+                    fill
+                    className="object-cover transition-transform duration-[2s] group-hover:scale-110"
+                    sizes="(max-width: 1024px) 300px, 20vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-primary/70" />
+
+                  {/* Badge */}
+                  <div className="absolute top-4 left-4">
+                    <span className="inline-block px-3 py-1 rounded-full text-[9px] tracking-[0.28em] uppercase font-bold bg-accent/90 text-primary backdrop-blur-sm">
+                      {cat.badge}
+                    </span>
+                  </div>
+
+                  {/* Hover arrow */}
+                  <div className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-accent flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                    <span className="text-primary text-[12px] font-bold">→</span>
+                  </div>
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 flex flex-col justify-center items-center text-center p-7 md:p-8">
-
-                  <h3 className={`font-serif text-[clamp(18px,2.5vw,23px)] mb-3 font-light italic tracking-tight leading-snug ${isGold ? "text-primary" : "text-cream"}`}>
-                    {s.t}
-                  </h3>
-                  <p className={`text-[12px] md:text-[13px] leading-relaxed ${isGold ? "text-primary/65" : "text-cream/60"}`}>
-                    {s.d}
+                <div className="flex-1 flex flex-col p-6 bg-[#1e1230]">
+                  {/* Category label */}
+                  <p className="text-[9px] tracking-[0.36em] uppercase text-accent/60 font-bold mb-2">
+                    {cat.category}
                   </p>
-                </div>
 
-                {/* Bottom hover indicator */}
-                <div className={`h-1 w-0 group-hover:w-full transition-all duration-700 flex-shrink-0 ${isGold ? "bg-primary/30" : "bg-accent"}`} />
-              </motion.div>
-            );
-          })}
+                  {/* Title */}
+                  <h3
+                    className="text-cream text-[clamp(22px,2.8vw,28px)] leading-tight mb-5 font-light group-hover:text-accent transition-colors duration-300"
+                    style={{ fontFamily: "var(--font-instrument-serif)", fontStyle: "italic" }}
+                  >
+                    {cat.title}
+                  </h3>
+
+                  {/* Service list */}
+                  <ul className="flex-1 space-y-2 mb-6">
+                    {cat.items.map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-[12px] text-cream/55 leading-snug">
+                        <span className="text-accent/60 mt-[3px] flex-shrink-0">•</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* CTA */}
+                  <span className="inline-flex items-center gap-2 text-[10px] tracking-[0.28em] uppercase font-bold text-accent/70 group-hover:text-accent transition-colors duration-300">
+                    Explore All
+                    <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  </span>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+
+          {/* 5th card — Signature Experience */}
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, delay: 0.36 }}
+            className="relative flex-shrink-0 w-[280px] sm:w-[300px] lg:w-auto snap-start rounded-2xl overflow-hidden flex flex-col"
+            style={{ minHeight: 540 }}
+          >
+            {/* Background image */}
+            <div className="absolute inset-0">
+              <Image
+                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop"
+                alt="Signature Experience"
+                fill
+                className="object-cover opacity-30"
+                sizes="300px"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/80 to-primary/50" />
+            </div>
+
+            <div className="relative flex-1 flex flex-col justify-between p-6">
+              {/* Top label */}
+              <p className="text-[9px] tracking-[0.36em] uppercase text-accent/70 font-bold">
+                Signature Experience
+              </p>
+
+              {/* Headline */}
+              <div>
+                <h3
+                  className="font-serif text-cream text-[clamp(28px,3.5vw,40px)] leading-[1.1] mb-8 font-light"
+                  style={{ fontFamily: "var(--font-instrument-serif)", fontStyle: "italic" }}
+                >
+                  Crafted for the extraordinary.
+                </h3>
+
+                {/* CTA button */}
+                <Link
+                  href={`/${locale}#booking`}
+                  className="inline-flex items-center justify-between gap-3 w-full px-5 py-4 rounded-full bg-accent text-primary text-[10px] tracking-[0.22em] uppercase font-bold no-underline transition-all duration-300 hover:bg-cream hover:scale-[1.02] active:scale-95 mb-8"
+                >
+                  Book a Consultation
+                  <span className="w-7 h-7 rounded-full bg-primary/15 flex items-center justify-center text-[12px]">→</span>
+                </Link>
+
+                {/* Stats */}
+                <div className="flex gap-8">
+                  <div>
+                    <p className="font-serif text-accent text-[clamp(28px,3vw,40px)] font-light leading-none">14+</p>
+                    <p className="text-[9px] tracking-[0.22em] uppercase text-cream/40 font-bold mt-1">Years</p>
+                  </div>
+                  <div>
+                    <p className="font-serif text-accent text-[clamp(28px,3vw,40px)] font-light leading-none">500+</p>
+                    <p className="text-[9px] tracking-[0.22em] uppercase text-cream/40 font-bold mt-1">Events</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
+      </div>
+
+      {/* Bottom link */}
+      <div className="container-custom px-6 md:px-14 lg:px-20 mt-8 flex justify-end">
+        <Link
+          href={`/${locale}/services`}
+          className="text-[10px] tracking-[0.32em] uppercase font-bold text-accent/50 hover:text-accent transition-colors duration-300 flex items-center gap-2"
+        >
+          View All Services →
+        </Link>
       </div>
     </section>
   );

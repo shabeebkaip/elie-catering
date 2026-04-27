@@ -1,30 +1,35 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { GlassWater, ChefHat, Music, Flower2 } from "lucide-react";
+import { Camera, Music2, Sparkles, Car, MonitorSpeaker } from "lucide-react";
 import CapsuleGraphic from "./CapsuleGraphic";
 
 export default function EliteServices() {
   const services = [
     {
-      icon: <ChefHat className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
-      title: "Private Dining",
-      description: "Exclusive culinary experiences crafted for intimate gatherings in the comfort of your home or chosen venue.",
+      icon: <Camera className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
+      title: "Professional Photography",
+      description: "Professional photography and videography services — including ground and aerial drone shots — to capture every exquisite moment with precision.",
     },
     {
-      icon: <GlassWater className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
-      title: "Corporate Events",
-      description: "Sophisticated catering solutions designed to impress clients and elevate your corporate functions.",
+      icon: <Music2 className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
+      title: "Entertainment & Live Music",
+      description: "Elevate your event with world-class entertainment, from professional soloists (Piano, Saxophone, Violin, Oud) to spectacular live bands.",
     },
     {
-      icon: <Flower2 className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
-      title: "Weddings",
-      description: "Breathtaking menus and flawless service to make your special day truly unforgettable.",
+      icon: <Sparkles className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
+      title: "Hall & Decor Coordination",
+      description: "End-to-end planning of event halls, featuring bespoke table arrangements, exquisite décor, and fresh natural floral displays.",
     },
     {
-      icon: <Music className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
-      title: "Gala Dinners",
-      description: "Grand scale catering with meticulous attention to detail for large-scale premium celebrations.",
+      icon: <Car className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
+      title: "Valet Parking — Valia",
+      description: "Our premium 'Valia' valet team ensures a sophisticated, seamless experience for your guests from arrival to departure.",
+    },
+    {
+      icon: <MonitorSpeaker className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
+      title: "Stage & AV Solutions",
+      description: "Professional stage design equipped with state-of-the-art lighting and sound distribution systems for an immersive celebration.",
     },
   ];
 
@@ -45,7 +50,7 @@ export default function EliteServices() {
               transition={{ duration: 0.6 }}
               className="text-accent uppercase tracking-[0.15em] text-sm font-semibold mb-4"
             >
-              Beyond Catering
+              Elite Event Services
             </motion.p>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -54,7 +59,7 @@ export default function EliteServices() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="font-serif text-5xl md:text-6xl text-white tracking-tight"
             >
-              Our Elite Services
+              Beyond the Table
             </motion.h2>
           </div>
           <motion.div
@@ -69,7 +74,7 @@ export default function EliteServices() {
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {services.map((service, index) => (
             <motion.div
               key={service.title}
