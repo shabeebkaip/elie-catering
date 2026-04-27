@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
@@ -117,6 +118,7 @@ export default function Header() {
   const t = useTranslations("nav");
   const locale = useLocale();
   const isRTL = locale === "ar";
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
@@ -199,43 +201,60 @@ export default function Header() {
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-[11px] tracking-[0.14em] uppercase">
           {NAV.map((item) => {
-            if (item.mega === "services") return (
-              <div key={item.key} onMouseEnter={handleServicesEnter} onMouseLeave={handleServicesLeave} className="relative">
-                <button className={`relative text-[11px] tracking-[0.14em] uppercase font-medium transition-all duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${megaOpen ? "text-accent" : "text-cream/70 hover:text-accent"}`}>
-                  {item.label}
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-300 ${megaOpen ? "rotate-180" : ""}`}>
-                    <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  <span className={`absolute -bottom-1 left-0 h-[1px] bg-accent transition-all duration-300 ${megaOpen ? "w-full" : "w-0"}`} />
-                </button>
-              </div>
-            );
-            if (item.mega === "decorating") return (
-              <div key={item.key} onMouseEnter={handleDecoratingEnter} onMouseLeave={handleDecoratingLeave} className="relative">
-                <button className={`relative text-[11px] tracking-[0.14em] uppercase font-medium transition-all duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${decoratingOpen ? "text-accent" : "text-cream/70 hover:text-accent"}`}>
-                  {item.label}
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-300 ${decoratingOpen ? "rotate-180" : ""}`}>
-                    <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  <span className={`absolute -bottom-1 left-0 h-[1px] bg-accent transition-all duration-300 ${decoratingOpen ? "w-full" : "w-0"}`} />
-                </button>
-              </div>
-            );
-            if (item.mega === "planning") return (
-              <div key={item.key} onMouseEnter={handlePlanningEnter} onMouseLeave={handlePlanningLeave} className="relative">
-                <button className={`relative text-[11px] tracking-[0.14em] uppercase font-medium transition-all duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${planningOpen ? "text-accent" : "text-cream/70 hover:text-accent"}`}>
-                  {item.label}
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-300 ${planningOpen ? "rotate-180" : ""}`}>
-                    <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  <span className={`absolute -bottom-1 left-0 h-[1px] bg-accent transition-all duration-300 ${planningOpen ? "w-full" : "w-0"}`} />
-                </button>
-              </div>
-            );
+            const isActive = item.href !== `/${locale}` && item.href !== "#booking"
+              ? pathname.startsWith(item.href)
+              : pathname === `/${locale}` || pathname === `/${locale}/`;
+
+            if (item.mega === "services") {
+              const active = pathname.startsWith(`/${locale}/services`);
+              return (
+                <div key={item.key} onMouseEnter={handleServicesEnter} onMouseLeave={handleServicesLeave} className="relative">
+                  <button className={`relative text-[11px] tracking-[0.14em] uppercase font-medium transition-all duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${active || megaOpen ? "text-accent" : "text-cream/70 hover:text-accent"}`}>
+                    {item.label}
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-300 ${megaOpen ? "rotate-180" : ""}`}>
+                      <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span className={`absolute -bottom-1 left-0 h-[1px] bg-accent transition-all duration-300 ${active || megaOpen ? "w-full" : "w-0"}`} />
+                  </button>
+                </div>
+              );
+            }
+            if (item.mega === "decorating") {
+              const active = pathname.startsWith(`/${locale}/decorating`);
+              return (
+                <div key={item.key} onMouseEnter={handleDecoratingEnter} onMouseLeave={handleDecoratingLeave} className="relative">
+                  <button className={`relative text-[11px] tracking-[0.14em] uppercase font-medium transition-all duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${active || decoratingOpen ? "text-accent" : "text-cream/70 hover:text-accent"}`}>
+                    {item.label}
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-300 ${decoratingOpen ? "rotate-180" : ""}`}>
+                      <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span className={`absolute -bottom-1 left-0 h-[1px] bg-accent transition-all duration-300 ${active || decoratingOpen ? "w-full" : "w-0"}`} />
+                  </button>
+                </div>
+              );
+            }
+            if (item.mega === "planning") {
+              const active = pathname.startsWith(`/${locale}/planning`);
+              return (
+                <div key={item.key} onMouseEnter={handlePlanningEnter} onMouseLeave={handlePlanningLeave} className="relative">
+                  <button className={`relative text-[11px] tracking-[0.14em] uppercase font-medium transition-all duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${active || planningOpen ? "text-accent" : "text-cream/70 hover:text-accent"}`}>
+                    {item.label}
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-300 ${planningOpen ? "rotate-180" : ""}`}>
+                      <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    <span className={`absolute -bottom-1 left-0 h-[1px] bg-accent transition-all duration-300 ${active || planningOpen ? "w-full" : "w-0"}`} />
+                  </button>
+                </div>
+              );
+            }
             return (
-              <Link key={item.key} href={item.href} className="relative text-cream/70 no-underline transition-all duration-300 hover:text-accent group whitespace-nowrap">
+              <Link
+                key={item.key}
+                href={item.href}
+                className={`relative no-underline transition-all duration-300 hover:text-accent group whitespace-nowrap ${isActive ? "text-accent" : "text-cream/70"}`}
+              >
                 {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-accent transition-all duration-300 group-hover:w-full" />
+                <span className={`absolute -bottom-1 left-0 h-[1px] bg-accent transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`} />
               </Link>
             );
           })}
@@ -694,7 +713,11 @@ export default function Header() {
                   <Link
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className="text-cream/80 no-underline text-[clamp(22px,6vw,36px)] tracking-[0.12em] uppercase font-serif italic transition-all hover:text-accent block text-center"
+                    className={`no-underline text-[clamp(22px,6vw,36px)] tracking-[0.12em] uppercase font-serif italic transition-all hover:text-accent block text-center ${
+                      (item.href !== `/${locale}` ? pathname.startsWith(item.href) : pathname === `/${locale}` || pathname === `/${locale}/`)
+                        ? "text-accent"
+                        : "text-cream/80"
+                    }`}
                   >
                     {item.label}
                   </Link>
