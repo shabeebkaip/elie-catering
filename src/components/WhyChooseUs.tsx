@@ -3,15 +3,33 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-const expertiseRows = [
+const reasons = [
+  {
+    n: "01",
+    t: "A single point of contact",
+    d: "One producer from first call to last candle. No vendor seams, no surprises.",
+  },
+  {
+    n: "02",
+    t: "In-house craftspeople",
+    d: "Chefs, florists, service staff — trained under one roof, to one standard.",
+  },
+  {
+    n: "03",
+    t: "Fourteen years of memory",
+    d: "Institutional knowledge you can only build by doing this for a long time.",
+  },
+];
+
+const expertise = [
   {
     t: "Unparalleled expertise",
-    d: "With years of experience, Elie Catering has earned a reputation for excellence in event management and catering. Our seasoned professionals are committed to bringing your vision to life with creativity, precision and professionalism.",
+    d: "Years of experience in event management and catering. Our seasoned professionals bring your vision to life with creativity, precision and professionalism.",
     img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
   },
   {
     t: "Luxury and elegance",
-    d: "We ensure luxury in every detail, from concept to presentation, creating sophisticated and elegant experiences that leave a lasting impression.",
+    d: "We ensure luxury in every detail — from concept to presentation, creating sophisticated experiences that leave a lasting impression.",
     img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=2070&auto=format&fit=crop",
   },
   {
@@ -21,7 +39,7 @@ const expertiseRows = [
   },
   {
     t: "Culinary excellence",
-    d: "We cook from a pantry built each week at market, guided by the season and the chef's notebook. No dish is ever served twice in quite the same way.",
+    d: "We cook from a pantry built each week at market, guided by the season and the chef's notebook.",
     img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop",
   },
   {
@@ -31,153 +49,120 @@ const expertiseRows = [
   },
   {
     t: "Commitment to quality",
-    d: "Quality is not a claim — it is the list of names of the farmers we buy from, the suppliers we've kept for a decade, and the people we trained ourselves.",
+    d: "Quality is not a claim — it is the names of the farmers we buy from, the suppliers we've kept for a decade.",
     img: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=1887&auto=format&fit=crop",
-  },
-];
-
-const whyCards = [
-  { 
-    t: "A single point of contact", 
-    d: "One producer from first call to last candle. No vendor seams.",
-    img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop"
-  },
-  { 
-    t: "In-house craftspeople", 
-    d: "Chefs, florists, service — trained under one roof, to one standard.",
-    img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop"
-  },
-  { 
-    t: "Fourteen years of memory", 
-    d: "Institutional knowledge you can only build by doing this for a long time.",
-    img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop"
   },
 ];
 
 export default function WhyChooseUs() {
   return (
-    <div id="why-us" className="overflow-hidden">
-      {/* Marble intro with Image Cards - Updated to Large Serif Title */}
-      <section className="section-padding bg-cream relative text-center pb-32 md:pb-48">
-        {/* Decorative elements */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-[0.05]">
-          <div className="absolute top-[-10%] right-[10%] w-[300px] h-[800px] bg-primary rounded-full rotate-[-45deg]" />
-          <div className="absolute bottom-[-10%] left-[10%] w-[300px] h-[800px] bg-accent rounded-full rotate-[-45deg]" />
-        </div>
+    <div id="why-us">
+      {/* Why Choose Us — numbered reasons */}
+      <section className="bg-cream section-padding">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="mb-16 md:mb-20"
+          >
+            <div className="text-[10px] tracking-[0.4em] uppercase text-accent font-bold mb-8 flex items-center gap-4">
+              <div className="w-8 h-px bg-accent" />
+              Why Elie
+            </div>
+            <h2 className="font-serif font-light tracking-tight leading-[0.88] uppercase text-accent text-[clamp(56px,10vw,110px)]">
+              Why
+              <br />
+              Choose Us
+            </h2>
+            <p className="text-base md:text-xl leading-relaxed text-body max-w-xl mt-8 font-light opacity-80">
+              Choosing Elie Catering and Event Planning means selecting a
+              partner who understands the nuances of crafting unforgettable
+              events.
+            </p>
+          </motion.div>
 
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="font-serif font-light tracking-[-0.02em] leading-[0.85] uppercase text-accent mx-auto max-w-5xl text-[clamp(64px,12vw,120px)]"
-        >
-          Why Choose Us
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.16 }}
-          className="text-base md:text-xl leading-relaxed text-body max-w-2xl mx-auto mt-12 mb-20 md:mb-32 font-light opacity-80"
-        >
-          Choosing Elie Catering and Event Planning means selecting a partner
-          who understands the nuances of crafting unforgettable events.
-        </motion.p>
-
-        {/* High-End Image Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-14 max-w-7xl mx-auto relative z-10">
-          {whyCards.map((v, i) => (
-            <motion.div
-              key={v.t}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              whileHover="hover"
-              className="flex flex-col group cursor-pointer"
-            >
-              {/* Arched Image Container */}
-              <div className="relative aspect-[4/5] rounded-t-full rounded-b-[40px] overflow-hidden shadow-2xl mb-12 border-[12px] border-white bg-white transition-transform duration-500 group-hover:scale-[1.02]">
-                <motion.div 
-                  variants={{ hover: { scale: 1.1 } }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                  className="absolute inset-0"
-                >
-                  <Image src={v.img} alt={v.t} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
-                </motion.div>
-                {/* Floating Number Badge */}
-                <div className="absolute top-12 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full bg-primary text-accent flex items-center justify-center font-serif italic text-2xl shadow-xl border-2 border-white/20">
-                  {i + 1}
-                </div>
-              </div>
-
-              {/* Text Content */}
-              <div className="text-center px-4 transition-transform duration-500 group-hover:translate-y-[-5px]">
-                <h3 className="font-serif text-2xl md:text-3xl text-primary mb-5 font-normal italic tracking-tight leading-tight group-hover:text-accent transition-colors duration-300">
-                  {v.t}
+          <div className="divide-y divide-primary/10">
+            {reasons.map((r, i) => (
+              <motion.div
+                key={r.n}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.55, delay: i * 0.1 }}
+                className="grid grid-cols-[auto_1fr] md:grid-cols-[80px_1fr_1fr] gap-6 md:gap-12 py-10 md:py-12 group"
+              >
+                <span className="font-serif italic text-accent text-lg md:text-xl opacity-70 pt-1">
+                  {r.n}
+                </span>
+                <h3 className="font-serif font-light text-2xl md:text-3xl text-primary uppercase tracking-tight leading-tight self-center">
+                  {r.t}
                 </h3>
-                <p className="text-sm md:text-base leading-relaxed text-body opacity-80 group-hover:opacity-100 transition-opacity font-light">
-                  {v.d}
+                <p className="col-span-2 md:col-span-1 text-[15px] md:text-base leading-relaxed text-body font-light opacity-75 self-center">
+                  {r.d}
                 </p>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Alternating expertise rows - Modernized */}
-      <section className="bg-white">
-        {expertiseRows.map((f, i) => {
-          const imgLeft = i % 2 === 0;
-          return (
-            <motion.div
-              key={f.t}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
-              className="grid grid-cols-1 lg:grid-cols-2 min-h-[500px] md:min-h-[650px] overflow-hidden"
-            >
-              {/* Image side */}
-              <div className={`relative min-h-[400px] md:min-h-full overflow-hidden ${imgLeft ? "lg:order-1" : "lg:order-2"} flex items-center justify-center p-8 md:p-16`}>
-                <div className="relative w-full h-full rounded-[40px] md:rounded-[80px] overflow-hidden shadow-2xl">
-                  <Image src={f.img} alt={f.t} fill className="object-cover transition-transform duration-1000 hover:scale-110" sizes="50vw" />
-                </div>
-              </div>
+      {/* Expertise grid */}
+      <section className="bg-primary py-20 md:py-32 px-6">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="mb-16 md:mb-20 text-center"
+          >
+            <div className="text-[10px] tracking-[0.4em] uppercase text-accent font-bold mb-6 flex items-center justify-center gap-4">
+              <div className="w-8 h-px bg-accent" />
+              Our Strengths
+              <div className="w-8 h-px bg-accent" />
+            </div>
+            <h2 className="font-serif font-light tracking-tight leading-[0.88] uppercase text-white text-[clamp(40px,7vw,80px)]">
+              What Sets Us Apart
+            </h2>
+          </motion.div>
 
-              {/* Text side */}
-              <div className={`relative overflow-hidden flex flex-col justify-center p-8 md:p-16 lg:p-24 ${
-                imgLeft ? "lg:order-2 bg-primary text-cream" : "lg:order-1 bg-[#FAF6EF] text-primary"
-              }`}>
-                {/* Background decoration */}
-                <div className={`absolute w-60 h-[500px] rounded-full opacity-[0.07] rotate-[22deg] ${
-                  imgLeft ? "-top-20 -right-20 bg-accent" : "-bottom-20 -left-20 bg-primary"
-                }`} />
-
-                <div className="relative z-10">
-                  <div className={`text-[10px] tracking-[0.4em] uppercase font-bold mb-10 flex items-center gap-4 ${
-                    imgLeft ? "text-accent" : "text-accent"
-                  }`}>
-                    <div className="w-8 h-[1px] bg-accent" />
-                    <span>Expertise 0{i + 1}</span>
-                  </div>
-                  <h3 className={`font-serif font-light tracking-tighter leading-[0.85] uppercase mb-10 text-[clamp(48px,8vw,80px)] ${
-                    imgLeft ? "text-white" : "text-primary"
-                  }`}>
-                    {f.t}
-                  </h3>
-                  <p className={`text-base md:text-xl leading-relaxed font-light ${
-                    imgLeft ? "text-cream/80" : "text-primary/70"
-                  }`}>
-                    {f.d}
-                  </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10">
+            {expertise.map((e, i) => (
+              <motion.div
+                key={e.t}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.07 }}
+                className="bg-primary p-8 md:p-10 group hover:bg-primary/80 transition-colors duration-300"
+              >
+                {/* Thumbnail */}
+                <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden mb-8">
+                  <Image
+                    src={e.img}
+                    alt={e.t}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                 </div>
-              </div>
-            </motion.div>
-          );
-        })}
+
+                <div className="text-[9px] tracking-[0.35em] uppercase text-accent font-bold mb-4 flex items-center gap-3">
+                  <div className="w-5 h-px bg-accent/60" />
+                  Expertise 0{i + 1}
+                </div>
+                <h3 className="font-serif font-light text-xl md:text-2xl text-white uppercase leading-tight tracking-tight mb-4">
+                  {e.t}
+                </h3>
+                <p className="text-[14px] leading-relaxed text-cream/65 font-light">
+                  {e.d}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </section>
     </div>
   );

@@ -20,7 +20,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative min-h-[100svh] overflow-hidden bg-primary text-cream">
+    <section className="relative min-h-[100svh] overflow-hidden bg-primary text-cream flex flex-col">
 
       {/* ── Decorative layer (clipped) ── */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -54,7 +54,7 @@ export default function Hero() {
       </div>
 
       {/* ── Content grid ── */}
-      <div className="relative grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16 px-6 md:px-16 lg:px-20 pt-32 md:pt-40 lg:pt-30 pb-20 lg:pb-24">
+      <div className="relative flex-1 grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16 px-6 md:px-16 lg:px-20 pt-32 md:pt-40 lg:pt-30 pb-20 lg:pb-24">
 
         {/* Left: text */}
         <motion.div
@@ -108,30 +108,6 @@ export default function Hero() {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="relative flex justify-center lg:justify-end h-[min(450px,80vw)] lg:h-[620px]"
         >
-          {/* Frosted Pillar Connection */}
-          <div
-            className="absolute hidden md:block"
-            style={{
-              top: -160, left: "15%",
-              width: "2px", height: "100%",
-              background: "linear-gradient(to bottom, rgba(187,138,60,0) 0%, rgba(187,138,60,0.6) 50%, rgba(187,138,60,1) 100%)",
-              zIndex: 1,
-            }}
-          />
-          <div
-            className="absolute hidden md:block"
-            style={{
-              top: -160, left: "10%",
-              width: "40px", height: "80%",
-              background: "linear-gradient(170deg, rgba(180,165,220,0.3) 0%, rgba(200,185,240,0.15) 55%, rgba(160,140,210,0.02) 100%)",
-              borderRadius: "0 0 9999px 9999px",
-              backdropFilter: "blur(12px)",
-              WebkitBackdropFilter: "blur(12px)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              borderTop: "none",
-            }}
-          />
-
           {/* Capsule image container */}
           <div className="relative w-[min(300px,55vw)] h-[min(450px,80vw)] lg:w-[360px] lg:h-[550px] rounded-full overflow-hidden rotate-[12deg] shadow-2xl border-[12px] border-white/10 bg-white/5">
             <div className="absolute inset-0 -rotate-[12deg] scale-[1.35]">
@@ -145,19 +121,6 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* 14 Years badge */}
-          <div 
-            className="absolute -left-4 md:left-0 bottom-[10%] w-[min(150px,28vw)] h-[min(150px,28vw)] lg:w-[180px] lg:h-[180px] rounded-full bg-accent text-primary flex flex-col items-center justify-center font-serif shadow-2xl z-10 border-4 border-primary/20"
-            style={{
-              animation: "elFloat 9s ease-in-out infinite",
-              ["--r" as string]: "-8deg",
-            } as React.CSSProperties}
-          >
-            <span className="text-4xl md:text-5xl lg:text-6xl italic font-light leading-none">14</span>
-            <span className="text-[9px] md:text-[11px] tracking-[0.25em] uppercase mt-3 font-sans font-bold text-center px-4">
-              Years of craft
-            </span>
-          </div>
         </motion.div>
       </div>
 
