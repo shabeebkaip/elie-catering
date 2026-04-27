@@ -111,7 +111,7 @@ export default function ClosingStatement() {
               transition={{ repeat: Infinity, duration: 6, ease: "easeInOut" }}
               className="absolute -bottom-6 -left-10 w-24 h-24 rounded-full bg-accent text-primary flex items-center justify-center p-4 shadow-xl border-4 border-primary z-20"
             >
-              <ElieLogo size={52} color="#1c1428" onlyLogo={true} />
+              <ElieLogo size={52} color="#1c1428" onlyName={false} />
             </motion.div>
           </motion.div>
 

@@ -12,14 +12,14 @@ const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 36 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-60px" },
-  transition: { duration: 0.9, delay, ease: [0.19, 1, 0.22, 1] as number[] },
+  transition: { duration: 0.9, delay, ease: [0.19, 1, 0.22, 1] as [number, number, number, number] },
 });
 
 const fadeIn = (delay = 0) => ({
   initial: { opacity: 0 },
   whileInView: { opacity: 1 },
   viewport: { once: true },
-  transition: { duration: 1.1, delay, ease: "easeOut" },
+  transition: { duration: 1.1, delay, ease: "easeOut" as const },
 });
 
 /* ─── Pillar images ─── */

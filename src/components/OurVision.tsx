@@ -8,7 +8,7 @@ const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 28 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true },
-  transition: { duration: 0.75, delay, ease: [0.19, 1, 0.22, 1] as number[] },
+  transition: { duration: 0.75, delay, ease: [0.19, 1, 0.22, 1] as [number, number, number, number] },
 });
 
 export default function OurVision() {

@@ -201,7 +201,7 @@ export default function Header() {
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-[11px] tracking-[0.14em] uppercase">
           {NAV.map((item) => {
-            const isActive = item.href !== `/${locale}` && item.href !== "#booking"
+            const isActive = item.href !== `/${locale}`
               ? pathname.startsWith(item.href)
               : pathname === `/${locale}` || pathname === `/${locale}/`;
 
