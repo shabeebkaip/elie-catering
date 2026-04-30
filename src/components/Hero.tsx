@@ -52,10 +52,12 @@ export default function Hero() {
       </div>
 
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div initial={{ opacity: 0, y: -30, x: 30 }} animate={{ opacity: 1, y: 0, x: 0 }} transition={{ duration: 1.8, delay: 0.5 }} className="absolute -top-16 -right-10 w-[130px] h-[380px] rounded-full border-2 border-accent/20 rotate-[-22deg] hidden lg:block" />
-        <motion.div initial={{ opacity: 0, y: -20, x: 20 }} animate={{ opacity: 1, y: 0, x: 0 }} transition={{ duration: 1.9, delay: 0.65 }} className="absolute top-4 right-[80px] w-[70px] h-[200px] rounded-full border border-accent/12 rotate-[-22deg] hidden xl:block" />
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.4, delay: 0.8 }} className="absolute -bottom-10 -left-6 w-[90px] h-[260px] rounded-full bg-accent/14 rotate-[22deg] hidden md:block" />
-        <div className="absolute bottom-16 left-12 w-[50px] h-[140px] rounded-full border border-white/8 rotate-[22deg] hidden lg:block" />
+        {/* Brand capsule — primary: bold solid gold, top-right */}
+        <motion.div initial={{ opacity: 0, y: -40, x: 40 }} animate={{ opacity: 1, y: 0, x: 0 }} transition={{ duration: 1.8, delay: 0.5 }} className="absolute -top-20 right-[4%] w-[100px] h-[420px] rounded-full bg-accent/65 rotate-[-18deg] hidden lg:block" />
+        {/* Brand capsule — secondary: slightly offset, slightly darker/behind */}
+        <motion.div initial={{ opacity: 0, y: -30, x: 30 }} animate={{ opacity: 1, y: 0, x: 0 }} transition={{ duration: 1.9, delay: 0.65 }} className="absolute -top-8 right-[10%] w-[80px] h-[340px] rounded-full bg-accent/40 rotate-[-18deg] hidden lg:block" />
+        {/* Subtle bottom-left accent */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.4, delay: 0.8 }} className="absolute -bottom-10 -left-6 w-[70px] h-[220px] rounded-full bg-accent/18 rotate-[22deg] hidden md:block" />
       </div>
 
       <div className="relative flex-1 flex flex-col items-center justify-center text-center text-cream px-6 pt-24 pb-48 md:pb-52">

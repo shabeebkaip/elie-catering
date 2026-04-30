@@ -20,10 +20,6 @@ export default function OurVision() {
     <>
       <section id="vision-mission" className="relative bg-primary text-cream overflow-hidden">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-0 right-[4%] flex flex-row items-start gap-0 z-20">
-            <motion.div initial={{ opacity: 0, y: -120 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.6, delay: 0.4 }} className="w-[80px] h-[540px] rounded-full bg-[#c38ed8]/15 border border-[#c38ed8]/20" />
-            <motion.div initial={{ opacity: 0, y: -100 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1.4, delay: 0.2 }} className="w-[120px] h-[620px] rounded-full bg-[#c38ed8]/20 border border-[#c38ed8]/30" />
-          </div>
           <div className="absolute top-[2%] right-[12%] w-[65px] h-[280px] rounded-full border border-accent/8 rotate-[30deg]" />
           <div className="absolute bottom-[12%] left-[-5%] w-[90px] h-[340px] rounded-full bg-[#c38ed8]/10 rotate-[0deg]" />
           <div className="absolute bottom-[0%] right-[30%] w-[50px] h-[130px] rounded-full border border-accent/8 rotate-[-18deg]" />

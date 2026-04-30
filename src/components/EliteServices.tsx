@@ -1,54 +1,66 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { useLocale } from "next-intl";
 import { Camera, Music2, Sparkles, Car, MonitorSpeaker } from "lucide-react";
-import CapsuleGraphic from "./CapsuleGraphic";
+
+const services = [
+  {
+    icon: Camera,
+    slug: "professional-photography",
+    title: "Professional Photography",
+    description:
+      "Professional photography and videography services — including ground and aerial drone shots — to capture every exquisite moment with precision.",
+  },
+  {
+    icon: Music2,
+    slug: "entertainment-live-music",
+    title: "Entertainment & Live Music",
+    description:
+      "Elevate your event with world-class entertainment, from professional soloists (Piano, Saxophone, Violin, Oud) to spectacular live bands.",
+  },
+  {
+    icon: Sparkles,
+    slug: "hall-decor-coordination",
+    title: "Hall & Decor Coordination",
+    description:
+      "End-to-end planning of event halls, featuring bespoke table arrangements, exquisite décor, and fresh natural floral displays.",
+  },
+  {
+    icon: Car,
+    slug: "valet-parking",
+    title: "Valet Parking — Valia",
+    description:
+      "Our premium 'Valia' valet team ensures a sophisticated, seamless experience for your guests from arrival to departure.",
+  },
+  {
+    icon: MonitorSpeaker,
+    slug: "stage-av-solutions",
+    title: "Stage & AV Solutions",
+    description:
+      "Professional stage design equipped with state-of-the-art lighting and sound distribution systems for an immersive celebration.",
+  },
+];
 
 export default function EliteServices() {
-  const services = [
-    {
-      icon: <Camera className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
-      title: "Professional Photography",
-      description: "Professional photography and videography services — including ground and aerial drone shots — to capture every exquisite moment with precision.",
-    },
-    {
-      icon: <Music2 className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
-      title: "Entertainment & Live Music",
-      description: "Elevate your event with world-class entertainment, from professional soloists (Piano, Saxophone, Violin, Oud) to spectacular live bands.",
-    },
-    {
-      icon: <Sparkles className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
-      title: "Hall & Decor Coordination",
-      description: "End-to-end planning of event halls, featuring bespoke table arrangements, exquisite décor, and fresh natural floral displays.",
-    },
-    {
-      icon: <Car className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
-      title: "Valet Parking — Valia",
-      description: "Our premium 'Valia' valet team ensures a sophisticated, seamless experience for your guests from arrival to departure.",
-    },
-    {
-      icon: <MonitorSpeaker className="w-10 h-10 text-white group-hover:text-primary transition-colors duration-300 relative z-10" />,
-      title: "Stage & AV Solutions",
-      description: "Professional stage design equipped with state-of-the-art lighting and sound distribution systems for an immersive celebration.",
-    },
-  ];
+  const locale = useLocale();
 
   return (
-    <section className="bg-primary py-32 border-t border-white/5 relative overflow-hidden">
-      
-      {/* Background Decorative Capsules */}
-      <CapsuleGraphic color="primary" className="w-[1200px] h-[400px] -bottom-[10%] -right-[5%] opacity-80" angle="-rotate-[35deg]" />
-      <CapsuleGraphic color="white" className="w-[600px] h-[150px] top-[10%] -left-[10%] opacity-20" angle="-rotate-[35deg]" />
+    <section className="bg-primary relative overflow-hidden">
+      {/* Subtle ambient glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[400px] rounded-full bg-accent/4 blur-[120px] pointer-events-none" />
 
-      <div className="container mx-auto px-6 md:px-12 relative z-10">
-        <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-6">
-          <div className="max-w-2xl">
+      <div className="relative z-10 px-6 md:px-14 pt-24 md:pt-32 pb-4">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 md:mb-20">
+          <div>
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-accent uppercase tracking-[0.15em] text-sm font-semibold mb-4"
+              className="text-accent text-[10px] tracking-[0.5em] uppercase font-bold mb-5"
             >
               Elite Event Services
             </motion.p>
@@ -56,55 +68,89 @@ export default function EliteServices() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-serif text-5xl md:text-6xl text-white tracking-tight"
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="font-serif text-[clamp(40px,6.5vw,84px)] text-cream font-light italic leading-[0.9] tracking-tight"
             >
               Beyond the Table
             </motion.h2>
           </div>
           <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
           >
-             <button className="text-white border-b-2 border-accent pb-1 uppercase tracking-widest text-sm font-bold hover:text-accent transition-colors">
+            <Link
+              href={`/${locale}/services?category=addons`}
+              className="group flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-cream/40 hover:text-accent transition-colors duration-300 pb-1 border-b border-cream/15 hover:border-accent whitespace-nowrap no-underline"
+            >
               View All Services
-            </button>
+              <span className="translate-x-0 group-hover:translate-x-1 transition-transform duration-300">→</span>
+            </Link>
           </motion.div>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-          {services.map((service, index) => (
+      {/* Editorial service rows */}
+      <div className="border-t border-white/8">
+        {services.map((service, index) => {
+          const Icon = service.icon;
+          return (
             <motion.div
               key={service.title}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
-              className="group relative bg-white/5 border border-white/10 p-10 hover:bg-accent transition-all duration-500 cursor-pointer flex flex-col h-full overflow-hidden"
+              transition={{ duration: 0.55, delay: index * 0.07, ease: [0.19, 1, 0.22, 1] }}
+              className="group relative border-b border-white/8"
             >
-              {/* Capsule fill on hover */}
-              <div className="absolute top-0 right-0 w-[150%] h-[150%] bg-white rounded-full transform -rotate-[45deg] translate-x-full translate-y-full group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-700 ease-out z-0"></div>
+              <Link
+                href={`/${locale}/services/${service.slug}`}
+                className="block no-underline"
+              >
+              {/* Hover bg */}
+              <div className="absolute inset-0 bg-white/[0.025] opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+              {/* Left accent bar */}
+              <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-accent origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500" />
 
-              <div className="mb-8 relative z-10">
-                {service.icon}
+              <div className="relative flex items-center gap-5 md:gap-10 px-6 md:px-14 py-8 md:py-10">
+                {/* Index */}
+                <span className="font-mono text-[10px] tracking-[0.35em] text-accent/30 group-hover:text-accent/70 transition-colors duration-300 w-7 flex-shrink-0 select-none">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+
+                {/* Icon */}
+                <div className="flex-shrink-0 text-cream/25 group-hover:text-accent transition-all duration-300 group-hover:scale-110">
+                  <Icon className="w-6 h-6 md:w-7 md:h-7" strokeWidth={1.4} />
+                </div>
+
+                {/* Title */}
+                <h3 className="font-serif text-[clamp(18px,2.2vw,30px)] text-cream font-light italic leading-tight flex-shrink-0 w-[clamp(180px,26vw,340px)] group-hover:text-accent transition-colors duration-400">
+                  {service.title}
+                </h3>
+
+                {/* Divider */}
+                <div className="hidden lg:block flex-shrink-0 w-10 h-px bg-white/10 group-hover:bg-accent/35 transition-colors duration-400" />
+
+                {/* Description */}
+                <p className="hidden md:block text-cream/35 text-[13px] leading-relaxed flex-1 group-hover:text-cream/60 transition-colors duration-400">
+                  {service.description}
+                </p>
+
+                {/* Discover CTA */}
+                <div className="ml-auto flex-shrink-0 flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-accent opacity-0 group-hover:opacity-100 translate-x-3 group-hover:translate-x-0 transition-all duration-300">
+                  <span>Discover</span>
+                  <span>→</span>
+                </div>
               </div>
-              <h3 className="relative z-10 font-serif text-3xl text-white mb-4 group-hover:text-primary transition-colors duration-300">
-                {service.title}
-              </h3>
-              <p className="relative z-10 text-gray-300 font-medium leading-relaxed group-hover:text-gray-600 transition-colors duration-300 flex-grow">
-                {service.description}
-              </p>
-              <div className="mt-8 pt-6 border-t border-white/10 group-hover:border-primary/20 transition-colors duration-300 relative z-10">
-                 <span className="text-accent group-hover:text-primary uppercase tracking-widest text-xs font-bold transition-colors duration-300 flex items-center gap-2">
-                   Discover <span className="text-lg leading-none">&rarr;</span>
-                 </span>
-              </div>
+              </Link>
             </motion.div>
-          ))}
-        </div>
+          );
+        })}
       </div>
+
+      {/* Bottom padding */}
+      <div className="pb-12 md:pb-20" />
     </section>
   );
 }

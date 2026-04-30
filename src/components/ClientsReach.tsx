@@ -47,7 +47,7 @@ export default function ClientsReach() {
           </div>
           <h2 className="font-serif font-light text-[clamp(44px,7.5vw,100px)] text-primary uppercase leading-[0.85] tracking-tighter max-w-4xl">
             Trusted by<br />
-            <em className="text-accent italic not-italic">Excellence.</em>
+            <em className="text-accent italic ">Excellence.</em>
           </h2>
         </motion.div>
 
@@ -85,11 +85,11 @@ export default function ClientsReach() {
               className="mt-10 p-6 rounded-2xl bg-primary/4 border border-primary/8"
             >
               <div className="flex items-start gap-4">
-                <div className="w-1 h-12 rounded-full bg-accent flex-shrink-0 mt-1" />
+                <div className="w-1 h-12 rounded-full bg-accent shrink-0 mt-1" />
                 <p className="text-[clamp(13px,1.4vw,15px)] leading-relaxed text-body/65 font-light italic">
-                  "Covering all regions of the Kingdom of Saudi Arabia — our specialized
+                  {`Covering all regions of the Kingdom of Saudi Arabia — our specialized
                   team is fully equipped to handle high-profile events with immediate
-                  readiness and unmatched professionalism."
+                  readiness and unmatched professionalism.`}
                 </p>
               </div>
             </motion.div>

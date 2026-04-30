@@ -12,6 +12,35 @@ const IMGS = [
   "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop",
 ];
 
+function ValueCard({ v, i, img }: { v: { t: string; d: string }; i: number; img: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.8, delay: i * 0.08, ease: [0.19, 1, 0.22, 1] }}
+      className="group relative overflow-hidden flex flex-col shadow-xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
+      style={{ borderRadius: "9999px 9999px 40px 40px", minHeight: "480px" }}
+    >
+      <div className="absolute inset-0">
+        <Image src={img} alt={v.t} fill className="object-cover transition-transform duration-[2.5s] ease-out group-hover:scale-110" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
+        <div className="absolute inset-0 bg-primary/40 group-hover:bg-primary/20 transition-colors duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/40 to-transparent" />
+      </div>
+      <div className="relative mt-auto p-8 pt-24">
+        <div className="mb-4">
+          <div className="w-8 h-px bg-accent mb-4 group-hover:w-16 transition-all duration-500" />
+          <h3 className="font-serif text-[clamp(24px,3vw,32px)] italic text-cream leading-tight font-light">{v.t}</h3>
+        </div>
+        <p className="text-[13px] leading-relaxed text-cream/60 font-light max-h-0 group-hover:max-h-24 opacity-0 group-hover:opacity-100 transition-all duration-700 overflow-hidden">{v.d}</p>
+        <div className="absolute top-8 right-8 w-10 h-10 rounded-full border border-accent/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 rotate-[-12deg] group-hover:rotate-0">
+          <span className="text-accent text-xs font-serif italic">✦</span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 32 },
   whileInView: { opacity: 1, y: 0 },
@@ -46,33 +75,16 @@ export default function CoreValues() {
           </motion.div>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-6 lg:gap-8">
-          {items.map((v, i) => (
-            <motion.div
-              key={v.t}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.19, 1, 0.22, 1] }}
-              className={`group relative overflow-hidden flex flex-col shadow-xl transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-22px)] ${i % 2 === 1 ? "lg:translate-y-12" : ""}`}
-              style={{ borderRadius: "9999px 9999px 40px 40px", minHeight: "480px" }}
-            >
-              <div className="absolute inset-0">
-                <Image src={IMGS[i]} alt={v.t} fill className="object-cover transition-transform duration-[2.5s] ease-out group-hover:scale-110" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
-                <div className="absolute inset-0 bg-primary/40 group-hover:bg-primary/20 transition-colors duration-500" />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/95 via-primary/40 to-transparent" />
-              </div>
-              <div className="relative mt-auto p-8 pt-24">
-                <div className="mb-4">
-                  <div className="w-8 h-px bg-accent mb-4 group-hover:w-16 transition-all duration-500" />
-                  <h3 className="font-serif text-[clamp(24px,3vw,32px)] italic text-cream leading-tight font-light">{v.t}</h3>
-                </div>
-                <p className="text-[13px] leading-relaxed text-cream/60 font-light max-h-0 group-hover:max-h-24 opacity-0 group-hover:opacity-100 transition-all duration-700 overflow-hidden">{v.d}</p>
-                <div className="absolute top-8 right-8 w-10 h-10 rounded-full border border-accent/30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 rotate-[-12deg] group-hover:rotate-0">
-                  <span className="text-accent text-xs font-serif italic">✦</span>
-                </div>
-              </div>
-            </motion.div>
+        {/* Row 1 — 3 cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mb-6 lg:mb-8">
+          {items.slice(0, 3).map((v, i) => (
+            <ValueCard key={v.t} v={v} i={i} img={IMGS[i]} />
+          ))}
+        </div>
+        {/* Row 2 — 2 cards centred */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-[calc(66.67%+16px)] mx-auto">
+          {items.slice(3).map((v, i) => (
+            <ValueCard key={v.t} v={v} i={i + 3} img={IMGS[i + 3]} />
           ))}
         </div>
       </div>

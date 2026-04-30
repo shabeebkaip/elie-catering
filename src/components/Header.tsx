@@ -135,6 +135,7 @@ export default function Header() {
     { key: "services",    label: t("services"),     href: `/${locale}/services`,   mega: "services"     },
     { key: "decorating",  label: t("decorating"),   href: `/${locale}/decorating`, mega: "decorating"   },
     { key: "planning",    label: t("planning"),     href: `/${locale}/planning`,   mega: "planning"     },
+    { key: "menu",        label: "Menu",            href: `/${locale}/menu`,       mega: false          },
     { key: "contact",     label: t("contact"),      href: `/${locale}/contact`,    mega: false          },
   ] as const;
 
@@ -299,165 +300,133 @@ export default function Header() {
           >
             {/* Panel shell */}
             <div
-              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.65)] border border-white/8"
-              style={{ background: "rgba(22,14,34,0.98)", backdropFilter: "blur(28px)" }}
+              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.10),0_4px_20px_rgba(187,138,60,0.08)] border border-amber-200/50"
+              style={{ background: "#FEFCF8", backdropFilter: "blur(28px)" }}
             >
-              {/* Subtle capsule bg accents */}
+              {/* Subtle gold capsule bg accents */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-24 right-[18%] w-[60px] h-[220px] bg-accent/5 rounded-full rotate-[-18deg]" />
-                <div className="absolute bottom-0 left-[6%] w-[40px] h-[140px] border border-accent/8 rounded-full rotate-[22deg]" />
+                <div className="absolute -top-24 right-[18%] w-[60px] h-[220px] bg-accent/6 rounded-full rotate-[-18deg]" />
+                <div className="absolute bottom-0 left-[6%] w-[40px] h-[140px] border border-accent/12 rounded-full rotate-[22deg]" />
               </div>
 
-              <div className="relative z-10 p-6 grid grid-cols-[1fr_260px] gap-5">
+              <div className="relative z-10 grid grid-cols-[5fr_4fr_240px] min-h-[440px]">
 
-                {/* LEFT: 4 category columns */}
-                <div className="grid grid-cols-4 gap-4">
-                  {MEGA_CATS.map((cat, ci) => {
+                {/* LEFT: Large cinematic hero image */}
+                <div className="relative overflow-hidden">
+                  <Image
+                    src={MEGA_FEATURED.img}
+                    alt="Services"
+                    fill
+                    className="object-cover"
+                    sizes="700px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[rgba(10,6,20,0.04)] to-[rgba(10,6,20,0.55)]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,6,20,0.88)] via-[rgba(10,6,20,0.15)] to-transparent" />
+                  <div className="relative z-10 h-full flex flex-col justify-end p-10">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-6 h-px bg-accent" />
+                      <span className="text-accent text-[10px] tracking-[0.4em] uppercase font-bold">
+                        {isRTL ? "خدماتنا" : "Our Services"}
+                      </span>
+                    </div>
+                    <h2 className="font-serif text-white text-[38px] font-light italic leading-[1.15]">
+                      {isRTL ? <>مصمم لكل<br />مناسبة.</> : <>Crafted for<br />every occasion.</>}
+                    </h2>
+                  </div>
+                </div>
+
+                {/* CENTER: Numbered editorial category list */}
+                <div className="border-x border-amber-200/40 bg-white flex flex-col divide-y divide-amber-100">
+                  {MEGA_CATS.map((cat, i) => {
                     const catServices = services.filter((s) => s.category === cat.id);
-                    const heroImg = catServices[0]?.img ?? "";
                     return (
-                      <motion.div
+                      <Link
                         key={cat.id}
-                        initial={{ opacity: 0, y: 14 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.04 + ci * 0.06, ease: [0.19, 1, 0.22, 1] }}
-                        className="group/card rounded-2xl overflow-hidden border border-white/8 hover:border-accent/35 transition-all duration-400 hover:shadow-[0_16px_48px_rgba(0,0,0,0.5)] flex flex-col"
-                        style={{ background: "rgba(255,255,255,0.03)" }}
+                        href={`/${locale}/services?category=${cat.id}`}
+                        onClick={() => setMegaOpen(false)}
+                        className="group/cat flex-1 flex flex-col justify-center px-7 py-5 hover:bg-amber-50/60 transition-all duration-200 no-underline"
                       >
-                        {/* Category image header — links to category filter */}
-                        <Link
-                          href={`/${locale}/services?category=${cat.id}`}
-                          onClick={() => setMegaOpen(false)}
-                          className="relative block h-[150px] overflow-hidden flex-shrink-0 no-underline"
-                        >
-                          <Image
-                            src={heroImg}
-                            alt={isRTL ? cat.titleAr : cat.title}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover/card:scale-110"
-                            sizes="240px"
-                          />
-                          <div className={`absolute inset-0 bg-gradient-to-t ${cat.color} via-primary/30 to-transparent`} />
-                          <div className="absolute inset-0 bg-primary/25 group-hover/card:bg-primary/10 transition-colors duration-500" />
-                          <div className="absolute top-3 left-3">
-                            <span className="px-2.5 py-1 rounded-full text-[10px] tracking-[0.15em] uppercase font-bold bg-accent/20 border border-accent/30 text-accent backdrop-blur-sm">
-                              {isRTL ? cat.tagAr : cat.tag}
-                            </span>
-                          </div>
-                          <div className="absolute top-3 right-3 w-4 h-8 rounded-full border border-white/15 rotate-[-12deg] group-hover/card:border-accent/30 transition-colors duration-400" />
-                        </Link>
-
-                        {/* Category title */}
-                        <Link
-                          href={`/${locale}/services?category=${cat.id}`}
-                          onClick={() => setMegaOpen(false)}
-                          className="block no-underline px-4 pt-3 pb-2"
-                        >
-                          <p className="text-[9px] tracking-[0.3em] uppercase text-accent/60 font-bold mb-1">
-                            {isRTL ? cat.eyebrowAr : cat.eyebrow}
-                          </p>
-                          <h3 className="font-serif text-cream text-[17px] font-light italic leading-tight group-hover/card:text-accent transition-colors duration-300">
-                            {isRTL ? cat.titleAr : cat.title}
-                          </h3>
-                        </Link>
-
-                        {/* Individual service links */}
-                        <ul className="flex-1 px-4 pb-4 space-y-1 mt-1">
-                          {catServices.map((s) => (
-                            <li key={s.slug}>
-                              <Link
-                                href={`/${locale}/services/${s.slug}`}
-                                onClick={() => setMegaOpen(false)}
-                                className="group/item flex items-center gap-2 no-underline py-0.5"
-                              >
-                                <span className="w-1 h-1 rounded-full bg-accent/35 flex-shrink-0 group-hover/item:bg-accent transition-colors duration-200" />
-                                <span className="text-[12px] text-cream/55 group-hover/item:text-accent transition-colors duration-200 leading-snug">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2.5 mb-2">
+                              <span className="font-bold text-accent text-[11px] tracking-[0.15em] tabular-nums">
+                                0{i + 1}
+                              </span>
+                              <span className="w-4 h-px bg-accent/30" />
+                              <span className="text-[9px] tracking-[0.3em] uppercase text-primary/35 font-bold truncate">
+                                {isRTL ? cat.eyebrowAr : cat.eyebrow}
+                              </span>
+                            </div>
+                            <h3 className="font-serif italic text-[21px] text-primary/80 font-light leading-snug group-hover/cat:text-accent transition-colors duration-200 mb-2">
+                              {isRTL ? cat.titleAr : cat.title}
+                            </h3>
+                            <div className="flex flex-wrap gap-x-3 gap-y-0">
+                              {catServices.slice(0, 2).map((s) => (
+                                <span key={s.slug} className="text-[11px] text-primary/35 group-hover/cat:text-primary/50 transition-colors">
                                   {isRTL ? s.titleAr : s.title}
                                 </span>
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-
-                        {/* View all category link */}
-                        <Link
-                          href={`/${locale}/services?category=${cat.id}`}
-                          onClick={() => setMegaOpen(false)}
-                          className="block no-underline px-4 pb-4 pt-1 border-t border-white/6 mt-1"
-                        >
-                          <span className="flex items-center gap-1.5 text-[10px] tracking-[0.15em] uppercase text-accent/45 hover:text-accent transition-colors duration-200 font-semibold">
-                            {isRTL ? "استعرض الكل" : "View all"}
-                            <span>{isRTL ? "←" : "→"}</span>
+                              ))}
+                            </div>
+                          </div>
+                          <span className="text-accent text-[15px] opacity-0 -translate-x-1 group-hover/cat:opacity-100 group-hover/cat:translate-x-0 transition-all duration-200 flex-shrink-0 mt-1">
+                            {isRTL ? "←" : "→"}
                           </span>
-                        </Link>
-                      </motion.div>
+                        </div>
+                      </Link>
                     );
                   })}
                 </div>
 
-                {/* RIGHT: Featured panel */}
-                <motion.div
-                  initial={{ opacity: 0, x: 12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
-                  className="relative rounded-2xl overflow-hidden border border-accent/20 flex flex-col"
-                  style={{ minHeight: 360 }}
-                >
+                {/* RIGHT: Featured CTA panel */}
+                <div className="relative overflow-hidden flex flex-col">
                   <Image
-                    src={MEGA_FEATURED.img}
+                    src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop"
                     alt="Featured"
                     fill
                     className="object-cover"
-                    sizes="280px"
+                    sizes="260px"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/75 to-primary/10" />
-
-                  {/* Capsule frame accents */}
-                  <div className="absolute top-5 right-5 w-10 h-24 rounded-full border border-accent/22 rotate-[-14deg]" />
-                  <div className="absolute top-8 right-9 w-6 h-14 rounded-full border border-accent/12 rotate-[-14deg]" />
-
-                  {/* Content */}
-                  <div className="relative z-10 mt-auto p-7">
-                    <span className="text-[11px] tracking-[0.3em] uppercase text-accent font-bold">
+                  <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/80 to-primary/15" />
+                  <div className="absolute top-5 right-5 w-7 h-16 rounded-full border border-accent/25 rotate-[-14deg]" />
+                  <div className="relative z-10 h-full flex flex-col justify-end p-6">
+                    <span className="text-[10px] tracking-[0.3em] uppercase text-accent font-bold block mb-2">
                       {isRTL ? MEGA_FEATURED.tagAr : MEGA_FEATURED.tag}
                     </span>
-                    <h4 className="font-serif text-cream text-[26px] font-light italic leading-tight mt-2 mb-6">
+                    <h4 className="font-serif text-white text-[22px] font-light italic leading-tight mb-5">
                       {isRTL ? MEGA_FEATURED.titleAr : MEGA_FEATURED.title}
                     </h4>
-
                     <Link
                       href={`/${locale}/contact`}
                       onClick={() => setMegaOpen(false)}
-                      className="inline-flex items-center gap-2 w-full justify-center px-5 py-3.5 rounded-full text-[12px] tracking-[0.18em] uppercase font-bold bg-accent text-primary no-underline transition-all duration-300 hover:bg-cream active:scale-95 shadow-[0_8px_28px_rgba(187,138,60,0.45)]"
+                      className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-[11px] tracking-[0.18em] uppercase font-bold bg-accent text-primary no-underline transition-all duration-300 hover:bg-white active:scale-95 shadow-[0_8px_28px_rgba(187,138,60,0.4)]"
                     >
-                      {isRTL ? MEGA_FEATURED.ctaAr : MEGA_FEATURED.cta} <span>{isRTL ? "←" : "→"}</span>
+                      {isRTL ? MEGA_FEATURED.ctaAr : MEGA_FEATURED.cta}
+                      <span>{isRTL ? "←" : "→"}</span>
                     </Link>
-
-                    {/* Stats */}
-                    <div className="mt-5 pt-4 border-t border-white/10 grid grid-cols-2 gap-2">
+                    <div className="mt-5 pt-4 border-t border-white/15 grid grid-cols-2 gap-2">
                       {(isRTL
                         ? [["14+", "سنة"], ["500+", "فعالية"]]
                         : [["14+", "Years"], ["500+", "Events"]]
                       ).map(([num, lbl]) => (
                         <div key={lbl}>
-                          <p className="font-serif text-accent text-[28px] font-light leading-none">{num}</p>
-                          <p className="text-[11px] tracking-[0.2em] uppercase text-cream/40 mt-1">{lbl}</p>
+                          <p className="font-serif text-accent text-[26px] font-light leading-none">{num}</p>
+                          <p className="text-[10px] tracking-[0.2em] uppercase text-white/40 mt-1">{lbl}</p>
                         </div>
                       ))}
                     </div>
                   </div>
-                </motion.div>
+                </div>
               </div>
 
               {/* Bottom strip */}
-              <div className="border-t border-white/6 px-6 py-4 flex items-center justify-between">
-                <p className="text-[11px] text-cream/25 tracking-[0.15em] uppercase">
+              <div className="border-t border-amber-200/60 px-6 py-4 flex items-center justify-between">
+                <p className="text-[11px] text-primary/30 tracking-[0.15em] uppercase">
                   {isRTL ? "إيلي للتموين وتنظيم الفعاليات — الرياض، المملكة العربية السعودية" : "Elie Catering & Event Planning — Riyadh, Saudi Arabia"}
                 </p>
                 <Link
                   href={`/${locale}/services`}
                   onClick={() => setMegaOpen(false)}
-                  className="text-[12px] tracking-[0.15em] uppercase text-accent/60 hover:text-accent transition-colors no-underline font-semibold"
+                  className="text-[12px] tracking-[0.15em] uppercase text-accent/70 hover:text-accent transition-colors no-underline font-semibold"
                 >
                   {isRTL ? "← جميع الخدمات" : "View all services →"}
                 </Link>
@@ -482,90 +451,81 @@ export default function Header() {
             className="fixed top-[72px] left-0 right-0 z-40 px-6 md:px-10 pb-6"
           >
             <div
-              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.65)] border border-white/8"
-              style={{ background: "rgba(22,14,34,0.98)", backdropFilter: "blur(28px)" }}
+              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.10),0_4px_20px_rgba(187,138,60,0.08)] border border-amber-200/50"
+              style={{ background: "#FEFCF8", backdropFilter: "blur(28px)" }}
             >
               {/* Bg accents */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-20 right-[25%] w-[50px] h-[180px] bg-accent/5 rounded-full rotate-[-18deg]" />
-                <div className="absolute bottom-0 left-[8%] w-[36px] h-[120px] border border-accent/8 rounded-full rotate-[22deg]" />
+                <div className="absolute -top-20 right-[25%] w-[50px] h-[180px] bg-accent/6 rounded-full rotate-[-18deg]" />
+                <div className="absolute bottom-0 left-[8%] w-[36px] h-[120px] border border-accent/12 rounded-full rotate-[22deg]" />
               </div>
 
-              <div className="relative z-10 p-6">
-                {/* Section label */}
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-6 h-px bg-accent" />
-                  <span className="text-accent text-[10px] tracking-[0.4em] uppercase font-bold">Decorating</span>
-                </div>
-
-                {/* 3 cards */}
-                <div className="grid grid-cols-3 gap-5">
-                  {DECORATING_ITEMS.map((item, ci) => (
-                    <motion.div
-                      key={item.slug}
-                      initial={{ opacity: 0, y: 14 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.04 + ci * 0.07, ease: [0.19, 1, 0.22, 1] }}
+              {/* 3 tall cinematic full-bleed cards */}
+              <div className="relative z-10 grid grid-cols-3 min-h-[400px]">
+                {DECORATING_ITEMS.map((item, ci) => (
+                  <motion.div
+                    key={item.slug}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.04 + ci * 0.08, ease: [0.19, 1, 0.22, 1] }}
+                    className="relative"
+                  >
+                    <Link
+                      href={`/${locale}/decorating/${item.slug}`}
+                      onClick={() => setDecoratingOpen(false)}
+                      className="group/card relative flex h-full min-h-[400px] overflow-hidden no-underline border-r border-white/10 last:border-0"
                     >
-                      <Link
-                        href={`/${locale}/decorating/${item.slug}`}
-                        onClick={() => setDecoratingOpen(false)}
-                        className="group/card block no-underline rounded-2xl overflow-hidden border border-white/8 hover:border-accent/35 transition-all duration-400 hover:shadow-[0_16px_48px_rgba(0,0,0,0.5)]"
-                        style={{ background: "rgba(255,255,255,0.03)" }}
-                      >
-                        {/* Image */}
-                        <div className="relative h-[200px] overflow-hidden">
-                          <Image
-                            src={item.img}
-                            alt={isRTL ? item.titleAr : item.title}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover/card:scale-110"
-                            sizes="360px"
-                          />
-                          <div className={`absolute inset-0 bg-gradient-to-t ${item.color} via-primary/30 to-transparent`} />
-                          <div className="absolute inset-0 bg-primary/25 group-hover/card:bg-primary/10 transition-colors duration-500" />
-                          <div className="absolute top-3 left-3">
-                            <span className="px-3 py-1.5 rounded-full text-[11px] tracking-[0.15em] uppercase font-bold bg-accent/20 border border-accent/30 text-accent backdrop-blur-sm">
-                              {isRTL ? item.tagAr : item.tag}
-                            </span>
-                          </div>
-                          <div className="absolute top-3 right-3 w-5 h-10 rounded-full border border-white/15 rotate-[-12deg] group-hover/card:border-accent/30 transition-colors duration-400" />
-                          <div className="absolute bottom-3 right-3 w-7 h-7 rounded-full bg-accent/0 group-hover/card:bg-accent flex items-center justify-center transition-all duration-300 opacity-0 group-hover/card:opacity-100 translate-y-2 group-hover/card:translate-y-0">
-                            <span className="text-primary text-[10px] font-bold">{isRTL ? "←" : "→"}</span>
-                          </div>
-                        </div>
+                      <Image
+                        src={item.img}
+                        alt={isRTL ? item.titleAr : item.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover/card:scale-105"
+                        sizes="500px"
+                      />
+                      {/* Dark gradient from bottom */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,6,20,0.92)] via-[rgba(10,6,20,0.35)] to-[rgba(10,6,20,0.05)]" />
+                      {/* Hover shimmer */}
+                      <div className="absolute inset-0 bg-accent/0 group-hover/card:bg-accent/8 transition-colors duration-500" />
 
-                        {/* Body */}
-                        <div className="p-5">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-accent/60 font-bold mb-1.5">
-                            {isRTL ? item.eyebrowAr : item.eyebrow}
-                          </p>
-                          <h3 className="font-serif text-cream text-[20px] font-light italic leading-tight mb-3 group-hover/card:text-accent transition-colors duration-300">
-                            {isRTL ? item.titleAr : item.title}
-                          </h3>
-                          <p className="text-[13px] text-cream/50 leading-relaxed group-hover/card:text-cream/70 transition-colors duration-300 line-clamp-3">
-                            {isRTL ? item.descAr : item.desc}
-                          </p>
-                          <div className="mt-4 flex items-center gap-1.5 text-[11px] tracking-[0.15em] uppercase text-accent/50 group-hover/card:text-accent transition-colors duration-300 font-semibold">
-                            <span>{isRTL ? "اكتشف المزيد" : "Learn more"}</span>
-                            <span className="translate-x-0 group-hover/card:translate-x-1 transition-transform duration-300">{isRTL ? "←" : "→"}</span>
-                          </div>
+                      {/* Tag — top left */}
+                      <div className="absolute top-5 left-5">
+                        <span className="bg-accent text-primary px-3 py-1 rounded-full text-[10px] tracking-[0.18em] uppercase font-bold">
+                          {isRTL ? item.tagAr : item.tag}
+                        </span>
+                      </div>
+
+                      {/* Content — bottom */}
+                      <div className="absolute bottom-0 left-0 right-0 p-7">
+                        <p className="text-[9px] tracking-[0.35em] uppercase text-accent font-bold mb-2">
+                          {isRTL ? item.eyebrowAr : item.eyebrow}
+                        </p>
+                        <h3 className="font-serif text-white text-[26px] font-light italic leading-tight mb-3">
+                          {isRTL ? item.titleAr : item.title}
+                        </h3>
+                        <p className="text-[12px] text-white/55 leading-relaxed line-clamp-2 mb-5 group-hover/card:text-white/75 transition-colors">
+                          {isRTL ? item.descAr : item.desc}
+                        </p>
+                        <div className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-accent/70 group-hover/card:text-accent transition-colors font-bold">
+                          <span>{isRTL ? "اكتشف" : "Explore"}</span>
+                          <span className="translate-x-0 group-hover/card:translate-x-1 transition-transform">
+                            {isRTL ? "←" : "→"}
+                          </span>
                         </div>
-                      </Link>
-                    </motion.div>
-                  ))}
-                </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
               </div>
 
               {/* Bottom strip */}
-              <div className="border-t border-white/6 px-6 py-4 flex items-center justify-between">
-                <p className="text-[11px] text-cream/25 tracking-[0.15em] uppercase">
+              <div className="border-t border-amber-200/60 px-6 py-4 flex items-center justify-between">
+                <p className="text-[11px] text-primary/30 tracking-[0.15em] uppercase">
                   {isRTL ? "إيلي للتموين وتنظيم الفعاليات — الرياض، المملكة العربية السعودية" : "Elie Catering & Event Planning — Riyadh, Saudi Arabia"}
                 </p>
                 <Link
                   href={`/${locale}/decorating`}
                   onClick={() => setDecoratingOpen(false)}
-                  className="text-[12px] tracking-[0.15em] uppercase text-accent/60 hover:text-accent transition-colors no-underline font-semibold"
+                  className="text-[12px] tracking-[0.15em] uppercase text-accent/70 hover:text-accent transition-colors no-underline font-semibold"
                 >
                   {isRTL ? "← جميع خدمات التزيين" : "View all decorating →"}
                 </Link>
@@ -590,92 +550,78 @@ export default function Header() {
             className="fixed top-[72px] left-0 right-0 z-40 px-6 md:px-10 pb-6"
           >
             <div
-              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,0.65)] border border-white/8"
-              style={{ background: "rgba(22,14,34,0.98)", backdropFilter: "blur(28px)" }}
+              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.10),0_4px_20px_rgba(187,138,60,0.08)] border border-amber-200/50"
+              style={{ background: "#FEFCF8", backdropFilter: "blur(28px)" }}
             >
               {/* Bg accents */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-20 right-[30%] w-[50px] h-[180px] bg-accent/5 rounded-full rotate-[-18deg]" />
-                <div className="absolute bottom-0 left-[10%] w-[36px] h-[120px] border border-accent/8 rounded-full rotate-[22deg]" />
+                <div className="absolute -top-20 right-[30%] w-[50px] h-[180px] bg-accent/6 rounded-full rotate-[-18deg]" />
+                <div className="absolute bottom-0 left-[10%] w-[36px] h-[120px] border border-accent/12 rounded-full rotate-[22deg]" />
               </div>
 
-              <div className="relative z-10 p-6">
-                {/* Section label */}
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-6 h-px bg-accent" />
-                  <span className="text-accent text-[10px] tracking-[0.4em] uppercase font-bold">
-                    {isRTL ? "التخطيط" : "Planning"}
-                  </span>
-                </div>
-
-                {/* 3 cards */}
-                <div className="grid grid-cols-3 gap-5">
-                  {PLANNING_ITEMS.map((item, ci) => (
-                    <motion.div
-                      key={item.slug}
-                      initial={{ opacity: 0, y: 14 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.04 + ci * 0.07, ease: [0.19, 1, 0.22, 1] }}
+              {/* 3 tall cinematic full-bleed cards */}
+              <div className="relative z-10 grid grid-cols-3 min-h-[400px]">
+                {PLANNING_ITEMS.map((item, ci) => (
+                  <motion.div
+                    key={item.slug}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.04 + ci * 0.08, ease: [0.19, 1, 0.22, 1] }}
+                    className="relative"
+                  >
+                    <Link
+                      href={`/${locale}/planning/${item.slug}`}
+                      onClick={() => setPlanningOpen(false)}
+                      className="group/card relative flex h-full min-h-[400px] overflow-hidden no-underline border-r border-white/10 last:border-0"
                     >
-                      <Link
-                        href={`/${locale}/planning/${item.slug}`}
-                        onClick={() => setPlanningOpen(false)}
-                        className="group/card block no-underline rounded-2xl overflow-hidden border border-white/8 hover:border-accent/35 transition-all duration-400 hover:shadow-[0_16px_48px_rgba(0,0,0,0.5)]"
-                        style={{ background: "rgba(255,255,255,0.03)" }}
-                      >
-                        {/* Image */}
-                        <div className="relative h-[200px] overflow-hidden">
-                          <Image
-                            src={item.img}
-                            alt={isRTL ? item.titleAr : item.title}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover/card:scale-110"
-                            sizes="360px"
-                          />
-                          <div className={`absolute inset-0 bg-gradient-to-t ${item.color} via-primary/30 to-transparent`} />
-                          <div className="absolute inset-0 bg-primary/25 group-hover/card:bg-primary/10 transition-colors duration-500" />
-                          <div className="absolute top-3 left-3">
-                            <span className="px-3 py-1.5 rounded-full text-[11px] tracking-[0.15em] uppercase font-bold bg-accent/20 border border-accent/30 text-accent backdrop-blur-sm">
-                              {isRTL ? item.tagAr : item.tag}
-                            </span>
-                          </div>
-                          <div className="absolute top-3 right-3 w-5 h-10 rounded-full border border-white/15 rotate-[-12deg] group-hover/card:border-accent/30 transition-colors duration-400" />
-                          <div className="absolute bottom-3 right-3 w-7 h-7 rounded-full bg-accent/0 group-hover/card:bg-accent flex items-center justify-center transition-all duration-300 opacity-0 group-hover/card:opacity-100 translate-y-2 group-hover/card:translate-y-0">
-                            <span className="text-primary text-[10px] font-bold">{isRTL ? "←" : "→"}</span>
-                          </div>
-                        </div>
+                      <Image
+                        src={item.img}
+                        alt={isRTL ? item.titleAr : item.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover/card:scale-105"
+                        sizes="500px"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,6,20,0.92)] via-[rgba(10,6,20,0.35)] to-[rgba(10,6,20,0.05)]" />
+                      <div className="absolute inset-0 bg-accent/0 group-hover/card:bg-accent/8 transition-colors duration-500" />
 
-                        {/* Body */}
-                        <div className="p-5">
-                          <p className="text-[10px] tracking-[0.3em] uppercase text-accent/60 font-bold mb-1.5">
-                            {isRTL ? item.eyebrowAr : item.eyebrow}
-                          </p>
-                          <h3 className="font-serif text-cream text-[20px] font-light italic leading-tight mb-3 group-hover/card:text-accent transition-colors duration-300">
-                            {isRTL ? item.titleAr : item.title}
-                          </h3>
-                          <p className="text-[13px] text-cream/50 leading-relaxed group-hover/card:text-cream/70 transition-colors duration-300 line-clamp-3">
-                            {isRTL ? item.descAr : item.desc}
-                          </p>
-                          <div className="mt-4 flex items-center gap-1.5 text-[11px] tracking-[0.15em] uppercase text-accent/50 group-hover/card:text-accent transition-colors duration-300 font-semibold">
-                            <span>{isRTL ? "اكتشف المزيد" : "Learn more"}</span>
-                            <span className="translate-x-0 group-hover/card:translate-x-1 transition-transform duration-300">{isRTL ? "←" : "→"}</span>
-                          </div>
+                      <div className="absolute top-5 left-5">
+                        <span className="bg-accent text-primary px-3 py-1 rounded-full text-[10px] tracking-[0.18em] uppercase font-bold">
+                          {isRTL ? item.tagAr : item.tag}
+                        </span>
+                      </div>
+
+                      <div className="absolute bottom-0 left-0 right-0 p-7">
+                        <p className="text-[9px] tracking-[0.35em] uppercase text-accent font-bold mb-2">
+                          {isRTL ? item.eyebrowAr : item.eyebrow}
+                        </p>
+                        <h3 className="font-serif text-white text-[26px] font-light italic leading-tight mb-3">
+                          {isRTL ? item.titleAr : item.title}
+                        </h3>
+                        <p className="text-[12px] text-white/55 leading-relaxed line-clamp-2 mb-5 group-hover/card:text-white/75 transition-colors">
+                          {isRTL ? item.descAr : item.desc}
+                        </p>
+                        <div className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-accent/70 group-hover/card:text-accent transition-colors font-bold">
+                          <span>{isRTL ? "اكتشف" : "Explore"}</span>
+                          <span className="translate-x-0 group-hover/card:translate-x-1 transition-transform">
+                            {isRTL ? "←" : "→"}
+                          </span>
                         </div>
-                      </Link>
-                    </motion.div>
-                  ))}
-                </div>
+                      </div>
+                    </Link>
+                  </motion.div>
+                ))}
               </div>
+
 
               {/* Bottom strip */}
-              <div className="border-t border-white/6 px-6 py-4 flex items-center justify-between">
-                <p className="text-[11px] text-cream/25 tracking-[0.15em] uppercase">
+              <div className="border-t border-amber-200/60 px-6 py-4 flex items-center justify-between">
+                <p className="text-[11px] text-primary/30 tracking-[0.15em] uppercase">
                   {isRTL ? "إيلي للتموين وتنظيم الفعاليات — الرياض، المملكة العربية السعودية" : "Elie Catering & Event Planning — Riyadh, Saudi Arabia"}
                 </p>
                 <Link
                   href={`/${locale}/planning`}
                   onClick={() => setPlanningOpen(false)}
-                  className="text-[12px] tracking-[0.15em] uppercase text-accent/60 hover:text-accent transition-colors no-underline font-semibold"
+                  className="text-[12px] tracking-[0.15em] uppercase text-accent/70 hover:text-accent transition-colors no-underline font-semibold"
                 >
                   {isRTL ? "← جميع خدمات التخطيط" : "View all planning →"}
                 </Link>
