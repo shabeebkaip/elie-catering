@@ -1,21 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-
-const clients = [
-  { label: "VIPs", icon: "◆" },
-  { label: "Government Entities", icon: "◆" },
-  { label: "Private Corporations", icon: "◆" },
-  { label: "Royal Occasions", icon: "◆" },
-  { label: "Exclusive Family Events", icon: "◆" },
-];
-
-const stats = [
-  { num: "14+", label: "Years of Craft" },
-  { num: "500+", label: "Events Delivered" },
-  { num: "13", label: "Regions Covered" },
-  { num: "100%", label: "Client Satisfaction" },
-];
+import { useTranslations } from "next-intl";
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -25,6 +11,10 @@ const fadeUp = (delay = 0) => ({
 });
 
 export default function ClientsReach() {
+  const t = useTranslations("clientsReach");
+  const clients = t.raw("clients") as string[];
+  const stats = t.raw("stats") as { num: string; label: string }[];
+
   return (
     <section className="relative bg-cream overflow-hidden py-24 md:py-32 lg:py-40">
 
@@ -42,12 +32,12 @@ export default function ClientsReach() {
           <div className="flex items-center gap-4 mb-6">
             <div className="w-10 h-px bg-accent" />
             <span className="text-accent text-[10px] tracking-[0.45em] uppercase font-bold">
-              Our Clients & Reach
+              {t("eyebrow")}
             </span>
           </div>
           <h2 className="font-serif font-light text-[clamp(44px,7.5vw,100px)] text-primary uppercase leading-[0.85] tracking-tighter max-w-4xl">
-            Trusted by<br />
-            <em className="text-accent italic ">Excellence.</em>
+            {t("headline1")}<br />
+            <em className="text-accent italic ">{t("headline2")}</em>
           </h2>
         </motion.div>
 
@@ -56,23 +46,22 @@ export default function ClientsReach() {
           {/* Left: Client categories */}
           <div>
             <motion.p {...fadeUp(0.1)} className="text-[clamp(15px,1.6vw,18px)] leading-relaxed text-body/70 font-light max-w-lg mb-10">
-              We proudly extend our premium services to the most distinguished
-              clientele across the Kingdom and beyond.
+              {t("body")}
             </motion.p>
 
             <div className="space-y-3">
-              {clients.map((c, i) => (
+              {clients.map((label, i) => (
                 <motion.div
-                  key={c.label}
+                  key={label}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.55, delay: 0.12 + i * 0.08 }}
                   className="group flex items-center gap-5 py-4 border-b border-primary/8 hover:border-accent/30 transition-colors duration-300 cursor-default"
                 >
-                  <span className="text-accent text-[8px]">{c.icon}</span>
+                  <span className="text-accent text-[8px]">◆</span>
                   <span className="font-sans text-[clamp(14px,1.4vw,16px)] text-primary/75 tracking-wide font-medium group-hover:text-primary transition-colors duration-300">
-                    {c.label}
+                    {label}
                   </span>
                   <div className="ml-auto w-5 h-px bg-accent/0 group-hover:bg-accent/40 transition-all duration-400 group-hover:w-10" />
                 </motion.div>
@@ -87,9 +76,7 @@ export default function ClientsReach() {
               <div className="flex items-start gap-4">
                 <div className="w-1 h-12 rounded-full bg-accent shrink-0 mt-1" />
                 <p className="text-[clamp(13px,1.4vw,15px)] leading-relaxed text-body/65 font-light italic">
-                  {`Covering all regions of the Kingdom of Saudi Arabia — our specialized
-                  team is fully equipped to handle high-profile events with immediate
-                  readiness and unmatched professionalism.`}
+                  {t("note")}
                 </p>
               </div>
             </motion.div>

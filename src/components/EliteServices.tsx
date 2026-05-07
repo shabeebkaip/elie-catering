@@ -2,49 +2,24 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Camera, Music2, Sparkles, Car, MonitorSpeaker } from "lucide-react";
 
-const services = [
-  {
-    icon: Camera,
-    slug: "professional-photography",
-    title: "Professional Photography",
-    description:
-      "Professional photography and videography services — including ground and aerial drone shots — to capture every exquisite moment with precision.",
-  },
-  {
-    icon: Music2,
-    slug: "entertainment-live-music",
-    title: "Entertainment & Live Music",
-    description:
-      "Elevate your event with world-class entertainment, from professional soloists (Piano, Saxophone, Violin, Oud) to spectacular live bands.",
-  },
-  {
-    icon: Sparkles,
-    slug: "hall-decor-coordination",
-    title: "Hall & Decor Coordination",
-    description:
-      "End-to-end planning of event halls, featuring bespoke table arrangements, exquisite décor, and fresh natural floral displays.",
-  },
-  {
-    icon: Car,
-    slug: "valet-parking",
-    title: "Valet Parking — Valia",
-    description:
-      "Our premium 'Valia' valet team ensures a sophisticated, seamless experience for your guests from arrival to departure.",
-  },
-  {
-    icon: MonitorSpeaker,
-    slug: "stage-av-solutions",
-    title: "Stage & AV Solutions",
-    description:
-      "Professional stage design equipped with state-of-the-art lighting and sound distribution systems for an immersive celebration.",
-  },
+const SLUGS = [
+  "professional-photography",
+  "entertainment-live-music",
+  "hall-decor-coordination",
+  "valet-parking",
+  "stage-av-solutions",
 ];
+
+const ICONS = [Camera, Music2, Sparkles, Car, MonitorSpeaker];
 
 export default function EliteServices() {
   const locale = useLocale();
+  const isAr = locale === "ar";
+  const t = useTranslations("elite");
+  const items = t.raw("items") as { t: string; d: string }[];
 
   return (
     <section className="bg-primary relative overflow-hidden">
@@ -62,7 +37,7 @@ export default function EliteServices() {
               transition={{ duration: 0.6 }}
               className="text-accent text-[10px] tracking-[0.5em] uppercase font-bold mb-5"
             >
-              Elite Event Services
+              {t("eyebrow")}
             </motion.p>
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
@@ -71,7 +46,11 @@ export default function EliteServices() {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="font-serif text-[clamp(40px,6.5vw,84px)] text-cream font-light italic leading-[0.9] tracking-tight"
             >
-              Beyond the Table
+              {isAr ? (
+                <>{t("headline1")}<br />{t("headline2")}</>
+              ) : (
+                <>Beyond the Table</>
+              )}
             </motion.h2>
           </div>
           <motion.div
@@ -84,8 +63,10 @@ export default function EliteServices() {
               href={`/${locale}/services?category=addons`}
               className="group flex items-center gap-2 text-[11px] tracking-[0.3em] uppercase text-cream/40 hover:text-accent transition-colors duration-300 pb-1 border-b border-cream/15 hover:border-accent whitespace-nowrap no-underline"
             >
-              View All Services
-              <span className="translate-x-0 group-hover:translate-x-1 transition-transform duration-300">→</span>
+              {isAr ? "عرض كل الخدمات" : "View All Services"}
+              <span className="translate-x-0 group-hover:translate-x-1 transition-transform duration-300">
+                {isAr ? "←" : "→"}
+              </span>
             </Link>
           </motion.div>
         </div>
@@ -93,11 +74,11 @@ export default function EliteServices() {
 
       {/* Editorial service rows */}
       <div className="border-t border-white/8">
-        {services.map((service, index) => {
-          const Icon = service.icon;
+        {items.map((service, index) => {
+          const Icon = ICONS[index];
           return (
             <motion.div
-              key={service.title}
+              key={service.t}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -105,7 +86,7 @@ export default function EliteServices() {
               className="group relative border-b border-white/8"
             >
               <Link
-                href={`/${locale}/services/${service.slug}`}
+                href={`/${locale}/services/${SLUGS[index]}`}
                 className="block no-underline"
               >
               {/* Hover bg */}
@@ -126,7 +107,7 @@ export default function EliteServices() {
 
                 {/* Title */}
                 <h3 className="font-serif text-[clamp(18px,2.2vw,30px)] text-cream font-light italic leading-tight flex-shrink-0 w-[clamp(180px,26vw,340px)] group-hover:text-accent transition-colors duration-400">
-                  {service.title}
+                  {service.t}
                 </h3>
 
                 {/* Divider */}
@@ -134,13 +115,13 @@ export default function EliteServices() {
 
                 {/* Description */}
                 <p className="hidden md:block text-cream/35 text-[13px] leading-relaxed flex-1 group-hover:text-cream/60 transition-colors duration-400">
-                  {service.description}
+                  {service.d}
                 </p>
 
                 {/* Discover CTA */}
                 <div className="ml-auto flex-shrink-0 flex items-center gap-2 text-[10px] tracking-[0.3em] uppercase text-accent opacity-0 group-hover:opacity-100 translate-x-3 group-hover:translate-x-0 transition-all duration-300">
-                  <span>Discover</span>
-                  <span>→</span>
+                  <span>{isAr ? "اكتشف" : "Discover"}</span>
+                  <span>{isAr ? "←" : "→"}</span>
                 </div>
               </div>
               </Link>

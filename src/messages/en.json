@@ -170,6 +170,53 @@
     "en": "EN",
     "ar": "AR"
   },
+  "whyUs": {
+    "eyebrow": "Our Difference",
+    "headline1": "Why",
+    "headline2": "Choose Us.",
+    "sub": "Choosing Elie Catering means selecting a partner who understands every nuance of crafting unforgettable events.",
+    "craftedPerfection": "Crafted Perfection.",
+    "areasLabel": "Areas of Expertise",
+    "pillars": [
+      { "t": "A single point of contact", "d": "One producer from first call to last candle. No vendor seams, no coordination gaps — just one voice carrying your vision from concept to execution." },
+      { "t": "In-house craftspeople", "d": "Chefs, florists, service — trained under one roof, to one standard." },
+      { "t": "Fourteen years of memory", "d": "Institutional knowledge you can only build by doing this for a long time. We've seen every scenario — and built systems for each one." }
+    ],
+    "expertise": [
+      { "t": "Unparalleled expertise", "d": "Years of experience delivering excellence in event management." },
+      { "t": "Luxury & elegance", "d": "Luxury in every detail — from concept to the final presentation." },
+      { "t": "Customized solutions", "d": "Every event built from a blank page — crafted exactly for you." },
+      { "t": "Culinary excellence", "d": "Seasonal menus by the chef's notebook. No dish served twice the same." },
+      { "t": "Seamless execution", "d": "One timeline, one standard. The seams between vendors disappear." },
+      { "t": "Commitment to quality", "d": "Named farmers, decade-long suppliers, staff trained in-house." }
+    ]
+  },
+  "clientsReach": {
+    "eyebrow": "Our Clients & Reach",
+    "headline1": "Trusted by",
+    "headline2": "Excellence.",
+    "body": "We proudly extend our premium services to the most distinguished clientele across the Kingdom and beyond.",
+    "note": "Covering all regions of the Kingdom of Saudi Arabia — our specialized team is fully equipped to handle high-profile events with immediate readiness and unmatched professionalism.",
+    "clients": ["VIPs", "Government Entities", "Private Corporations", "Royal Occasions", "Exclusive Family Events"],
+    "stats": [
+      { "num": "14+", "label": "Years of Craft" },
+      { "num": "500+", "label": "Events Delivered" },
+      { "num": "13", "label": "Regions Covered" },
+      { "num": "100%", "label": "Client Satisfaction" }
+    ]
+  },
+  "ourServices": {
+    "eyebrow": "What We Offer",
+    "headline": "Our Services",
+    "tagline": "Elie Catering & Event Planning — Riyadh, Saudi Arabia",
+    "signatureEyebrow": "Signature Experience",
+    "signatureHeadline": "Crafted for the extraordinary.",
+    "bookCta": "Book a Consultation",
+    "yearsLabel": "Years",
+    "eventsLabel": "Events",
+    "viewAll": "View All Services",
+    "exploreAll": "Explore All"
+  },
   "about": {
     "heroEyebrow": "Our Story",
     "heroH1": "Crafting",

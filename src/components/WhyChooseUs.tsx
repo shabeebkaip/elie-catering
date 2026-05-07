@@ -2,58 +2,21 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
-/* ── Three headline pillars ── */
-const pillars = [
-  {
-    t: "A single point of contact",
-    d: "One producer from first call to last candle. No vendor seams, no coordination gaps — just one voice carrying your vision from concept to execution.",
-    img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    t: "In-house craftspeople",
-    d: "Chefs, florists, service — trained under one roof, to one standard.",
-    img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop",
-  },
-  {
-    t: "Fourteen years of memory",
-    d: "Institutional knowledge you can only build by doing this for a long time. We've seen every scenario — and built systems for each one.",
-    img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
-  },
+const PILLAR_IMGS = [
+  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
 ];
 
-/* ── Six expertise cards ── */
-const expertise = [
-  {
-    t: "Unparalleled expertise",
-    d: "Years of experience delivering excellence in event management.",
-    img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    t: "Luxury & elegance",
-    d: "Luxury in every detail — from concept to the final presentation.",
-    img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    t: "Customized solutions",
-    d: "Every event built from a blank page — crafted exactly for you.",
-    img: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    t: "Culinary excellence",
-    d: "Seasonal menus by the chef's notebook. No dish served twice the same.",
-    img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    t: "Seamless execution",
-    d: "One timeline, one standard. The seams between vendors disappear.",
-    img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    t: "Commitment to quality",
-    d: "Named farmers, decade-long suppliers, staff trained in-house.",
-    img: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=800&auto=format&fit=crop",
-  },
+const EXPERTISE_IMGS = [
+  "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=800&auto=format&fit=crop",
 ];
 
 const fadeUp = (delay = 0) => ({
@@ -64,6 +27,10 @@ const fadeUp = (delay = 0) => ({
 });
 
 export default function WhyChooseUs() {
+  const t = useTranslations("whyUs");
+  const pillars = t.raw("pillars") as { t: string; d: string }[];
+  const expertise = t.raw("expertise") as { t: string; d: string }[];
+
   return (
     <div id="why-us" className="overflow-hidden">
 
@@ -96,18 +63,17 @@ export default function WhyChooseUs() {
             <motion.div {...fadeUp(0)}>
               <div className="flex items-center gap-3 mb-5">
                 <div className="w-8 h-px bg-accent/50" />
-                <span className="text-accent text-[9px] tracking-[0.42em] uppercase font-bold">Our Difference</span>
+                <span className="text-accent text-[9px] tracking-[0.42em] uppercase font-bold">{t("eyebrow")}</span>
               </div>
               <div className="flex items-start gap-4 md:gap-6">
 
                 <div>
                   <h2 className="font-serif font-light tracking-tight leading-[0.88] text-cream text-[clamp(48px,8vw,106px)]">
-                    Why<br />
-                    <em className="text-accent italic">Choose Us.</em>
+                    {t("headline1")}<br />
+                    <em className="text-accent italic">{t("headline2")}</em>
                   </h2>
                   <p className="mt-5 text-[clamp(14px,1.4vw,16px)] leading-relaxed text-cream/45 font-light max-w-lg">
-                    Choosing Elie Catering means selecting a partner who understands
-                    every nuance of crafting unforgettable events.
+                    {t("sub")}
                   </p>
                 </div>
               </div>
@@ -139,8 +105,8 @@ export default function WhyChooseUs() {
                 background: "linear-gradient(145deg, rgba(36,24,52,0.97) 0%, rgba(22,14,34,0.99) 100%)",
               }}
             >
-              {/* Tall arch capsule image — left portion (desktop) */}
-              <div className="absolute left-7 top-7 bottom-7 w-[42%] hidden lg:block">
+              {/* Tall arch capsule image — logical start portion (desktop) */}
+              <div className="absolute start-7 top-7 bottom-7 w-[42%] hidden lg:block">
                 <motion.div
                   whileHover={{ scale: 1.03 }}
                   transition={{ duration: 0.7, ease: "easeOut" }}
@@ -148,7 +114,7 @@ export default function WhyChooseUs() {
                   style={{ borderRadius: "9999px 9999px 52px 52px" }}
                 >
                   <Image
-                    src={pillars[0].img}
+                    src={PILLAR_IMGS[0]}
                     alt={pillars[0].t}
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-105"
@@ -163,7 +129,7 @@ export default function WhyChooseUs() {
               {/* Mobile top image */}
               <div className="relative lg:hidden w-full h-52">
                 <Image
-                  src={pillars[0].img}
+                  src={PILLAR_IMGS[0]}
                   alt={pillars[0].t}
                   fill
                   className="object-cover"
@@ -172,11 +138,11 @@ export default function WhyChooseUs() {
                 <div className="absolute inset-0 bg-linear-to-b from-transparent to-primary/90" />
               </div>
 
-              {/* Text — right column */}
-              <div className="relative lg:absolute lg:right-0 lg:top-0 lg:bottom-0 lg:w-[55%] flex flex-col justify-end lg:justify-center p-6 lg:pr-9 lg:pl-5">
+              {/* Text — logical end column */}
+              <div className="relative lg:absolute lg:end-0 lg:top-0 lg:bottom-0 lg:w-[55%] flex flex-col justify-end lg:justify-center p-6 lg:pe-9 lg:ps-5">
 
                 <h3 className="font-sans font-black text-cream text-[clamp(18px,2vw,24px)] uppercase tracking-tight leading-tight mt-1 group-hover:text-accent transition-colors duration-400">
-                  A single point<br className="hidden lg:block" /> of contact
+                  {pillars[0].t}
                 </h3>
                 <p className="text-cream/46 text-[13px] md:text-[14px] leading-relaxed mt-3 max-w-[300px]">
                   {pillars[0].d}
@@ -190,8 +156,8 @@ export default function WhyChooseUs() {
               </div>
 
               {/* Decorative capsule shapes on card */}
-              <div className="absolute top-5 right-5 w-9 h-20 rounded-full border border-accent/16 rotate-[14deg] hidden lg:block" />
-              <div className="absolute bottom-6 right-16 w-5 h-11 rounded-full bg-accent/8 rotate-[-8deg] hidden lg:block" />
+              <div className="absolute top-5 end-5 w-9 h-20 rounded-full border border-accent/16 rotate-[14deg] hidden lg:block" />
+              <div className="absolute bottom-6 end-16 w-5 h-11 rounded-full bg-accent/8 rotate-[-8deg] hidden lg:block" />
             </motion.div>
 
             {/* ─────────────────────────────────
@@ -214,7 +180,7 @@ export default function WhyChooseUs() {
               <div className="absolute inset-4 rounded-[64px] border border-white/20 pointer-events-none" />
               <div className="absolute bottom-6 left-6 right-6 text-center">
                  <span className="font-serif italic text-accent text-2xl tracking-tight opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    Crafted Perfection.
+                    {t("craftedPerfection")}
                  </span>
               </div>
             </motion.div>
@@ -231,14 +197,14 @@ export default function WhyChooseUs() {
                 WebkitBackdropFilter: "blur(14px)",
               }}
             >
-              {/* Floating arch capsule image top-right */}
-              <div className="absolute top-5 right-5">
+              {/* Floating arch capsule image — logical end (right LTR, left RTL) */}
+              <div className="absolute top-5 end-5">
                 <div
                   className="relative w-14 h-20 overflow-hidden border-2 border-white/14 shadow-xl group-hover:border-accent/30 transition-all duration-400"
                   style={{ borderRadius: "9999px 9999px 14px 14px" }}
                 >
                   <Image
-                    src={pillars[1].img}
+                    src={PILLAR_IMGS[1]}
                     alt={pillars[1].t}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -248,11 +214,11 @@ export default function WhyChooseUs() {
                 </div>
               </div>
 
-              <div className="p-6 h-full flex flex-col justify-between min-h-[200px]">
+              <div className="p-6 pe-20 h-full flex flex-col justify-between min-h-[200px]">
 
                 <div>
                   <h3 className="font-sans font-black text-cream text-[14px] uppercase tracking-[0.04em] leading-tight group-hover:text-accent transition-colors duration-300">
-                    In-house<br />craftspeople
+                    {pillars[1].t}
                   </h3>
                   <p className="text-cream/40 text-[12px] leading-relaxed mt-2">
                     {pillars[1].d}
@@ -274,14 +240,14 @@ export default function WhyChooseUs() {
                 WebkitBackdropFilter: "blur(10px)",
               }}
             >
-              {/* Arch capsule image — top right */}
-              <div className="absolute top-5 right-5">
+              {/* Arch capsule image — logical end (right LTR, left RTL) */}
+              <div className="absolute top-5 end-5">
                 <div
                   className="relative w-14 h-20 overflow-hidden border-2 border-accent/22 shadow-xl group-hover:border-accent/42 transition-all duration-400"
                   style={{ borderRadius: "9999px 9999px 14px 14px" }}
                 >
                   <Image
-                    src={pillars[2].img}
+                    src={PILLAR_IMGS[2]}
                     alt={pillars[2].t}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-110"
@@ -292,13 +258,13 @@ export default function WhyChooseUs() {
               </div>
 
               {/* Background capsule shape */}
-              <div className="absolute -bottom-4 -right-4 w-16 h-32 rounded-full bg-accent/6 rotate-[-14deg]" />
+              <div className="absolute -bottom-4 -end-4 w-16 h-32 rounded-full bg-accent/6 rotate-[-14deg]" />
 
-              <div className="p-6 h-full flex flex-col justify-between min-h-[200px]">
+              <div className="p-6 pe-20 h-full flex flex-col justify-between min-h-[200px]">
 
                 <div>
                   <h3 className="font-sans font-black text-cream text-[14px] uppercase tracking-[0.04em] leading-tight group-hover:text-accent transition-colors duration-300 mb-2">
-                    Fourteen years<br />of memory
+                    {pillars[2].t}
                   </h3>
                   <p className="text-cream/38 text-[12px] leading-relaxed">
                     {pillars[2].d}
@@ -320,7 +286,7 @@ export default function WhyChooseUs() {
             >
               <div className="w-5 h-px bg-accent/40" />
               <span className="text-[9px] tracking-[0.42em] uppercase text-cream/28 font-bold">
-                Areas of Expertise
+                {t("areasLabel")}
               </span>
               <div className="flex-1 h-px bg-white/5" />
             </motion.div>
@@ -344,15 +310,13 @@ export default function WhyChooseUs() {
                   {/* Image strip */}
                   <div className="relative h-36 overflow-hidden">
                     <Image
-                      src={e.img}
+                      src={EXPERTISE_IMGS[i]}
                       alt={e.t}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-110"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-linear-to-b from-transparent via-primary/20 to-primary/82" />
-
-
 
                     {/* Tiny capsule accent in image */}
                     <div className="absolute top-3 right-3 w-5 h-9 rounded-full border border-white/24 rotate-[10deg]" />
