@@ -77,12 +77,101 @@ const FINGER_FOOD_SECTION_META: Record<string, { tagline: string; description: s
 };
 
 /* ────────────────────────────────────────────
+   COFFEE BREAK: dish name → local image path
+   ──────────────────────────────────────────── */
+const COFFEE_BREAK_IMAGES: Record<string, string> = {
+  // Sandwiches
+  "mini milk bread with turkey and pickled cucumber":
+    "/menu/coffee%20break/sandwiches/Mini%20milk%20bread%20with%20turkey%20and%20cucumber.png",
+  "mini baguette bread with feta cheese and fresh cucumber":
+    "/menu/coffee%20break/sandwiches/Mini%20baguette%20bread%20with%20feta%20cheese%20and%20fresh%20cucumber.png",
+  "mini olive balls with tuna and corn":
+    "/menu/coffee%20break/sandwiches/ChatGPT%20Image%20May%208%2C%202026%2C%2003_56_18%20AM%20%281%29.png",
+  // Salads & Cold Appetizers
+  "cucumber and feta roll with shrimp":
+    "/menu/coffee%20break/salads/Cucumber-and-Feta-Roll-with-Shrimp.png",
+  "cranberry pecan cheese ball":
+    "/menu/coffee%20break/salads/Nuts%20and%20cranberries%20cheese%20appetizer.png",
+  "mini tart chicken & cheese quiches":
+    "/menu/coffee%20break/salads/Mini%20tarts%20with%20chicken%20and%20cheese.png",
+  "gorgonzola cheese canapés with walnut":
+    "/menu/coffee%20break/salads/Gorgonzola%20cheese%20canap%C3%A9s%20with%20walnut.png",
+  // Appetizers
+  "meat & cheese sambuusa":
+    "/menu/coffee%20break/appetizers/ChatGPT%20Image%20May%208%2C%202026%2C%2004_22_29%20AM%20%281%29.png",
+  // Dessert
+  "assorted french pastry":
+    "/menu/coffee%20break/dessert/Assorted%20French%20Pastry.png",
+  "assorted danish pastry":
+    "/menu/coffee%20break/dessert/Assorted%20Danish%20Pastry.png",
+  "mini croissants":
+    "/menu/coffee%20break/dessert/Mini%20Croissants.png",
+  "fresh-cut fruits":
+    "/menu/coffee%20break/dessert/Fresh-cut%20Fruits.png",
+  // Beverages
+  "mineral water":
+    "/menu/coffee%20break/beverages/689dfc618fefcf4041d9c01e.webp",
+  "assorted juices":
+    "/menu/coffee%20break/beverages/ChatGPT%20Image%20May%208%2C%202026%2C%2011_02_30%20AM.png",
+  "coffee":
+    "/menu/coffee%20break/beverages/ChatGPT%20Image%20May%208%2C%202026%2C%2011_06_21%20AM.png",
+  "tea":
+    "/menu/coffee%20break/beverages/ChatGPT%20Image%20May%208%2C%202026%2C%2011_08_11%20AM.png",
+};
+
+/* ────────────────────────────────────────────
+   LIVE COOKING STATIONS: dish name → local image path
+   ──────────────────────────────────────────── */
+const LIVE_COOKING_IMAGES: Record<string, string> = {
+  // Station 1 — Lamb & Fish
+  "lamb ousal":
+    "/menu/live-cooking/lamp%26fish/Lamb%20Ousal.png",
+  "lamb kebab":
+    "/menu/live-cooking/lamp%26fish/lamb%20kebab.png",
+  "fish sabach":
+    "/menu/live-cooking/lamp%26fish/Fish%20Sabach.png",
+  "served with: tahini sauce & cream sauce":
+    "/menu/live-cooking/lamp%26fish/tahini.png",
+  // Station 2 — Chicken & Potatoes
+  "chicken tikka":
+    "https://www.eitanbernath.com/wp-content/uploads/2020/10/Chicken-Tikka-LOW-RES-1-819x1024.jpg",
+  "chicken kebab":
+    "https://www.kitchensanctuary.com/wp-content/uploads/2016/04/Honey-Garlic-Chicken-Skewers-square-FS-21.jpg",
+  "shish tawook (red + white)":
+    "https://mamaslebanesekitchen.com/wp-content/uploads/2011/10/skewered-shish-tawook-chicken-kabobs.jpg",
+  "served with: full grilled potatoes & potato cubes":
+    "https://www.allrecipes.com/thmb/2A1wFJnDdnku9LgCgF60oX_Ck-8=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/20963-oven-roasted-potatoes-DDMFS-4x3-ada74550e9454bd3afc343a1bf88270f.jpg",
+  // Station 3 — Lamb Neck & Arayes
+  "lamb neck ribs":
+    "https://img.delicious.com.au/L2auynZx/del/2023/07/lamb-neck-roast-with-rough-cut-chermoula-193255-4.jpg",
+  "lamb arayes":
+    "https://urbanfarmandkitchen.com/wp-content/uploads/2023/11/arayes-meat-stuffed-pitas-5.jpg",
+  "served with: special bbq bread & rocket salad":
+    "https://www.sprinklesandsprouts.com/wp-content/uploads/2023/12/rocket-salad-sq.jpg",
+  // Station 4 — Seafood & Chicken
+  "grilled fish steak":
+    "https://sauers.com/cdn/shop/articles/20220527163322-grilled_fish_fillets_1024x_d8c1f4f0-a64f-4b1b-89f0-8cea38e46718_1024x.webp?v=1669236149",
+  "grilled chicken leg":
+    "https://shewearsmanyhats.com/wp-content/uploads/2015/05/grilled-bbq-chicken-3.jpg",
+  "served with: lebanese bread & corn":
+    "https://www.allrecipes.com/thmb/M4uGXoJpt9Q3ld_Ay2Bx_xbAqo4=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/259099-Lebanese-Mountain-Bread-ddmfs-4x3-step-13-cafb72da0b3f4893b3771e7caa6e47e5.jpg",
+  // Breads
+  "sandwich bread":
+    "https://thesaltedpepper.com/wp-content/uploads/2024/07/Butter-Bread-sq.jpg",
+  "manoush bread":
+    "https://www.elmundoeats.com/wp-content/uploads/2024/02/Lebanese-flatbreads-manoushe-zaatar.jpg",
+  "lettuce":
+    "https://www.tasteofhome.com/wp-content/uploads/2025/06/Mandarin-Orange-Romaine-Salad_EXPS_TOHD25_45715_RatulaChakraborti_06.jpg?w=700",
+};
+
+/* ────────────────────────────────────────────
    PER-CATEGORY dish image maps
    Add more slugs here as images are uploaded
    ──────────────────────────────────────────── */
 const CATEGORY_DISH_IMAGES: Record<string, Record<string, string>> = {
   "finger-food": FINGER_FOOD_IMAGES,
-  // "coffee-break": COFFEE_BREAK_IMAGES,  ← add when ready
+  "coffee-break": COFFEE_BREAK_IMAGES,
+  "live-cooking-stations": LIVE_COOKING_IMAGES,
 };
 
 function getDishImage(slug: string, itemName: string): string | null {
@@ -241,13 +330,13 @@ export default async function MenuCategoryPage({
             style={{ filter: "brightness(0.36) saturate(1.3)" }}
             priority
           />
-          <div className="absolute inset-0 bg-linear-to-t from-[#1b1226] via-[#2c1e39]/20 to-transparent" />
-          <div className="absolute inset-0 bg-linear-to-r from-[#1b1226]/80 via-transparent to-transparent" />
-          <div className="absolute top-0 left-0 right-0 h-32 bg-linear-to-b from-[#1b1226]/60 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-purple-deep via-[#2c1e39]/20 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-r from-purple-deep/80 via-transparent to-transparent" />
+          <div className="absolute top-0 left-0 right-0 h-32 bg-linear-to-b from-purple-deep/60 to-transparent" />
         </div>
 
         {/* Gold left bar */}
-        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-linear-to-b from-transparent via-[#bb8a3c]/80 to-transparent" />
+        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-linear-to-b from-transparent via-accent/80 to-transparent" />
 
         {/* Decorative ghost word */}
         <div
@@ -311,7 +400,7 @@ export default async function MenuCategoryPage({
       {/* ══════════════════════════════════════════
           MAIN CONTENT AREA  (cream background)
           ══════════════════════════════════════════ */}
-      <div className="bg-[#FAF6EF]">
+      <div className="bg-cream">
         {category.packages.map((pkg, pkgIndex) => (
           <div key={pkg.id}>
 
@@ -333,7 +422,7 @@ export default async function MenuCategoryPage({
                   )}
                 </div>
                 {pkg.note && (
-                  <div className="flex items-start gap-3 border border-accent/20 rounded-xl px-5 py-4 bg-accent/[0.06] max-w-sm shrink-0">
+                  <div className="flex items-start gap-3 border border-accent/20 rounded-xl px-5 py-4 bg-accent/6 max-w-sm shrink-0">
                     <span className="text-accent text-base mt-0.5 shrink-0">ⓘ</span>
                     <p className="text-cream/50 text-sm leading-relaxed">{pkg.note}</p>
                   </div>
@@ -369,7 +458,7 @@ export default async function MenuCategoryPage({
                             {section.title}
                           </h3>
                           {meta && (
-                            <p className="text-[#4a4358]/60 text-base leading-relaxed max-w-lg">
+                            <p className="text-body/60 text-base leading-relaxed max-w-lg">
                               {meta.description}
                             </p>
                           )}
@@ -495,7 +584,7 @@ export default async function MenuCategoryPage({
           GALLERY
           ══════════════════════════════════════════ */}
       {category.gallery.length > 0 && (
-        <section className="bg-[#1b1226] py-24 px-6 md:px-16 lg:px-24">
+        <section className="bg-purple-deep py-24 px-6 md:px-16 lg:px-24">
           <div className="max-w-7xl mx-auto">
             <div className="mb-14">
               <p className="flex items-center gap-3 text-accent uppercase tracking-[0.3em] text-[11px] font-bold mb-4">
@@ -528,7 +617,7 @@ export default async function MenuCategoryPage({
                       style={{ filter: "brightness(0.82) saturate(1.15)" }}
                       sizes="(max-width: 768px) 50vw, 25vw"
                     />
-                    <div className="absolute inset-0 bg-linear-to-t from-[#1b1226]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="absolute inset-0 bg-linear-to-t from-purple-deep/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     <div className="absolute bottom-0 left-0 right-0 px-4 pb-4 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                       <p className="text-white text-xs font-medium tracking-wide">{item.alt}</p>
                     </div>
@@ -558,7 +647,7 @@ export default async function MenuCategoryPage({
                         style={{ filter: "brightness(0.82) saturate(1.1)" }}
                         sizes="(max-width: 768px) 50vw, 33vw"
                       />
-                      <div className="absolute inset-0 bg-linear-to-t from-[#1b1226]/40 to-transparent" />
+                      <div className="absolute inset-0 bg-linear-to-t from-purple-deep/40 to-transparent" />
                     </div>
                   );
                 })}
@@ -571,7 +660,7 @@ export default async function MenuCategoryPage({
       {/* ══════════════════════════════════════════
           BOTTOM CTA
           ══════════════════════════════════════════ */}
-      <section className="relative overflow-hidden bg-[#1b1226] py-32 px-6 md:px-16 text-center">
+      <section className="relative overflow-hidden bg-purple-deep py-32 px-6 md:px-16 text-center">
         <div
           className="absolute inset-0 opacity-[0.06]"
           style={{
@@ -612,7 +701,7 @@ export default async function MenuCategoryPage({
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               href={`${localePath}/contact`}
-              className="inline-flex items-center gap-3 bg-accent text-[#1b1226] px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-[#d4b47a] transition-all duration-300 hover:shadow-lg hover:shadow-accent/30 hover:-translate-y-0.5"
+              className="inline-flex items-center gap-3 bg-accent text-purple-deep px-10 py-4 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-accent-soft transition-all duration-300 hover:shadow-lg hover:shadow-accent/30 hover:-translate-y-0.5"
             >
               Book a Consultation
               <span className="text-base">→</span>
