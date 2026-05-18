@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { setRequestLocale } from "next-intl/server";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { getMenuCategory, menuCategories } from "@/lib/menu";
@@ -303,6 +304,7 @@ export default async function MenuCategoryPage({
   params: Promise<{ slug: string; locale: string }>;
 }) {
   const { slug, locale } = await params;
+  setRequestLocale(locale);
   const category = getMenuCategory(slug);
   if (!category) notFound();
 

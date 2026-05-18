@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, Instrument_Serif, Almarai } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -36,6 +36,10 @@ const almarai = Almarai({
   weight: ["300", "400", "700"],
 });
 
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
 export const metadata: Metadata = {
   title: "Elie Catering & Event Planning",
   description: "Luxury catering and event planning services across Saudi Arabia and beyond.",
@@ -54,6 +58,7 @@ export default async function LocaleLayout({
     notFound();
   }
 
+  setRequestLocale(locale);
   const messages = await getMessages();
   const isArabic = locale === "ar";
 
