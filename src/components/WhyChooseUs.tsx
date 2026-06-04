@@ -35,7 +35,7 @@ export default function WhyChooseUs() {
     <div id="why-us" className="overflow-hidden">
 
       {/* ── Arch transition: CoreValues cream → dark primary ── */}
-      <div className="bg-cream">
+      <div className="bg-surface">
         <div className="h-16 md:h-24 bg-primary rounded-t-[80px] md:rounded-t-[120px]" />
       </div>
 

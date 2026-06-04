@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 
 export default function Hero() {
@@ -11,112 +10,129 @@ export default function Hero() {
   const locale = useLocale();
   const isRTL = locale === "ar";
 
-  const SLIDES = [
-    { img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop", label: t("slides.weddings") },
-    { img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop", label: t("slides.corporate") },
-    { img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop", label: t("slides.galas") },
-  ];
-
-  const THUMBS = [
-    { img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=800&auto=format&fit=crop", label: t("thumbs.dining") },
-    { img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=800&auto=format&fit=crop", label: t("thumbs.events") },
-    { img: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop", label: t("thumbs.florals") },
-  ];
-
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => setCurrent((c) => (c + 1) % SLIDES.length), 5500);
-    return () => clearInterval(timer);
-  }, []);
-
   return (
-    <section className="relative min-h-svh flex flex-col overflow-hidden bg-[#1a0f27]">
-      <div className="absolute inset-0">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={current}
-            initial={{ opacity: 0, scale: 1.06 }}
-            animate={{ opacity: 0.68, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.02 }}
-            transition={{ duration: 2.6, ease: "easeInOut" }}
-            className="absolute inset-0"
-          >
-            <Image src={SLIDES[current].img} alt="" fill priority className="object-cover object-center" sizes="100vw" />
-          </motion.div>
-        </AnimatePresence>
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 75% at 50% 42%, transparent 10%, rgba(26,15,39,0.45) 55%, rgba(26,15,39,0.9) 100%)" }} />
-        <div className="absolute inset-x-0 bottom-0 h-[55%]" style={{ background: "linear-gradient(to top, #1a0f27 0%, rgba(26,15,39,0.9) 25%, rgba(26,15,39,0.55) 55%, transparent 100%)" }} />
-        <div className="absolute top-[15%] left-[20%] w-[500px] h-[500px] rounded-full bg-violet/10 blur-[120px] pointer-events-none" />
-        <div className="absolute bottom-[20%] right-[15%] w-[380px] h-[380px] rounded-full bg-accent/8 blur-[100px] pointer-events-none" />
-      </div>
+    <section className="relative min-h-svh flex flex-col overflow-hidden" style={{ backgroundColor: "#06040c" }}>
 
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Brand capsule — primary: bold solid gold, top-right */}
-        <motion.div initial={{ opacity: 0, y: -40, x: 40 }} animate={{ opacity: 1, y: 0, x: 0 }} transition={{ duration: 1.8, delay: 0.5 }} className="absolute -top-20 right-[4%] w-[100px] h-[420px] rounded-full bg-accent/65 rotate-[-18deg] hidden lg:block" />
-        {/* Brand capsule — secondary: slightly offset, slightly darker/behind */}
-        <motion.div initial={{ opacity: 0, y: -30, x: 30 }} animate={{ opacity: 1, y: 0, x: 0 }} transition={{ duration: 1.9, delay: 0.65 }} className="absolute -top-8 right-[10%] w-[80px] h-[340px] rounded-full bg-accent/40 rotate-[-18deg] hidden lg:block" />
-        {/* Subtle bottom-left accent */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.4, delay: 0.8 }} className="absolute -bottom-10 -left-6 w-[70px] h-[220px] rounded-full bg-accent/18 rotate-[22deg] hidden md:block" />
-      </div>
+      {/* ── Cinematic background image ── */}
+      <motion.div
+        initial={{ scale: 1.06, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 2.8, ease: [0.19, 1, 0.22, 1] }}
+        className="absolute inset-0"
+      >
+        <Image
+          src="/images/elie-hero.png"
+          alt=""
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+      </motion.div>
 
-      <div className="relative flex-1 flex flex-col items-center justify-center text-center text-cream px-6 pt-24 pb-48 md:pb-52">
-        <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.15 }} className="flex items-center justify-center gap-3 mb-8 md:mb-10">
-          <div className="w-10 md:w-14 h-px bg-accent/55" />
-          <span className="text-accent text-[9.5px] md:text-[10px] tracking-[0.52em] uppercase font-bold">{t("eyebrow")}</span>
-          <div className="w-10 md:w-14 h-px bg-accent/55" />
+      {/* ── Overlay layers — charcoal-neutral, reduced purple tint ── */}
+      {/* Center radial: lightened to let photography breathe */}
+      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 100% 85% at 50% 50%, rgba(6,4,12,0.12) 0%, rgba(6,4,12,0.42) 52%, rgba(6,4,12,0.82) 100%)" }} />
+      {/* Bottom vignette: anchors text, slightly reduced */}
+      <div className="absolute inset-x-0 bottom-0 h-[58%]" style={{ background: "linear-gradient(to top, rgba(6,4,12,0.96) 0%, rgba(6,4,12,0.72) 30%, rgba(6,4,12,0.2) 65%, transparent 100%)" }} />
+      {/* Top vignette: navigation breathing room */}
+      <div className="absolute inset-x-0 top-0 h-[28%]" style={{ background: "linear-gradient(to bottom, rgba(6,4,12,0.5) 0%, transparent 100%)" }} />
+
+      {/* ── Gold shimmer top line ── */}
+      <div className="absolute top-0 inset-x-0 h-px" style={{ background: "linear-gradient(90deg, transparent 0%, rgba(187,138,60,0.5) 30%, rgba(187,138,60,0.88) 50%, rgba(187,138,60,0.5) 70%, transparent 100%)" }} />
+
+      {/* ── Ambient gold warmth — barely visible ── */}
+      <div className="absolute top-[18%] left-[6%] w-[420px] h-[420px] rounded-full pointer-events-none" style={{ background: "radial-gradient(ellipse, rgba(187,138,60,0.055) 0%, transparent 68%)" }} />
+
+      {/* ── Main content ── */}
+      <div className="relative flex-1 flex flex-col items-center justify-center text-center text-cream px-6 pt-28 md:pt-32 lg:pt-36 2xl:pt-44 pb-24 md:pb-32 lg:pb-36">
+
+        {/* Eyebrow */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75, delay: 0.35 }}
+          className="flex items-center justify-center gap-4 mb-10 md:mb-12 lg:mb-14"
+        >
+          <div className="w-10 md:w-14 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(187,138,60,0.6))" }} />
+          <span className="text-[9px] md:text-[10px] tracking-[0.52em] uppercase font-bold" style={{ color: "#bb8a3c" }}>{t("eyebrow")}</span>
+          <div className="w-10 md:w-14 h-px" style={{ background: "linear-gradient(90deg, rgba(187,138,60,0.6), transparent)" }} />
         </motion.div>
 
-        <motion.h1 initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.0, delay: 0.1, ease: [0.19, 1, 0.22, 1] }} className="font-serif font-light tracking-tight leading-[0.84] uppercase text-cream text-[clamp(58px,10.5vw,148px)]">
-          {t("headline1")}
-          <br />
-          <em className="text-accent italic">{t("headline2")}</em>
+        {/* Headline — reduced ~10%, subtle text shadow for cinematic depth */}
+        <motion.h1
+          initial={{ opacity: 0, y: 44 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.22, ease: [0.19, 1, 0.22, 1] }}
+          className="font-serif font-light leading-[0.88] tracking-tight uppercase text-cream text-[clamp(28px,7.4vw,108px)]"
+          style={{ textShadow: "0 2px 36px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.35)" }}
+        >
+          {isRTL ? (
+            <>
+              <span className="block">{t("headline1")}</span>
+              <em className="block text-accent italic">{t("headline2")}</em>
+            </>
+          ) : (
+            <>
+              <span className="block">{t("headline1")}</span>
+              <em className="block text-accent italic">{t("headline2")}</em>
+              <span className="block">{t("headline3")}</span>
+            </>
+          )}
         </motion.h1>
 
-        <motion.div initial={{ scaleX: 0, opacity: 0 }} animate={{ scaleX: 1, opacity: 1 }} transition={{ duration: 0.9, delay: 0.38 }} className="w-20 h-px bg-accent my-6 md:my-7 origin-center" />
+        {/* Gold divider */}
+        <motion.div
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
+          transition={{ duration: 1.0, delay: 0.6 }}
+          className="w-20 h-px my-8 md:my-10 lg:my-12 origin-center"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(187,138,60,0.8), transparent)" }}
+        />
 
-        <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75, delay: 0.45 }} className="font-serif italic font-light text-[clamp(20px,3.8vw,46px)] text-cream/75 tracking-[-0.02em] leading-snug">
-          {t("sub")}
-        </motion.p>
-
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.56 }} className="text-[clamp(14px,1.4vw,16px)] text-cream/50 leading-relaxed max-w-sm md:max-w-md mt-6 mb-10 md:mb-12 font-light">
+        {/* Body */}
+        <motion.p
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.72 }}
+          className="text-[clamp(14px,1.4vw,16px)] leading-[1.9] font-light max-w-[400px] md:max-w-[480px]"
+          style={{ color: "rgba(237,229,255,0.62)", textShadow: "0 1px 14px rgba(0,0,0,0.45)" }}
+        >
           {t("body")}
         </motion.p>
 
-        <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: 0.66 }} className="flex flex-col sm:flex-row gap-4">
-          <Link href="#booking" className="inline-flex items-center justify-center gap-2 px-10 py-[17px] rounded-full text-[10px] tracking-[0.28em] uppercase font-bold bg-accent text-primary no-underline transition-all duration-300 hover:bg-cream hover:scale-[1.04] active:scale-95 shadow-[0_10px_40px_rgba(187,138,60,0.5)]">
-            {t("cta1")} <span className="text-[9px]">{isRTL ? "←" : "→"}</span>
+        {/* CTA — refined, no scale, elegant glow transition */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.88 }}
+          className="mt-10 md:mt-14 lg:mt-16"
+        >
+          <Link
+            href="#booking"
+            className="inline-flex items-center gap-[14px] px-12 py-[19px] rounded-full text-[10px] tracking-[0.36em] uppercase font-bold text-primary no-underline transition-all duration-600 hover:brightness-[1.08] hover:shadow-[0_14px_44px_rgba(187,138,60,0.32),0_0_0_1px_rgba(212,168,78,0.28)] active:brightness-95 active:scale-[0.98]"
+            style={{
+              background: "linear-gradient(135deg, #d4a84e 0%, #bb8a3c 100%)",
+              boxShadow: "0 6px 28px rgba(187,138,60,0.18), inset 0 1px 0 rgba(255,255,255,0.16)",
+            }}
+          >
+            {t("cta1")} <span className="text-[11px] font-light opacity-80">{isRTL ? "←" : "→"}</span>
           </Link>
-          <Link href="#services" className="inline-flex items-center justify-center gap-2 px-10 py-[17px] rounded-full text-[10px] tracking-[0.28em] uppercase font-bold bg-white/7 text-cream no-underline border border-white/22 backdrop-blur-sm transition-all duration-300 hover:bg-white/14 active:scale-95">
-            {t("cta2")}
-          </Link>
         </motion.div>
       </div>
 
-      <div className="absolute bottom-10 md:bottom-12 inset-x-0 px-6 md:px-14 lg:px-20 flex items-end justify-between gap-4">
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75, delay: 0.78 }} className="flex items-end gap-2 md:gap-3">
-          {THUMBS.map((thumb, i) => (
-            <button key={thumb.label} onClick={() => setCurrent(i)} aria-label={thumb.label} className="relative group cursor-pointer bg-transparent border-none p-0 flex-shrink-0 focus-visible:outline-accent" style={{ width: 52, height: 88 }}>
-              <div className={`relative w-full h-full rounded-full overflow-hidden transition-all duration-400 ${current === i ? "border-2 border-accent scale-110 shadow-[0_8px_24px_rgba(187,138,60,0.45)]" : "border border-white/20 scale-100 opacity-60 group-hover:opacity-90 group-hover:scale-105"}`}>
-                <Image src={thumb.img} alt={thumb.label} fill className="object-cover" sizes="52px" />
-                <div className={`absolute inset-0 transition-opacity duration-300 ${current === i ? "bg-primary/10" : "bg-primary/35"}`} />
-              </div>
-              <span className={`absolute -bottom-5 left-1/2 -translate-x-1/2 text-[7px] tracking-[0.28em] uppercase font-bold whitespace-nowrap transition-colors duration-300 ${current === i ? "text-accent" : "text-cream/35"}`}>{thumb.label}</span>
-            </button>
-          ))}
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.9 }} className="hidden md:flex flex-col items-center gap-2">
-          <div className="relative w-[22px] h-[36px] rounded-full border border-cream/25 flex items-start justify-center pt-[6px]">
-            <motion.div animate={{ y: [0, 12, 0] }} transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }} className="w-[4px] h-[4px] rounded-full bg-accent" />
-          </div>
-          <span className="text-[7.5px] tracking-[0.42em] uppercase text-cream/28">{t("scroll")}</span>
-        </motion.div>
-      </div>
-
-      <div className="relative z-10 h-10 md:h-12 bg-accent flex-shrink-0 flex items-center justify-center gap-0 px-6">
-        <span className="text-[8px] md:text-[8.5px] tracking-[0.38em] uppercase text-primary/62 font-bold text-center">{t("band")}</span>
-      </div>
+      {/* ── Trust line ── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.1, delay: 1.05 }}
+        className="relative z-10 py-[22px] md:py-6 flex items-center justify-center"
+        style={{ borderTop: "1px solid rgba(187,138,60,0.15)" }}
+      >
+        <span className="text-[8px] md:text-[8.5px] tracking-[0.44em] uppercase font-bold" style={{ color: "rgba(187,138,60,0.45)" }}>
+          {t("band")}
+        </span>
+      </motion.div>
     </section>
   );
 }

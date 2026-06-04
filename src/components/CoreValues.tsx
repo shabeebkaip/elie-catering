@@ -53,25 +53,25 @@ export default function CoreValues() {
   const items = t.raw("items") as { t: string; d: string }[];
 
   return (
-    <section id="values" className="relative bg-cream overflow-hidden">
+    <section id="values" className="relative bg-surface overflow-hidden">
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div initial={{ opacity: 0, x: -80 }} whileInView={{ opacity: 0.05, x: 0 }} viewport={{ once: true }} transition={{ duration: 1.6 }} className="absolute top-[5%] left-[-5%] w-48 h-[600px] bg-primary rounded-full rotate-[12deg]" />
+        <motion.div initial={{ opacity: 0, x: -80 }} whileInView={{ opacity: 0.12, x: 0 }} viewport={{ once: true }} transition={{ duration: 1.6 }} className="absolute top-[5%] left-[-5%] w-48 h-[600px] bg-accent/20 rounded-full rotate-[12deg]" />
         <div className="absolute top-[40%] right-[5%] w-32 h-32 rounded-full border border-accent/20" />
         <div className="absolute bottom-[-10%] right-[10%] w-24 h-96 bg-accent/6 rounded-full rotate-[-15deg]" />
       </div>
 
-      <div className="container-custom px-6 md:px-14 lg:px-20 relative z-10">
+      <div className="container-custom px-6 md:px-14 lg:px-20 relative z-10 pt-20 md:pt-28 lg:pt-36 2xl:pt-44 pb-20 md:pb-28 lg:pb-36 2xl:pb-44">
         <div className="max-w-3xl mb-16 md:mb-24">
           <motion.div {...fadeUp(0)}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-10 h-px bg-accent" />
               <span className="text-accent text-[10px] tracking-[0.45em] uppercase font-bold">{t("eyebrow")}</span>
             </div>
-            <h2 className="font-serif font-light text-[clamp(48px,8vw,110px)] text-primary uppercase leading-[0.85] tracking-tighter mb-8">
+            <h2 className="font-serif font-light text-[clamp(48px,8vw,110px)] text-cream uppercase leading-[0.85] tracking-tighter mb-8">
               {t("headline1")}<br />
               <em className="text-accent italic not-italic">{t("headline2")}</em>
             </h2>
-            <p className="text-[clamp(14px,1.5vw,16px)] leading-relaxed text-body/60 font-light max-w-lg">{t("sub")}</p>
+            <p className="text-[clamp(14px,1.5vw,16px)] leading-relaxed text-cream/55 font-light max-w-lg">{t("sub")}</p>
           </motion.div>
         </div>
 
@@ -88,7 +88,7 @@ export default function CoreValues() {
           ))}
         </div>
       </div>
-      <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-cream to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 inset-x-0 h-24 bg-gradient-to-t from-surface to-transparent pointer-events-none" />
     </section>
   );
 }

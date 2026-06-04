@@ -184,12 +184,13 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 flex items-center justify-between px-6 md:px-14 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
             ? "py-3 bg-primary/97 backdrop-blur-xl shadow-[0_4px_32px_rgba(0,0,0,0.3)]"
-            : "py-5 md:py-6 bg-transparent"
+            : "py-7 md:py-9 bg-transparent"
         }`}
       >
+        <div className="flex items-center justify-between px-6 md:px-14 max-w-[1440px] 2xl:max-w-[1600px] mx-auto">
         {/* Logo */}
         <Link href={`/${locale}`} className="relative z-[60] no-underline flex items-center gap-3 flex-shrink-0">
           <img
@@ -266,7 +267,7 @@ export default function Header() {
           <LanguageSwitcher />
           <Link
             href="#booking"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[11px] tracking-[0.14em] uppercase font-bold bg-accent text-primary no-underline transition-all duration-300 hover:bg-cream hover:scale-105 active:scale-95 shadow-lg whitespace-nowrap"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[11px] tracking-[0.14em] uppercase font-bold bg-accent text-primary no-underline transition-all duration-300 hover:bg-navy hover:scale-105 active:scale-95 shadow-lg whitespace-nowrap"
           >
             {t("bookCta")}
             <span className="text-[8px]">{isRTL ? "←" : "→"}</span>
@@ -281,6 +282,7 @@ export default function Header() {
         >
           {mobileOpen ? <X size={26} strokeWidth={1.5} /> : <Menu size={26} strokeWidth={1.5} />}
         </button>
+        </div>
       </header>
 
       {/* ══════════════════════════════════
@@ -300,8 +302,8 @@ export default function Header() {
           >
             {/* Panel shell */}
             <div
-              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.10),0_4px_20px_rgba(187,138,60,0.08)] border border-amber-200/50"
-              style={{ background: "#FEFCF8", backdropFilter: "blur(28px)" }}
+              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.10),0_4px_20px_rgba(187,138,60,0.08)] border border-accent/20"
+              style={{ background: "#1e1347", backdropFilter: "blur(28px)" }}
             >
               {/* Subtle gold capsule bg accents */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -336,7 +338,7 @@ export default function Header() {
                 </div>
 
                 {/* CENTER: Numbered editorial category list */}
-                <div className="border-x border-amber-200/40 bg-white flex flex-col divide-y divide-amber-100">
+                <div className="border-x border-accent/12 bg-white/[0.04] flex flex-col divide-y divide-accent/8">
                   {MEGA_CATS.map((cat, i) => {
                     const catServices = services.filter((s) => s.category === cat.id);
                     return (
@@ -344,7 +346,7 @@ export default function Header() {
                         key={cat.id}
                         href={`/${locale}/services?category=${cat.id}`}
                         onClick={() => setMegaOpen(false)}
-                        className="group/cat flex-1 flex flex-col justify-center px-7 py-5 hover:bg-amber-50/60 transition-all duration-200 no-underline"
+                        className="group/cat flex-1 flex flex-col justify-center px-7 py-5 hover:bg-accent/8 transition-all duration-200 no-underline"
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1 min-w-0">
@@ -353,16 +355,16 @@ export default function Header() {
                                 0{i + 1}
                               </span>
                               <span className="w-4 h-px bg-accent/30" />
-                              <span className="text-[9px] tracking-[0.3em] uppercase text-primary/35 font-bold truncate">
+                              <span className="text-[9px] tracking-[0.3em] uppercase text-cream/30 font-bold truncate">
                                 {isRTL ? cat.eyebrowAr : cat.eyebrow}
                               </span>
                             </div>
-                            <h3 className="font-serif italic text-[21px] text-primary/80 font-light leading-snug group-hover/cat:text-accent transition-colors duration-200 mb-2">
+                            <h3 className="font-serif italic text-[21px] text-cream/75 font-light leading-snug group-hover/cat:text-accent transition-colors duration-200 mb-2">
                               {isRTL ? cat.titleAr : cat.title}
                             </h3>
                             <div className="flex flex-wrap gap-x-3 gap-y-0">
                               {catServices.slice(0, 2).map((s) => (
-                                <span key={s.slug} className="text-[11px] text-primary/35 group-hover/cat:text-primary/50 transition-colors">
+                                <span key={s.slug} className="text-[11px] text-cream/30 group-hover/cat:text-cream/50 transition-colors">
                                   {isRTL ? s.titleAr : s.title}
                                 </span>
                               ))}
@@ -419,8 +421,8 @@ export default function Header() {
               </div>
 
               {/* Bottom strip */}
-              <div className="border-t border-amber-200/60 px-6 py-4 flex items-center justify-between">
-                <p className="text-[11px] text-primary/30 tracking-[0.15em] uppercase">
+              <div className="border-t border-accent/15 px-6 py-4 flex items-center justify-between">
+                <p className="text-[11px] text-cream/25 tracking-[0.15em] uppercase">
                   {isRTL ? "إيلي للتموين وتنظيم الفعاليات — الرياض، المملكة العربية السعودية" : "Elie Catering & Event Planning — Riyadh, Saudi Arabia"}
                 </p>
                 <Link
@@ -451,8 +453,8 @@ export default function Header() {
             className="fixed top-[72px] left-0 right-0 z-40 px-6 md:px-10 pb-6"
           >
             <div
-              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.10),0_4px_20px_rgba(187,138,60,0.08)] border border-amber-200/50"
-              style={{ background: "#FEFCF8", backdropFilter: "blur(28px)" }}
+              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.10),0_4px_20px_rgba(187,138,60,0.08)] border border-accent/20"
+              style={{ background: "#1e1347", backdropFilter: "blur(28px)" }}
             >
               {/* Bg accents */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -518,8 +520,8 @@ export default function Header() {
               </div>
 
               {/* Bottom strip */}
-              <div className="border-t border-amber-200/60 px-6 py-4 flex items-center justify-between">
-                <p className="text-[11px] text-primary/30 tracking-[0.15em] uppercase">
+              <div className="border-t border-accent/15 px-6 py-4 flex items-center justify-between">
+                <p className="text-[11px] text-cream/25 tracking-[0.15em] uppercase">
                   {isRTL ? "إيلي للتموين وتنظيم الفعاليات — الرياض، المملكة العربية السعودية" : "Elie Catering & Event Planning — Riyadh, Saudi Arabia"}
                 </p>
                 <Link
@@ -550,8 +552,8 @@ export default function Header() {
             className="fixed top-[72px] left-0 right-0 z-40 px-6 md:px-10 pb-6"
           >
             <div
-              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.10),0_4px_20px_rgba(187,138,60,0.08)] border border-amber-200/50"
-              style={{ background: "#FEFCF8", backdropFilter: "blur(28px)" }}
+              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.10),0_4px_20px_rgba(187,138,60,0.08)] border border-accent/20"
+              style={{ background: "#1e1347", backdropFilter: "blur(28px)" }}
             >
               {/* Bg accents */}
               <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -614,8 +616,8 @@ export default function Header() {
 
 
               {/* Bottom strip */}
-              <div className="border-t border-amber-200/60 px-6 py-4 flex items-center justify-between">
-                <p className="text-[11px] text-primary/30 tracking-[0.15em] uppercase">
+              <div className="border-t border-accent/15 px-6 py-4 flex items-center justify-between">
+                <p className="text-[11px] text-cream/25 tracking-[0.15em] uppercase">
                   {isRTL ? "إيلي للتموين وتنظيم الفعاليات — الرياض، المملكة العربية السعودية" : "Elie Catering & Event Planning — Riyadh, Saudi Arabia"}
                 </p>
                 <Link

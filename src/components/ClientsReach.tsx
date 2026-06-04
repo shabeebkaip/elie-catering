@@ -16,7 +16,7 @@ export default function ClientsReach() {
   const stats = t.raw("stats") as { num: string; label: string }[];
 
   return (
-    <section className="relative bg-cream overflow-hidden py-24 md:py-32 lg:py-40">
+    <section className="relative bg-purple-deep overflow-hidden py-24 md:py-32 lg:py-40 2xl:py-52">
 
       {/* Decorative background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -35,7 +35,7 @@ export default function ClientsReach() {
               {t("eyebrow")}
             </span>
           </div>
-          <h2 className="font-serif font-light text-[clamp(44px,7.5vw,100px)] text-primary uppercase leading-[0.85] tracking-tighter max-w-4xl">
+          <h2 className="font-serif font-light text-[clamp(44px,7.5vw,100px)] text-cream uppercase leading-[0.85] tracking-tighter max-w-4xl">
             {t("headline1")}<br />
             <em className="text-accent italic ">{t("headline2")}</em>
           </h2>
@@ -45,7 +45,7 @@ export default function ClientsReach() {
 
           {/* Left: Client categories */}
           <div>
-            <motion.p {...fadeUp(0.1)} className="text-[clamp(15px,1.6vw,18px)] leading-relaxed text-body/70 font-light max-w-lg mb-10">
+            <motion.p {...fadeUp(0.1)} className="text-[clamp(15px,1.6vw,18px)] leading-relaxed text-cream/65 font-light max-w-lg mb-10">
               {t("body")}
             </motion.p>
 
@@ -57,10 +57,10 @@ export default function ClientsReach() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.55, delay: 0.12 + i * 0.08 }}
-                  className="group flex items-center gap-5 py-4 border-b border-primary/8 hover:border-accent/30 transition-colors duration-300 cursor-default"
+                  className="group flex items-center gap-5 py-4 border-b border-cream/10 hover:border-accent/30 transition-colors duration-300 cursor-default"
                 >
                   <span className="text-accent text-[8px]">◆</span>
-                  <span className="font-sans text-[clamp(14px,1.4vw,16px)] text-primary/75 tracking-wide font-medium group-hover:text-primary transition-colors duration-300">
+                  <span className="font-sans text-[clamp(14px,1.4vw,16px)] text-cream/70 tracking-wide font-medium group-hover:text-cream transition-colors duration-300">
                     {label}
                   </span>
                   <div className="ml-auto w-5 h-px bg-accent/0 group-hover:bg-accent/40 transition-all duration-400 group-hover:w-10" />
@@ -71,11 +71,11 @@ export default function ClientsReach() {
             {/* Geographic note */}
             <motion.div
               {...fadeUp(0.55)}
-              className="mt-10 p-6 rounded-2xl bg-primary/4 border border-primary/8"
+              className="mt-10 p-6 rounded-2xl bg-cream/[0.04] border border-cream/8"
             >
               <div className="flex items-start gap-4">
                 <div className="w-1 h-12 rounded-full bg-accent shrink-0 mt-1" />
-                <p className="text-[clamp(13px,1.4vw,15px)] leading-relaxed text-body/65 font-light italic">
+                <p className="text-[clamp(13px,1.4vw,15px)] leading-relaxed text-cream/55 font-light italic">
                   {t("note")}
                 </p>
               </div>
@@ -96,7 +96,7 @@ export default function ClientsReach() {
                     ? "bg-primary text-cream border-primary rounded-[40px_40px_16px_40px]"
                     : i === 1
                     ? "bg-accent text-primary border-accent rounded-[40px_40px_40px_16px]"
-                    : "bg-cream text-primary border-primary/15 rounded-3xl hover:border-accent/30"
+                    : "bg-surface text-cream border-cream/15 rounded-3xl hover:border-accent/30"
                 }`}
                 style={{ minHeight: "180px" }}
               >
@@ -107,14 +107,14 @@ export default function ClientsReach() {
                 />
                 <span
                   className={`font-serif text-[clamp(36px,5vw,56px)] font-light leading-none tracking-tight ${
-                    i === 0 ? "text-accent" : i === 1 ? "text-primary" : "text-primary"
+                    i === 0 ? "text-accent" : i === 1 ? "text-primary" : "text-accent"
                   }`}
                 >
                   {s.num}
                 </span>
                 <span
                   className={`text-[10px] tracking-[0.28em] uppercase font-bold mt-2 ${
-                    i === 0 ? "text-cream/55" : i === 1 ? "text-primary/60" : "text-body/50"
+                    i === 0 ? "text-cream/55" : i === 1 ? "text-primary/60" : "text-cream/50"
                   }`}
                 >
                   {s.label}

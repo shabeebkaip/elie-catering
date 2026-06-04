@@ -33,7 +33,7 @@ export default function CateringOptions() {
   const items = t.raw("items") as { t: string; d: string }[];
 
   return (
-    <section className="bg-violet py-32 relative overflow-hidden text-primary">
+    <section className="bg-surface py-32 relative overflow-hidden text-cream">
 
       {/* Background Decorative Capsules */}
       <CapsuleGraphic color="accent" className="w-[600px] h-[150px] bottom-[5%] -right-[15%] opacity-30 shadow-xl" angle="-rotate-[35deg]" />
@@ -47,7 +47,7 @@ export default function CateringOptions() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-primary uppercase tracking-[0.15em] text-sm font-semibold mb-4 drop-shadow-sm"
+            className="text-cream/60 uppercase tracking-[0.15em] text-sm font-semibold mb-4 drop-shadow-sm"
           >
             {t("eyebrow")}
           </motion.p>
@@ -83,13 +83,13 @@ export default function CateringOptions() {
                   />
                 </div>
 
-                <h3 className="font-serif text-xl md:text-2xl mb-2 text-primary group-hover:text-accent transition-colors duration-300">
+                <h3 className="font-serif text-xl md:text-2xl mb-2 text-cream/90 group-hover:text-accent transition-colors duration-300">
                   {option.t}
                 </h3>
-                <p className="text-primary/60 text-[12px] md:text-[13px] leading-relaxed max-w-[220px]">
+                <p className="text-cream/55 text-[12px] md:text-[13px] leading-relaxed max-w-[220px]">
                   {option.d}
                 </p>
-                <p className="mt-3 text-primary uppercase tracking-widest text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 flex items-center gap-1.5">
+                <p className="mt-3 text-cream/70 uppercase tracking-widest text-[10px] font-bold opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 flex items-center gap-1.5">
                   {isAr ? "استكشف القائمة" : "Explore Menu"}{" "}
                   <span>{isAr ? "←" : "→"}</span>
                 </p>
@@ -108,7 +108,7 @@ export default function CateringOptions() {
         >
           <Link
             href={`/${locale}/menu`}
-            className="inline-flex items-center gap-2 border border-primary/30 text-primary px-8 py-3.5 rounded-full text-sm font-semibold uppercase tracking-widest hover:border-accent hover:text-accent transition-all duration-300"
+            className="inline-flex items-center gap-2 border border-cream/30 text-cream px-8 py-3.5 rounded-full text-sm font-semibold uppercase tracking-widest hover:border-accent hover:text-accent transition-all duration-300"
           >
             {isAr ? "عرض القائمة الكاملة" : "View Full Menu"}{" "}
             <span>{isAr ? "←" : "→"}</span>

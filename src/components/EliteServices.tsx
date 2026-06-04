@@ -26,7 +26,7 @@ export default function EliteServices() {
       {/* Subtle ambient glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[400px] rounded-full bg-accent/4 blur-[120px] pointer-events-none" />
 
-      <div className="relative z-10 px-6 md:px-14 pt-24 md:pt-32 pb-4">
+      <div className="relative z-10 px-6 md:px-14 pt-24 md:pt-32 pb-4 max-w-[1440px] 2xl:max-w-[1600px] mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16 md:mb-20">
           <div>
@@ -94,7 +94,7 @@ export default function EliteServices() {
               {/* Left accent bar */}
               <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-accent origin-top scale-y-0 group-hover:scale-y-100 transition-transform duration-500" />
 
-              <div className="relative flex items-center gap-5 md:gap-10 px-6 md:px-14 py-8 md:py-10">
+              <div className="relative flex items-center gap-5 md:gap-10 px-6 md:px-14 py-8 md:py-10 max-w-[1440px] 2xl:max-w-[1600px] mx-auto">
                 {/* Index */}
                 <span className="font-mono text-[10px] tracking-[0.35em] text-accent/30 group-hover:text-accent/70 transition-colors duration-300 w-7 flex-shrink-0 select-none">
                   {String(index + 1).padStart(2, "0")}

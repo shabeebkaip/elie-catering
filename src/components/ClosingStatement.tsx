@@ -40,7 +40,7 @@ export default function ClosingStatement() {
         <div className="absolute bottom-[15%] left-[-2%] w-24 h-80 rounded-full border border-white/8 rotate-[22deg]" />
       </div>
 
-      <div className="container-custom px-6 md:px-14 lg:px-20 relative z-10 py-24 md:py-36 lg:py-48">
+      <div className="container-custom px-6 md:px-14 lg:px-20 relative z-10 py-24 md:py-36 lg:py-48 2xl:py-60">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-16 lg:gap-24 items-center">
 
           {/* LEFT: Editorial Content */}

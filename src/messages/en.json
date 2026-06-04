@@ -13,24 +13,12 @@
   },
   "hero": {
     "eyebrow": "Catering & Event Planning",
-    "headline1": "Luxury,",
-    "headline2": "plated.",
-    "sub": "Events, composed.",
-    "body": "A full-service catering and event house — from intimate weddings to grand corporate evenings — across Saudi Arabia and beyond.",
-    "cta1": "Book an event",
-    "cta2": "Our services",
-    "scroll": "Scroll",
-    "band": "Weddings  ·  Corporate  ·  Private Dinners  ·  Galas  ·  Buffets",
-    "slides": {
-      "weddings": "Weddings",
-      "corporate": "Corporate Events",
-      "galas": "Private Galas"
-    },
-    "thumbs": {
-      "dining": "Dining",
-      "events": "Events",
-      "florals": "Florals"
-    }
+    "headline1": "Crafting",
+    "headline2": "Extraordinary",
+    "headline3": "Experiences",
+    "body": "Curated catering and unforgettable event experiences designed for extraordinary moments across Saudi Arabia.",
+    "cta1": "Book Consultation",
+    "band": "Luxury Events  ·  Weddings  ·  Corporate  ·  Private Dining"
   },
   "intro": {
     "eyebrow": "Who we are",

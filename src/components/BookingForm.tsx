@@ -45,14 +45,14 @@ const initialForm: FormData = {
 
 function Label({ children }: { children: React.ReactNode }) {
   return (
-    <span className="block text-[9px] tracking-[0.36em] uppercase font-bold text-primary/45 mb-2">
+    <span className="block text-[9px] tracking-[0.36em] uppercase font-bold text-cream/45 mb-2">
       {children}
     </span>
   );
 }
 
 const inputBase =
-  "w-full bg-white/70 border border-primary/12 rounded-2xl px-5 py-4 text-[13px] text-primary placeholder:text-primary/30 font-light focus:outline-none focus:border-accent/60 focus:bg-white transition-all duration-300 backdrop-blur-sm";
+  "w-full bg-white/[0.08] border border-cream/12 rounded-2xl px-5 py-4 text-[13px] text-cream placeholder:text-cream/30 font-light focus:outline-none focus:border-accent/60 focus:bg-white/[0.13] transition-all duration-300 backdrop-blur-sm";
 
 export default function BookingForm() {
   const [form, setForm] = useState<FormData>(initialForm);
@@ -77,14 +77,14 @@ export default function BookingForm() {
   }
 
   return (
-    <div id="booking" className="bg-cream overflow-hidden">
+    <div id="booking" className="bg-purple-deep overflow-hidden">
 
-      {/* ── Arch transition: ClosingStatement primary → cream ── */}
+      {/* ── Arch transition: ClosingStatement primary → dark ── */}
       <div className="bg-primary">
-        <div className="h-16 md:h-24 bg-cream rounded-t-[80px] md:rounded-t-[120px]" />
+        <div className="h-16 md:h-24 bg-purple-deep rounded-t-[80px] md:rounded-t-[120px]" />
       </div>
 
-      <section className="relative bg-cream">
+      <section className="relative bg-purple-deep">
 
         {/* Ambient capsule decorations */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -105,11 +105,11 @@ export default function BookingForm() {
                 Reserve Your Date
               </span>
             </div>
-            <h2 className="font-serif font-light leading-[0.88] tracking-tight text-primary text-[clamp(44px,7vw,96px)]">
+            <h2 className="font-serif font-light leading-[0.88] tracking-tight text-cream text-[clamp(44px,7vw,96px)]">
               Begin the<br />
               <em className="text-accent italic">Conversation.</em>
             </h2>
-            <p className="mt-5 text-[clamp(14px,1.3vw,16px)] text-primary/50 font-light max-w-md leading-relaxed">
+            <p className="mt-5 text-[clamp(14px,1.3vw,16px)] text-cream/45 font-light max-w-md leading-relaxed">
               Choose the way you prefer to connect — we respond within 24 hours.
             </p>
           </motion.div>
@@ -136,9 +136,9 @@ export default function BookingForm() {
 
             {/* Divider */}
             <div className="flex items-center gap-4 mt-10 mb-2">
-              <div className="flex-1 h-px bg-primary/10" />
-              <span className="text-[10px] tracking-[0.3em] uppercase text-primary/30 font-medium">or fill the form below</span>
-              <div className="flex-1 h-px bg-primary/10" />
+              <div className="flex-1 h-px bg-cream/10" />
+              <span className="text-[10px] tracking-[0.3em] uppercase text-cream/30 font-medium">or fill the form below</span>
+              <div className="flex-1 h-px bg-cream/10" />
             </div>
           </motion.div>
 
@@ -178,7 +178,7 @@ export default function BookingForm() {
             ) : (
               <form
                 onSubmit={handleSubmit}
-                className="relative rounded-[40px] border border-primary/10 bg-white/40 backdrop-blur-sm px-8 md:px-14 py-12 md:py-16 shadow-[0_40px_100px_rgba(28,20,40,0.08)] overflow-hidden"
+                className="relative rounded-[40px] border border-cream/10 bg-white/[0.05] backdrop-blur-md px-8 md:px-14 py-12 md:py-16 shadow-[0_40px_100px_rgba(0,0,0,0.3)] overflow-hidden"
               >
                 {/* Subtle inner capsule decoration */}
                 <div className="absolute top-[-30px] right-10 w-10 h-40 rounded-full bg-accent/6 rotate-[-16deg] pointer-events-none" />
@@ -233,7 +233,7 @@ export default function BookingForm() {
                       type="date"
                       value={form.date}
                       onChange={(e) => set("date", e.target.value)}
-                      className={`${inputBase} [color-scheme:light]`}
+                      className={`${inputBase} [color-scheme:dark]`}
                     />
                   </div>
 
@@ -249,7 +249,7 @@ export default function BookingForm() {
                           className={`px-4 py-2 rounded-full text-[11px] tracking-[0.06em] font-medium border transition-all duration-250 ${
                             form.eventType === t
                               ? "bg-primary text-cream border-primary"
-                              : "bg-white/60 text-primary/60 border-primary/14 hover:border-primary/30 hover:text-primary"
+                              : "bg-white/[0.08] text-cream/55 border-cream/12 hover:border-cream/28 hover:text-cream"
                           }`}
                         >
                           {t}
@@ -297,7 +297,7 @@ export default function BookingForm() {
                           className={`px-4 py-2 rounded-full text-[11px] tracking-[0.04em] font-medium border transition-all duration-250 ${
                             form.budget === b
                               ? "bg-accent text-primary border-accent"
-                              : "bg-white/60 text-primary/60 border-primary/14 hover:border-accent/40 hover:text-primary"
+                              : "bg-white/[0.08] text-cream/55 border-cream/12 hover:border-accent/40 hover:text-cream"
                           }`}
                         >
                           {b}
@@ -318,7 +318,7 @@ export default function BookingForm() {
                           className={`px-5 py-2.5 rounded-full text-[11px] tracking-[0.05em] font-medium border transition-all duration-250 ${
                             form.serviceType === s
                               ? "bg-primary text-cream border-primary shadow-[0_4px_16px_rgba(28,20,40,0.18)]"
-                              : "bg-white/60 text-primary/60 border-primary/14 hover:border-primary/30 hover:text-primary"
+                              : "bg-white/[0.08] text-cream/55 border-cream/12 hover:border-cream/28 hover:text-cream"
                           }`}
                         >
                           {s}
@@ -340,8 +340,8 @@ export default function BookingForm() {
                             onClick={() => toggleDietary(d)}
                             className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] tracking-[0.04em] font-medium border transition-all duration-250 ${
                               checked
-                                ? "bg-accent/15 text-primary border-accent/50"
-                                : "bg-white/60 text-primary/50 border-primary/12 hover:border-accent/30 hover:text-primary"
+                                ? "bg-accent/15 text-cream border-accent/50"
+                                : "bg-white/[0.08] text-cream/50 border-cream/12 hover:border-accent/30 hover:text-cream"
                             }`}
                           >
                             <span
@@ -383,7 +383,7 @@ export default function BookingForm() {
                       Send Enquiry
                       <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
                     </button>
-                    <span className="text-primary/25 text-[11px] hidden sm:block">or</span>
+                    <span className="text-cream/20 text-[11px] hidden sm:block">or</span>
                     <a
                       href={`https://wa.me/966544356564?text=${encodeURIComponent("Hello! I'd like to discuss my event with Elie Catering & Event Planning.")}`}
                       target="_blank"
