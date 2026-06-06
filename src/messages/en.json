@@ -33,6 +33,14 @@
     "marquee": ["Weddings", "Private Dinners", "Corporate Events", "Buffets", "Galas", "Cocktail Receptions", "Destination Events"],
     "tags": ["Full-service planning", "Gourmet catering", "Floral design", "Event décor", "Fine chocolates", "Exclusive accessories"]
   },
+  "story": {
+    "eyebrow": "Est. 2010 · Riyadh",
+    "headline1": "The art of",
+    "headline2": "hospitality.",
+    "trustLine": "14+ years curating luxury experiences",
+    "body": "From first consultation to final candle — every detail considered, every moment crafted to endure.",
+    "cta": "Explore our craft"
+  },
   "vision": {
     "eyebrow": "Our Vision",
     "headline1": "Our",
