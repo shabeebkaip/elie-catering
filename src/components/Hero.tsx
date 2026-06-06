@@ -1,131 +1,138 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-
-const BG_IMAGES = [
-  "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
-];
+import { motion } from "framer-motion";
+import { useTranslations, useLocale } from "next-intl";
 
 export default function Hero() {
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {
-    const t = setInterval(() => setCurrent((c) => (c + 1) % BG_IMAGES.length), 5000);
-    return () => clearInterval(t);
-  }, []);
+  const t = useTranslations("hero");
+  const locale = useLocale();
+  const isRTL = locale === "ar";
 
   return (
-    <section className="relative min-h-[100svh] overflow-hidden bg-primary text-cream flex flex-col">
+    <section className="relative min-h-svh flex flex-col overflow-hidden" style={{ backgroundColor: "#06040c" }}>
 
-      {/* ── Decorative layer (clipped) ── */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Sliding background images */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={current}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.15 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute inset-0"
+      {/* ── Cinematic background image ── */}
+      <motion.div
+        initial={{ scale: 1.06, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 2.8, ease: [0.19, 1, 0.22, 1] }}
+        className="absolute inset-0"
+      >
+        <Image
+          src="/images/elie-hero.png"
+          alt=""
+          fill
+          priority
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+      </motion.div>
+
+      {/* ── Overlay layers — charcoal-neutral, reduced purple tint ── */}
+      {/* Center radial: lightened to let photography breathe */}
+      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 100% 85% at 50% 50%, rgba(6,4,12,0.12) 0%, rgba(6,4,12,0.42) 52%, rgba(6,4,12,0.82) 100%)" }} />
+      {/* Bottom vignette: anchors text, slightly reduced */}
+      <div className="absolute inset-x-0 bottom-0 h-[58%]" style={{ background: "linear-gradient(to top, rgba(6,4,12,0.96) 0%, rgba(6,4,12,0.72) 30%, rgba(6,4,12,0.2) 65%, transparent 100%)" }} />
+      {/* Top vignette: navigation breathing room */}
+      <div className="absolute inset-x-0 top-0 h-[28%]" style={{ background: "linear-gradient(to bottom, rgba(6,4,12,0.5) 0%, transparent 100%)" }} />
+
+      {/* ── Gold shimmer top line ── */}
+      <div className="absolute top-0 inset-x-0 h-px" style={{ background: "linear-gradient(90deg, transparent 0%, rgba(187,138,60,0.5) 30%, rgba(187,138,60,0.88) 50%, rgba(187,138,60,0.5) 70%, transparent 100%)" }} />
+
+      {/* ── Ambient gold warmth — barely visible ── */}
+      <div className="absolute top-[18%] left-[6%] w-[420px] h-[420px] rounded-full pointer-events-none" style={{ background: "radial-gradient(ellipse, rgba(187,138,60,0.055) 0%, transparent 68%)" }} />
+
+      {/* ── Main content ── */}
+      <div className="relative flex-1 flex flex-col items-center justify-center text-center text-cream px-6 pt-28 md:pt-32 lg:pt-36 2xl:pt-44 pb-24 md:pb-32 lg:pb-36">
+
+        {/* Eyebrow */}
+        <motion.div
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75, delay: 0.35 }}
+          className="flex items-center justify-center gap-4 mb-10 md:mb-12 lg:mb-14"
+        >
+          <div className="w-10 md:w-14 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(187,138,60,0.6))" }} />
+          <span className="text-[9px] md:text-[10px] tracking-[0.52em] uppercase font-bold" style={{ color: "#bb8a3c" }}>{t("eyebrow")}</span>
+          <div className="w-10 md:w-14 h-px" style={{ background: "linear-gradient(90deg, rgba(187,138,60,0.6), transparent)" }} />
+        </motion.div>
+
+        {/* Headline — reduced ~10%, subtle text shadow for cinematic depth */}
+        <motion.h1
+          initial={{ opacity: 0, y: 44 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.2, delay: 0.22, ease: [0.19, 1, 0.22, 1] }}
+          className="font-serif font-light leading-[0.88] tracking-tight uppercase text-cream text-[clamp(28px,7.4vw,108px)]"
+          style={{ textShadow: "0 2px 36px rgba(0,0,0,0.55), 0 1px 3px rgba(0,0,0,0.35)" }}
+        >
+          {isRTL ? (
+            <>
+              <span className="block">{t("headline1")}</span>
+              <em className="block text-accent italic">{t("headline2")}</em>
+            </>
+          ) : (
+            <>
+              <span className="block">{t("headline1")}</span>
+              <em className="block text-accent italic">{t("headline2")}</em>
+              <span className="block">{t("headline3")}</span>
+            </>
+          )}
+        </motion.h1>
+
+        {/* Gold divider */}
+        <motion.div
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
+          transition={{ duration: 1.0, delay: 0.6 }}
+          className="w-20 h-px my-8 md:my-10 lg:my-12 origin-center"
+          style={{ background: "linear-gradient(90deg, transparent, rgba(187,138,60,0.8), transparent)" }}
+        />
+
+        {/* Body */}
+        <motion.p
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.72 }}
+          className="text-[clamp(14px,1.4vw,16px)] leading-[1.9] font-light max-w-[400px] md:max-w-[480px]"
+          style={{ color: "rgba(237,229,255,0.62)", textShadow: "0 1px 14px rgba(0,0,0,0.45)" }}
+        >
+          {t("body")}
+        </motion.p>
+
+        {/* CTA — refined, no scale, elegant glow transition */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.88 }}
+          className="mt-10 md:mt-14 lg:mt-16"
+        >
+          <Link
+            href="#booking"
+            className="inline-flex items-center gap-[14px] px-12 py-[19px] rounded-full text-[10px] tracking-[0.36em] uppercase font-bold text-primary no-underline transition-all duration-600 hover:brightness-[1.08] hover:shadow-[0_14px_44px_rgba(187,138,60,0.32),0_0_0_1px_rgba(212,168,78,0.28)] active:brightness-95 active:scale-[0.98]"
+            style={{
+              background: "linear-gradient(135deg, #d4a84e 0%, #bb8a3c 100%)",
+              boxShadow: "0 6px 28px rgba(187,138,60,0.18), inset 0 1px 0 rgba(255,255,255,0.16)",
+            }}
           >
-            <Image src={BG_IMAGES[current]} alt="" fill priority className="object-cover" sizes="100vw" />
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Gold capsule — top right */}
-        <div
-          className="hidden lg:block absolute -top-20 -right-10 w-[220px] h-[420px] rounded-full bg-accent opacity-90"
-          style={{
-            animation: "elFloat 10s ease-in-out infinite",
-            ["--r" as string]: "-18deg",
-          } as React.CSSProperties}
-        />
-
-        {/* Dark accent capsule — bottom left */}
-        <div
-          className="hidden lg:block absolute -bottom-16 left-[200px] w-[140px] h-[300px] rounded-full bg-purple-deep rotate-[25deg] opacity-60"
-        />
-      </div>
-
-      {/* ── Content grid ── */}
-      <div className="relative flex-1 grid grid-cols-1 lg:grid-cols-2 items-center gap-12 lg:gap-16 px-6 md:px-16 lg:px-20 pt-32 md:pt-40 lg:pt-30 pb-20 lg:pb-24">
-
-        {/* Left: text */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-center lg:text-left flex flex-col items-center lg:items-start"
-        >
-          {/* Logo removed from Hero as requested */}
-          
-          <div className="text-[10px] md:text-[11px] tracking-[0.4em] uppercase text-accent font-bold">
-            Catering &nbsp;&amp;&nbsp; Event Planning
-          </div>
-
-          <h1 className="font-serif font-light tracking-tight leading-[0.85] uppercase text-cream my-10 md:my-12 max-w-[720px] text-[clamp(48px,10vw,110px)]">
-            Luxury,{" "}
-            <span className="text-accent italic">plated.</span>
-            <br />
-            Events,{" "}
-            <span className="font-serif italic font-light lowercase tracking-[-0.05em] normal-case">
-              composed.
-            </span>
-          </h1>
-
-          <p className="text-base md:text-lg leading-relaxed text-cream/70 max-w-[520px] mb-12 md:mb-14 font-light">
-            A full-service catering and event house crafting sophisticated,
-            memorable experiences — from intimate weddings to corporate
-            evenings — across Saudi Arabia and beyond.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-5 w-full sm:w-auto">
-            <Link
-              href="#book"
-              className="inline-flex items-center justify-center gap-2 px-10 py-5 rounded-full text-[11px] tracking-[0.2em] uppercase font-bold bg-accent text-primary no-underline transition-all hover:scale-105 active:scale-95 shadow-xl"
-            >
-              Book an event →
-            </Link>
-            <Link
-              href="#services"
-              className="inline-flex items-center justify-center gap-2 px-10 py-5 rounded-full text-[11px] tracking-[0.2em] uppercase font-bold bg-transparent text-cream no-underline border border-cream/30 transition-all hover:bg-cream/10 active:scale-95"
-            >
-              Explore services
-            </Link>
-          </div>
-        </motion.div>
-
-        {/* Right: capsule image + badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="relative flex justify-center lg:justify-end h-[min(450px,80vw)] lg:h-[620px]"
-        >
-          {/* Capsule image container */}
-          <div className="relative w-[min(300px,55vw)] h-[min(450px,80vw)] lg:w-[360px] lg:h-[550px] rounded-full overflow-hidden rotate-[12deg] shadow-2xl border-[12px] border-white/10 bg-white/5">
-            <div className="absolute inset-0 -rotate-[12deg] scale-[1.35]">
-              <Image
-                src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=1980&auto=format&fit=crop"
-                alt="Luxury catering plate"
-                fill priority
-                className="object-cover"
-                sizes="(max-width: 768px) 55vw, 360px"
-              />
-            </div>
-          </div>
-
+            {t("cta1")} <span className="text-[11px] font-light opacity-80">{isRTL ? "←" : "→"}</span>
+          </Link>
         </motion.div>
       </div>
 
-      {/* Gold bottom band */}
-      <div className="h-10 md:h-12 bg-accent relative z-10" />
+      {/* ── Trust line ── */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.1, delay: 1.05 }}
+        className="relative z-10 py-[22px] md:py-6 flex items-center justify-center"
+        style={{ borderTop: "1px solid rgba(187,138,60,0.15)" }}
+      >
+        <span className="text-[8px] md:text-[8.5px] tracking-[0.44em] uppercase font-bold" style={{ color: "rgba(187,138,60,0.45)" }}>
+          {t("band")}
+        </span>
+      </motion.div>
     </section>
   );
 }

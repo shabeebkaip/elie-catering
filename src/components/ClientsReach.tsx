@@ -1,0 +1,129 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.7, delay, ease: [0.19, 1, 0.22, 1] as [number, number, number, number] },
+});
+
+export default function ClientsReach() {
+  const t = useTranslations("clientsReach");
+  const clients = t.raw("clients") as string[];
+  const stats = t.raw("stats") as { num: string; label: string }[];
+
+  return (
+    <section className="relative bg-purple-deep overflow-hidden py-24 md:py-32 lg:py-40 2xl:py-52">
+
+      {/* Decorative background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-20 -left-10 w-48 h-[500px] rounded-full bg-primary/5 rotate-[18deg]" />
+        <div className="absolute bottom-[-8%] right-[-4%] w-32 h-80 rounded-full bg-accent/8 rotate-[-20deg]" />
+        <div className="absolute top-[40%] right-[20%] w-20 h-20 rounded-full border border-accent/15" />
+      </div>
+
+      <div className="container-custom px-6 md:px-14 lg:px-20 relative z-10">
+
+        {/* Header */}
+        <motion.div {...fadeUp(0)} className="mb-16 md:mb-20">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-10 h-px bg-accent" />
+            <span className="text-accent text-[10px] tracking-[0.45em] uppercase font-bold">
+              {t("eyebrow")}
+            </span>
+          </div>
+          <h2 className="font-serif font-light text-[clamp(44px,7.5vw,100px)] text-cream uppercase leading-[0.85] tracking-tighter max-w-4xl">
+            {t("headline1")}<br />
+            <em className="text-accent italic ">{t("headline2")}</em>
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+
+          {/* Left: Client categories */}
+          <div>
+            <motion.p {...fadeUp(0.1)} className="text-[clamp(15px,1.6vw,18px)] leading-relaxed text-cream/65 font-light max-w-lg mb-10">
+              {t("body")}
+            </motion.p>
+
+            <div className="space-y-3">
+              {clients.map((label, i) => (
+                <motion.div
+                  key={label}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.55, delay: 0.12 + i * 0.08 }}
+                  className="group flex items-center gap-5 py-4 border-b border-cream/10 hover:border-accent/30 transition-colors duration-300 cursor-default"
+                >
+                  <span className="text-accent text-[8px]">◆</span>
+                  <span className="font-sans text-[clamp(14px,1.4vw,16px)] text-cream/70 tracking-wide font-medium group-hover:text-cream transition-colors duration-300">
+                    {label}
+                  </span>
+                  <div className="ml-auto w-5 h-px bg-accent/0 group-hover:bg-accent/40 transition-all duration-400 group-hover:w-10" />
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Geographic note */}
+            <motion.div
+              {...fadeUp(0.55)}
+              className="mt-10 p-6 rounded-2xl bg-cream/[0.04] border border-cream/8"
+            >
+              <div className="flex items-start gap-4">
+                <div className="w-1 h-12 rounded-full bg-accent shrink-0 mt-1" />
+                <p className="text-[clamp(13px,1.4vw,15px)] leading-relaxed text-cream/55 font-light italic">
+                  {t("note")}
+                </p>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right: Stats grid */}
+          <div className="grid grid-cols-2 gap-4 md:gap-6">
+            {stats.map((s, i) => (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, y: 32, scale: 0.94 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.65, delay: 0.1 + i * 0.1, ease: [0.19, 1, 0.22, 1] }}
+                className={`group relative overflow-hidden flex flex-col justify-end p-7 md:p-9 border transition-all duration-400 hover:-translate-y-1 cursor-default ${
+                  i === 0
+                    ? "bg-primary text-cream border-primary rounded-[40px_40px_16px_40px]"
+                    : i === 1
+                    ? "bg-accent text-primary border-accent rounded-[40px_40px_40px_16px]"
+                    : "bg-surface text-cream border-cream/15 rounded-3xl hover:border-accent/30"
+                }`}
+                style={{ minHeight: "180px" }}
+              >
+                <div
+                  className={`absolute -top-6 -right-6 w-24 h-24 rounded-full opacity-10 ${
+                    i === 0 ? "bg-accent" : i === 1 ? "bg-primary" : "bg-accent"
+                  }`}
+                />
+                <span
+                  className={`font-serif text-[clamp(36px,5vw,56px)] font-light leading-none tracking-tight ${
+                    i === 0 ? "text-accent" : i === 1 ? "text-primary" : "text-accent"
+                  }`}
+                >
+                  {s.num}
+                </span>
+                <span
+                  className={`text-[10px] tracking-[0.28em] uppercase font-bold mt-2 ${
+                    i === 0 ? "text-cream/55" : i === 1 ? "text-primary/60" : "text-cream/50"
+                  }`}
+                >
+                  {s.label}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

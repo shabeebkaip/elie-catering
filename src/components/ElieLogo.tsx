@@ -35,7 +35,8 @@ export default function ElieLogo({ size = 40, className = "", color = "#bb8a3c",
           src="/images/elite-logo.webp"
           alt="Elie Logo"
           fill
-          className="object-contain object-top" // Force it to the top to show the name
+          sizes={`${size}px`}
+          className="object-contain object-top"
           priority
         />
       </div>
