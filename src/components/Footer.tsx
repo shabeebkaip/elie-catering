@@ -20,8 +20,7 @@ export default function Footer() {
       h: t("contact"),
       l: [
         { label: "+966 54 435 6564", href: "tel:+966544356564" },
-        { label: "hello@eliecatering.com", href: "mailto:hello@eliecatering.com" },
-        { label: "www.eliecatering.com", href: "#" },
+        { label: "info@elie-catering.com", href: "mailto:info@elie-catering.com" },
       ],
     },
     {

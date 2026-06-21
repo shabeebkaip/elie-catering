@@ -2,344 +2,489 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
-const PILLAR_IMGS = [
-  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
-];
+/* ── Dark luxury palette ─────────────────────────── */
+const BG = "#120A2A";
+const GOLD = "#bb8a3c";
+const SMOKED_GOLD = "#a8925a";
+const CREAM = "#ede5ff";
+const BODY = "rgba(237,229,255,0.76)";
+const MUTED = "rgba(237,229,255,0.58)";
+const HAIRLINE = "rgba(237,229,255,0.08)";
 
-const EXPERTISE_IMGS = [
-  "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?q=80&w=800&auto=format&fit=crop",
-];
+/* ── Silk grain (SVG fractal noise) ─────────────── */
+const NOISE_SVG = `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E")`;
+
+/* ── Motion ─────────────────────────────────────── */
+const EASE: [number, number, number, number] = [0.19, 1, 0.22, 1];
 
 const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 24 },
+  initial: { opacity: 0, y: 22 },
   whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.65, delay, ease: [0.19, 1, 0.22, 1] as [number, number, number, number] },
+  viewport: { once: true, margin: "-80px" },
+  transition: { duration: 1.0, delay, ease: EASE },
 });
 
+const fadeIn = (delay = 0) => ({
+  initial: { opacity: 0 },
+  whileInView: { opacity: 1 },
+  viewport: { once: true, margin: "-100px" },
+  transition: { duration: 1.6, delay, ease: EASE },
+});
+
+/* ── Bilingual copy ─────────────────────────────── */
+type Pillar = { t: string; d: string };
+type Copy = {
+  eyebrow: string;
+  title: string;
+  titleAccent: string;
+  sub: string;
+  hallmarksLabel: string;
+  estLabel: string;
+  location: string;
+  pillars: Pillar[];
+};
+
+const COPY: { en: Copy; ar: Copy } = {
+  en: {
+    eyebrow: "Why Elie",
+    title: "The Elie",
+    titleAccent: "Difference.",
+    sub: "14 years of curated Saudi luxury hospitality.",
+    hallmarksLabel: "Our Hallmarks",
+    estLabel: "Est · 2010",
+    location: "Riyadh · KSA",
+    pillars: [
+      { t: "Bespoke Experiences", d: "Shaped to each occasion. Never repeated." },
+      { t: "End-to-End Execution", d: "Planning, catering, styling — quietly coordinated." },
+      { t: "Private & Corporate Expertise", d: "Trusted by households, embassies, and leadership." },
+      { t: "Saudi-wide Hospitality", d: "Standards that travel across the Kingdom." },
+    ],
+  },
+  ar: {
+    eyebrow: "لماذا إيلي",
+    title: "تميّز",
+    titleAccent: "إيلي.",
+    sub: "أكثر من 14 عاماً من الضيافة الفاخرة المصمّمة بعناية في المملكة.",
+    hallmarksLabel: "علاماتنا المميّزة",
+    estLabel: "تأسست · 2010",
+    location: "الرياض · المملكة",
+    pillars: [
+      { t: "تجارب مصمّمة بعناية", d: "خدمات وضيافة تُصاغ خصيصاً لكل مناسبة — دون تكرار." },
+      { t: "تنفيذ متكامل من البداية إلى النهاية", d: "نُدير التخطيط والضيافة والتنفيذ بدقّة وهدوء خلف الكواليس." },
+      { t: "خبرة في المناسبات الخاصة والشركات", d: "موثوقون لدى العائلات والشركات وكبار الشخصيات." },
+      { t: "ضيافة راقية في كل أنحاء المملكة", d: "معايير فاخرة ترافقنا أينما كانت وجهتكم داخل المملكة." },
+    ],
+  },
+};
+
+/* ── Locale-aware typography ───────────────────── */
+type Typo = {
+  title: React.CSSProperties;
+  sub: React.CSSProperties;
+  pillarTitle: React.CSSProperties;
+  pillarDesc: React.CSSProperties;
+  eyebrowLetterSpacing: string;
+};
+
+const TYPO: { en: Typo; ar: Typo } = {
+  en: {
+    title: {
+      fontSize: "clamp(38px, 5.8vw, 78px)",
+      lineHeight: 1.02,
+      letterSpacing: "-0.025em",
+    },
+    sub: {
+      fontSize: "clamp(15px, 1.4vw, 20px)",
+      lineHeight: 1.55,
+      letterSpacing: "0.005em",
+    },
+    pillarTitle: {
+      fontSize: "clamp(26px, 2.9vw, 38px)",
+      lineHeight: 1.06,
+      letterSpacing: "-0.022em",
+      maxWidth: "280px",
+    },
+    pillarDesc: {
+      fontSize: "clamp(13.5px, 1.05vw, 15px)",
+      lineHeight: 1.7,
+      maxWidth: "260px",
+      letterSpacing: "0.005em",
+    },
+    eyebrowLetterSpacing: "0.44em",
+  },
+  ar: {
+    title: {
+      fontSize: "clamp(44px, 6.6vw, 88px)",
+      lineHeight: 1.32,
+      letterSpacing: "0",
+    },
+    sub: {
+      fontSize: "clamp(17px, 1.55vw, 22px)",
+      lineHeight: 1.9,
+      letterSpacing: "0",
+    },
+    pillarTitle: {
+      fontSize: "clamp(24px, 2.7vw, 36px)",
+      lineHeight: 1.4,
+      letterSpacing: "0",
+      maxWidth: "380px",
+    },
+    pillarDesc: {
+      fontSize: "clamp(14.5px, 1.15vw, 17px)",
+      lineHeight: 1.95,
+      maxWidth: "360px",
+      letterSpacing: "0",
+    },
+    eyebrowLetterSpacing: "0.18em",
+  },
+};
+
 export default function WhyChooseUs() {
-  const t = useTranslations("whyUs");
-  const pillars = t.raw("pillars") as { t: string; d: string }[];
-  const expertise = t.raw("expertise") as { t: string; d: string }[];
+  const locale = useLocale();
+  const isArabic = locale === "ar";
+  const copy = isArabic ? COPY.ar : COPY.en;
+  const typo = isArabic ? TYPO.ar : TYPO.en;
+
+  // Headline & body use serif (Fraunces) in English, font-arabic (Almarai) in Arabic
+  const serif = isArabic ? "font-arabic" : "font-serif";
 
   return (
-    <div id="why-us" className="overflow-hidden">
+    <section
+      id="why-us"
+      style={{ background: BG, position: "relative", overflow: "hidden" }}
+    >
 
-      {/* ── Arch transition: CoreValues cream → dark primary ── */}
-      <div className="bg-surface">
-        <div className="h-16 md:h-24 bg-primary rounded-t-[80px] md:rounded-t-[120px]" />
-      </div>
+      {/* ── Ambient depth — radial glows ─────────── */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          top: "-12%",
+          right: "-8%",
+          width: "55%",
+          height: "55%",
+          background:
+            "radial-gradient(ellipse at center, rgba(187,138,60,0.08) 0%, rgba(187,138,60,0.025) 38%, transparent 65%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          bottom: "-18%",
+          left: "-10%",
+          width: "55%",
+          height: "60%",
+          background:
+            "radial-gradient(ellipse at center, rgba(168,146,90,0.07) 0%, transparent 60%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(180deg, rgba(0,0,0,0.22) 0%, transparent 18%, transparent 82%, rgba(0,0,0,0.24) 100%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
 
-      <section className="relative bg-primary text-cream overflow-hidden">
+      {/* ── Silk grain ──────────────────────────────── */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: NOISE_SVG,
+          opacity: 0.04,
+          mixBlendMode: "overlay",
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
+      />
 
-        {/* ── Ambient background capsule shapes ── */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          {/* Top-right outline capsules — desktop only, subtle */}
-          <div className="absolute top-0 right-[4%] hidden xl:flex flex-row items-start gap-0 z-20">
-            <div className="w-[60px] h-[380px] rounded-full border border-[#c38ed8]/12" />
-            <div className="w-[90px] h-[460px] rounded-full border border-[#c38ed8]/16" />
-          </div>
+      {/* ── Content ─────────────────────────────────── */}
+      <div
+        className="relative max-w-[1440px] mx-auto"
+        style={{
+          zIndex: 2,
+          paddingTop: "clamp(48px, 6vw, 88px)",
+          paddingBottom: "clamp(80px, 10vw, 144px)",
+          paddingLeft: "clamp(24px, 6vw, 96px)",
+          paddingRight: "clamp(24px, 6vw, 96px)",
+        }}
+      >
 
-          <div className="absolute top-[8%] right-[14%] w-16 h-64 border border-accent/8 rounded-full rotate-[-28deg]" />
-          <div className="absolute bottom-[22%] left-[-4%] w-24 h-96 bg-white/3 rounded-full rotate-[24deg]" />
-          <div className="absolute bottom-[8%] right-[28%] w-10 h-28 border border-white/6 rounded-full rotate-[-16deg]" />
-        </div>
+        {/* ════════════════════════════════════════════
+            TOP — Editorial heading (centered)
+            ════════════════════════════════════════════ */}
+        <div className="text-center max-w-[760px] mx-auto mb-8 md:mb-12 lg:mb-14">
 
-        <div className="container-custom px-6 md:px-14 lg:px-20 relative z-10">
-
-          {/* ════════════════════════════════════
-              HEADER
-              ════════════════════════════════════ */}
-          <div className="pt-12 md:pt-16 pb-12 md:pb-14">
-            <motion.div {...fadeUp(0)}>
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-8 h-px bg-accent/50" />
-                <span className="text-accent text-[9px] tracking-[0.42em] uppercase font-bold">{t("eyebrow")}</span>
-              </div>
-              <div className="flex items-start gap-4 md:gap-6">
-
-                <div>
-                  <h2 className="font-serif font-light tracking-tight leading-[0.88] text-cream text-[clamp(48px,8vw,106px)]">
-                    {t("headline1")}<br />
-                    <em className="text-accent italic">{t("headline2")}</em>
-                  </h2>
-                  <p className="mt-5 text-[clamp(14px,1.4vw,16px)] leading-relaxed text-cream/45 font-light max-w-lg">
-                    {t("sub")}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* ════════════════════════════════════
-              BENTO GRID — asymmetric, 3 pillars
-              Desktop: col-span / row-span bento
-              Mobile: single-column stack
-              ════════════════════════════════════ */}
+          {/* Eyebrow with twin rules */}
           <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5"
-            style={{ gridAutoRows: "auto" }}
+            {...fadeUp(0)}
+            className="flex items-center justify-center gap-3 mb-6 md:mb-7"
           >
-
-            {/* ─────────────────────────────────
-                CARD A — Hero 2×2
-                Large capsule image + pillar 1
-                ───────────────────────────────── */}
-            <motion.div
-              {...fadeUp(0.06)}
-              className="lg:col-span-2 relative rounded-3xl overflow-hidden border border-white/8 group cursor-default min-h-[420px] lg:min-h-[520px]"
+            <div style={{ width: "22px", height: "1px", background: GOLD, opacity: 0.55 }} />
+            <span
+              className={isArabic ? "font-arabic" : ""}
               style={{
-                background: "linear-gradient(145deg, rgba(36,24,52,0.97) 0%, rgba(22,14,34,0.99) 100%)",
+                fontSize: isArabic ? "12px" : "10px",
+                fontWeight: 600,
+                letterSpacing: typo.eyebrowLetterSpacing,
+                textTransform: isArabic ? "none" : "uppercase",
+                color: GOLD,
+                opacity: 0.82,
               }}
             >
-              {/* Tall arch capsule image — logical start portion (desktop) */}
-              <div className="absolute start-7 top-7 bottom-7 w-[42%] hidden lg:block">
-                <motion.div
-                  whileHover={{ scale: 1.03 }}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
-                  className="relative h-full w-full overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.45)]"
-                  style={{ borderRadius: "9999px 9999px 52px 52px" }}
-                >
-                  <Image
-                    src={PILLAR_IMGS[0]}
-                    alt={pillars[0].t}
-                    fill
-                    className="object-cover transition-transform duration-1000 group-hover:scale-105"
-                    sizes="300px"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-b from-transparent via-transparent to-primary/55" />
-                  {/* Inner capsule overlay accent */}
-                  <div className="absolute top-5 right-5 w-8 h-16 rounded-full border border-accent/30 rotate-[12deg]" />
-                </motion.div>
-              </div>
-
-              {/* Mobile top image */}
-              <div className="relative lg:hidden w-full h-52">
-                <Image
-                  src={PILLAR_IMGS[0]}
-                  alt={pillars[0].t}
-                  fill
-                  className="object-cover"
-                  sizes="100vw"
-                />
-                <div className="absolute inset-0 bg-linear-to-b from-transparent to-primary/90" />
-              </div>
-
-              {/* Text — logical end column */}
-              <div className="relative lg:absolute lg:end-0 lg:top-0 lg:bottom-0 lg:w-[55%] flex flex-col justify-end lg:justify-center p-6 lg:pe-9 lg:ps-5">
-
-                <h3 className="font-sans font-black text-cream text-[clamp(18px,2vw,24px)] uppercase tracking-tight leading-tight mt-1 group-hover:text-accent transition-colors duration-400">
-                  {pillars[0].t}
-                </h3>
-                <p className="text-cream/46 text-[13px] md:text-[14px] leading-relaxed mt-3 max-w-[300px]">
-                  {pillars[0].d}
-                </p>
-                {/* Dot trail */}
-                <div className="mt-5 flex gap-2">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent/40" />
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent/15" />
-                </div>
-              </div>
-
-              {/* Decorative capsule shapes on card */}
-              <div className="absolute top-5 end-5 w-9 h-20 rounded-full border border-accent/16 rotate-[14deg] hidden lg:block" />
-              <div className="absolute bottom-6 end-16 w-5 h-11 rounded-full bg-accent/8 rotate-[-8deg] hidden lg:block" />
-            </motion.div>
-
-            {/* ─────────────────────────────────
-                CARD B — Gold stats (col 3, tall)
-                ───────────────────────────────── */}
-            {/* CARD B — Cinematic Visual Card (Replacing Stats) */}
-            <motion.div
-              {...fadeUp(0.2)}
-              className="lg:row-span-2 relative rounded-3xl overflow-hidden bg-accent/10 border border-accent/20 group cursor-default min-h-[300px] lg:min-h-0"
-            >
-              <Image
-                src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop"
-                alt="Excellence"
-                fill
-                className="object-cover transition-transform duration-[3s] group-hover:scale-125 opacity-80"
-                sizes="(max-width: 1024px) 100vw, 33vw"
-              />
-              <div className="absolute inset-0 bg-primary/20 group-hover:bg-transparent transition-colors duration-700" />
-              {/* Internal Arch Frame */}
-              <div className="absolute inset-4 rounded-[64px] border border-white/20 pointer-events-none" />
-              <div className="absolute bottom-6 left-6 right-6 text-center">
-                 <span className="font-serif italic text-accent text-2xl tracking-tight opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    {t("craftedPerfection")}
-                 </span>
-              </div>
-            </motion.div>
-
-            {/* ─────────────────────────────────
-                CARD C — Pillar 2 glass card
-                ───────────────────────────────── */}
-            <motion.div
-              {...fadeUp(0.12)}
-              className="relative rounded-3xl overflow-hidden border border-white/8 group hover:border-accent/28 transition-all duration-400 cursor-default min-h-[200px]"
-              style={{
-                background: "rgba(255,255,255,0.05)",
-                backdropFilter: "blur(14px)",
-                WebkitBackdropFilter: "blur(14px)",
-              }}
-            >
-              {/* Floating arch capsule image — logical end (right LTR, left RTL) */}
-              <div className="absolute top-5 end-5">
-                <div
-                  className="relative w-14 h-20 overflow-hidden border-2 border-white/14 shadow-xl group-hover:border-accent/30 transition-all duration-400"
-                  style={{ borderRadius: "9999px 9999px 14px 14px" }}
-                >
-                  <Image
-                    src={PILLAR_IMGS[1]}
-                    alt={pillars[1].t}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    sizes="56px"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-b from-transparent to-primary/25" />
-                </div>
-              </div>
-
-              <div className="p-6 pe-20 h-full flex flex-col justify-between min-h-[200px]">
-
-                <div>
-                  <h3 className="font-sans font-black text-cream text-[14px] uppercase tracking-[0.04em] leading-tight group-hover:text-accent transition-colors duration-300">
-                    {pillars[1].t}
-                  </h3>
-                  <p className="text-cream/40 text-[12px] leading-relaxed mt-2">
-                    {pillars[1].d}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* ─────────────────────────────────
-                CARD D — Pillar 3 (col 2, row 2)
-                Pairs with Card C for clean row
-                ───────────────────────────────── */}
-            <motion.div
-              {...fadeUp(0.18)}
-              className="relative rounded-3xl overflow-hidden border border-white/7 group hover:border-accent/22 transition-all duration-400 cursor-default min-h-[200px]"
-              style={{
-                background: "rgba(255,255,255,0.04)",
-                backdropFilter: "blur(10px)",
-                WebkitBackdropFilter: "blur(10px)",
-              }}
-            >
-              {/* Arch capsule image — logical end (right LTR, left RTL) */}
-              <div className="absolute top-5 end-5">
-                <div
-                  className="relative w-14 h-20 overflow-hidden border-2 border-accent/22 shadow-xl group-hover:border-accent/42 transition-all duration-400"
-                  style={{ borderRadius: "9999px 9999px 14px 14px" }}
-                >
-                  <Image
-                    src={PILLAR_IMGS[2]}
-                    alt={pillars[2].t}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    sizes="56px"
-                  />
-                  <div className="absolute inset-0 bg-linear-to-b from-transparent to-primary/25" />
-                </div>
-              </div>
-
-              {/* Background capsule shape */}
-              <div className="absolute -bottom-4 -end-4 w-16 h-32 rounded-full bg-accent/6 rotate-[-14deg]" />
-
-              <div className="p-6 pe-20 h-full flex flex-col justify-between min-h-[200px]">
-
-                <div>
-                  <h3 className="font-sans font-black text-cream text-[14px] uppercase tracking-[0.04em] leading-tight group-hover:text-accent transition-colors duration-300 mb-2">
-                    {pillars[2].t}
-                  </h3>
-                  <p className="text-cream/38 text-[12px] leading-relaxed">
-                    {pillars[2].d}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
+              {copy.eyebrow}
+            </span>
+            <div style={{ width: "22px", height: "1px", background: GOLD, opacity: 0.55 }} />
           </motion.div>
 
-          {/* ════════════════════════════════════
-              EXPERTISE CARDS — glass grid 3×2
-              ════════════════════════════════════ */}
-          <div className="mt-5 pb-20 md:pb-28 lg:pb-32">
-
-            {/* Sub-header divider */}
-            <motion.div
-              {...fadeUp(0)}
-              className="flex items-center gap-4 my-10 md:my-14"
-            >
-              <div className="w-5 h-px bg-accent/40" />
-              <span className="text-[9px] tracking-[0.42em] uppercase text-cream/28 font-bold">
-                {t("areasLabel")}
+          {/* Title */}
+          <motion.h2
+            {...fadeUp(0.10)}
+            className={`${serif} font-light`}
+            style={{
+              color: CREAM,
+              ...typo.title,
+              marginBottom: "clamp(20px, 2.5vw, 32px)",
+            }}
+          >
+            {copy.title}{" "}
+            {isArabic ? (
+              <span
+                className="font-arabic"
+                style={{ color: SMOKED_GOLD, fontWeight: 300 }}
+              >
+                {copy.titleAccent}
               </span>
-              <div className="flex-1 h-px bg-white/5" />
-            </motion.div>
+            ) : (
+              <em
+                style={{
+                  color: SMOKED_GOLD,
+                  fontStyle: "italic",
+                  fontWeight: 300,
+                }}
+              >
+                {copy.titleAccent}
+              </em>
+            )}
+          </motion.h2>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {expertise.map((e, i) => (
-                <motion.div
-                  key={e.t}
-                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: "-20px" }}
-                  transition={{ duration: 0.55, delay: i * 0.07 }}
-                  whileHover={{ y: -7 }}
-                  className="group relative rounded-2xl overflow-hidden border border-white/8 hover:border-accent/24 transition-all duration-400 cursor-default"
-                  style={{
-                    background: "rgba(255,255,255,0.04)",
-                    backdropFilter: "blur(10px)",
-                    WebkitBackdropFilter: "blur(10px)",
-                  }}
-                >
-                  {/* Image strip */}
-                  <div className="relative h-36 overflow-hidden">
-                    <Image
-                      src={EXPERTISE_IMGS[i]}
-                      alt={e.t}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-linear-to-b from-transparent via-primary/20 to-primary/82" />
+          {/* Subheadline */}
+          <motion.p
+            {...fadeUp(0.16)}
+            className={`${serif} font-light mx-auto ${isArabic ? "" : "italic"}`}
+            style={{
+              color: BODY,
+              ...typo.sub,
+              maxWidth: isArabic ? "640px" : "560px",
+            }}
+          >
+            {copy.sub}
+          </motion.p>
+        </div>
 
-                    {/* Tiny capsule accent in image */}
-                    <div className="absolute top-3 right-3 w-5 h-9 rounded-full border border-white/24 rotate-[10deg]" />
-                  </div>
+        {/* ════════════════════════════════════════════
+            MIDDLE — Cinematic Saudi image
+            ════════════════════════════════════════════ */}
+        <motion.div
+          {...fadeIn(0)}
+          className="relative mb-12 md:mb-16 lg:mb-20"
+        >
+          {/* Gold halo glow behind image */}
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: "-60px",
+              background:
+                "radial-gradient(ellipse at center, rgba(187,138,60,0.16) 0%, rgba(187,138,60,0.05) 38%, transparent 72%)",
+              filter: "blur(70px)",
+              pointerEvents: "none",
+              zIndex: 0,
+            }}
+          />
 
-                  {/* Body */}
-                  <div className="px-5 py-4 pb-5">
-                    <h3 className="font-sans text-[13px] font-bold uppercase tracking-[0.06em] text-cream group-hover:text-accent transition-colors duration-300 mb-1.5 leading-tight">
-                      {e.t}
-                    </h3>
-                    <p className="text-[11px] md:text-[12px] leading-relaxed text-cream/40 font-light">
-                      {e.d}
-                    </p>
-                  </div>
+          <div
+            className="relative overflow-hidden group"
+            style={{
+              aspectRatio: "29 / 10",
+              borderRadius: "14px",
+              boxShadow:
+                "0 120px 240px -60px rgba(0,0,0,0.55), 0 60px 120px -40px rgba(0,0,0,0.22), 0 0 160px -30px rgba(187,138,60,0.14), 0 100px 80px -80px rgba(18,10,42,0.85)",
+              zIndex: 1,
+            }}
+          >
+            <Image
+              src="/images/whychooseUs.png"
+              alt={isArabic ? "إيلي للضيافة الفاخرة في المملكة" : "Elie Catering — Saudi luxury hospitality"}
+              fill
+              priority={false}
+              className="object-cover transition-transform duration-[2200ms] ease-out group-hover:scale-[1.018]"
+              sizes="(max-width: 1440px) 100vw, 1440px"
+              style={{
+                filter: "saturate(1.04) contrast(1.05)",
+                objectPosition: "center",
+              }}
+            />
 
-                  {/* Bottom gold stripe on hover */}
-                  <div className="absolute bottom-0 inset-x-0 h-[2px] bg-accent/0 group-hover:bg-accent/45 transition-all duration-400" />
-                </motion.div>
-              ))}
+            {/* Cinematic vignette — image emerging from darkness, blending to bg */}
+            <div
+              aria-hidden
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  "linear-gradient(180deg, rgba(18,10,42,0.38) 0%, rgba(18,10,42,0.08) 14%, transparent 38%, rgba(18,10,42,0.18) 62%, rgba(18,10,42,0.52) 84%, rgba(18,10,42,0.85) 96%, rgba(18,10,42,0.96) 100%)",
+              }}
+            />
+
+            {/* Maker mark — logical start (left LTR, right RTL) */}
+            <div className="absolute bottom-5 md:bottom-7 start-5 md:start-7 pointer-events-none flex items-center gap-3">
+              <div style={{ width: "18px", height: "1px", background: GOLD, opacity: 0.65 }} />
+              <span
+                className={isArabic ? "font-arabic" : ""}
+                style={{
+                  color: "rgba(237,229,255,0.72)",
+                  fontSize: isArabic ? "11px" : "10px",
+                  fontWeight: 600,
+                  letterSpacing: isArabic ? "0.10em" : "0.38em",
+                  textTransform: isArabic ? "none" : "uppercase",
+                }}
+              >
+                {copy.estLabel}
+              </span>
+            </div>
+
+            {/* Location whisper — logical end (right LTR, left RTL) */}
+            <div className="absolute bottom-5 md:bottom-7 end-5 md:end-7 pointer-events-none">
+              <span
+                className={isArabic ? "font-arabic" : ""}
+                style={{
+                  color: "rgba(237,229,255,0.50)",
+                  fontSize: isArabic ? "10.5px" : "9.5px",
+                  fontWeight: 500,
+                  letterSpacing: isArabic ? "0.08em" : "0.34em",
+                  textTransform: isArabic ? "none" : "uppercase",
+                }}
+              >
+                {copy.location}
+              </span>
             </div>
           </div>
+        </motion.div>
+
+        {/* ════════════════════════════════════════════
+            BOTTOM — 2×2 Pillars
+            ════════════════════════════════════════════ */}
+
+        {/* Section label — Aman-style fading gold dividers */}
+        <motion.div
+          {...fadeUp(0)}
+          className="flex items-center justify-center gap-5 md:gap-6 mb-10 md:mb-14"
+        >
+          <div
+            className="flex-1 h-px max-w-[88px] md:max-w-[120px]"
+            style={{
+              background:
+                "linear-gradient(to right, transparent, rgba(187,138,60,0.34) 80%)",
+            }}
+          />
+          <span
+            className={isArabic ? "font-arabic" : ""}
+            style={{
+              fontSize: isArabic ? "12px" : "10px",
+              fontWeight: 600,
+              letterSpacing: isArabic ? "0.18em" : "0.44em",
+              textTransform: isArabic ? "none" : "uppercase",
+              color: "rgba(237,229,255,0.62)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {copy.hallmarksLabel}
+          </span>
+          <div
+            className="flex-1 h-px max-w-[88px] md:max-w-[120px]"
+            style={{
+              background:
+                "linear-gradient(to left, transparent, rgba(187,138,60,0.34) 80%)",
+            }}
+          />
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 lg:gap-x-28 gap-y-14 md:gap-y-18 lg:gap-y-20">
+          {copy.pillars.map((p, i) => (
+            <motion.div
+              key={p.t}
+              {...fadeUp(0.08 + (i % 2) * 0.08)}
+              className="group relative"
+            >
+              {/* Numeral — standalone (LTR digits in both languages, looks editorial) */}
+              <span
+                className="block font-serif font-light transition-transform duration-500 group-hover:translate-x-0.5"
+                style={{
+                  color: GOLD,
+                  fontSize: "clamp(15px, 1.5vw, 19px)",
+                  letterSpacing: "0.08em",
+                  opacity: 0.88,
+                  lineHeight: 1,
+                  marginBottom: isArabic ? "clamp(18px, 2.2vw, 26px)" : "clamp(22px, 2.6vw, 30px)",
+                }}
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+
+              {/* Title */}
+              <h3
+                className={`${serif} font-light transition-colors duration-500 group-hover:text-[color:var(--accent-color)]`}
+                style={
+                  {
+                    color: CREAM,
+                    ...typo.pillarTitle,
+                    marginBottom: isArabic ? "clamp(16px, 1.8vw, 22px)" : "clamp(18px, 2vw, 24px)",
+                    ["--accent-color" as string]: SMOKED_GOLD,
+                  } as React.CSSProperties
+                }
+              >
+                {p.t}
+              </h3>
+
+              {/* Thin gold rule */}
+              <div
+                className="transition-all duration-700 group-hover:w-12"
+                style={{
+                  width: "24px",
+                  height: "1px",
+                  background: GOLD,
+                  opacity: 0.52,
+                  marginBottom: isArabic ? "clamp(20px, 2.2vw, 26px)" : "clamp(18px, 2vw, 22px)",
+                }}
+              />
+
+              {/* Description */}
+              <p
+                className={`${isArabic ? "font-arabic" : ""} font-light`}
+                style={{
+                  color: MUTED,
+                  ...typo.pillarDesc,
+                }}
+              >
+                {p.d}
+              </p>
+            </motion.div>
+          ))}
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }

@@ -67,11 +67,13 @@ export default async function LocaleLayout({
       lang={locale}
       dir={isArabic ? "rtl" : "ltr"}
       className={isArabic ? "font-arabic" : ""}
+      suppressHydrationWarning
     >
       <body
         className={`${fraunces.variable} ${inter.variable} ${instrumentSerif.variable} ${almarai.variable} ${
           isArabic ? "font-arabic" : "font-sans"
         } antialiased`}
+        suppressHydrationWarning
       >
         <NextIntlClientProvider messages={messages}>
           {children}
