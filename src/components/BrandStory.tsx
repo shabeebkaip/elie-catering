@@ -289,7 +289,7 @@ export default function BrandStory() {
             }}
           >
             <Image
-              src="/images/introduction-v2-copy.png"
+              src="/images/introduction-v2-copy.webp"
               alt=""
               fill
               className="object-cover"
@@ -351,7 +351,7 @@ export default function BrandStory() {
           style={{ position: "relative", width: "100%", aspectRatio: "16/10" }}
         >
           <Image
-            src="/images/introduction-v2-copy.png"
+            src="/images/introduction-v2-copy.webp"
             alt=""
             fill
             className="object-cover"

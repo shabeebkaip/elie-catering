@@ -21,7 +21,7 @@ export default function Hero() {
         className="absolute inset-0"
       >
         <Image
-          src="/images/elie-hero.png"
+          src="/images/elie-hero.webp"
           alt=""
           fill
           priority

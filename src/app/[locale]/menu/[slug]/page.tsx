@@ -50,42 +50,42 @@ const FINGER_FOOD_IMAGES: Record<string, string> = {
 
 const COFFEE_BREAK_IMAGES: Record<string, string> = {
   "mini milk bread with turkey and pickled cucumber":
-    "/menu/coffee%20break/sandwiches/Mini%20milk%20bread%20with%20turkey%20and%20cucumber.png",
+    "/menu/coffee%20break/sandwiches/Mini%20milk%20bread%20with%20turkey%20and%20cucumber.webp",
   "mini baguette bread with feta cheese and fresh cucumber":
-    "/menu/coffee%20break/sandwiches/Mini%20baguette%20bread%20with%20feta%20cheese%20and%20fresh%20cucumber.png",
+    "/menu/coffee%20break/sandwiches/Mini%20baguette%20bread%20with%20feta%20cheese%20and%20fresh%20cucumber.webp",
   "mini olive balls with tuna and corn":
-    "/menu/coffee%20break/sandwiches/ChatGPT%20Image%20May%208%2C%202026%2C%2003_56_18%20AM%20%281%29.png",
+    "/menu/coffee%20break/sandwiches/ChatGPT%20Image%20May%208%2C%202026%2C%2003_56_18%20AM%20%281%29.webp",
   "cucumber and feta roll with shrimp":
-    "/menu/coffee%20break/salads/Cucumber-and-Feta-Roll-with-Shrimp.png",
+    "/menu/coffee%20break/salads/Cucumber-and-Feta-Roll-with-Shrimp.webp",
   "cranberry pecan cheese ball":
-    "/menu/coffee%20break/salads/Nuts%20and%20cranberries%20cheese%20appetizer.png",
+    "/menu/coffee%20break/salads/Nuts%20and%20cranberries%20cheese%20appetizer.webp",
   "mini tart chicken & cheese quiches":
-    "/menu/coffee%20break/salads/Mini%20tarts%20with%20chicken%20and%20cheese.png",
+    "/menu/coffee%20break/salads/Mini%20tarts%20with%20chicken%20and%20cheese.webp",
   "gorgonzola cheese canapés with walnut":
-    "/menu/coffee%20break/salads/Gorgonzola%20cheese%20canap%C3%A9s%20with%20walnut.png",
+    "/menu/coffee%20break/salads/Gorgonzola%20cheese%20canap%C3%A9s%20with%20walnut.webp",
   "meat & cheese sambuusa":
-    "/menu/coffee%20break/appetizers/ChatGPT%20Image%20May%208%2C%202026%2C%2004_22_29%20AM%20%281%29.png",
+    "/menu/coffee%20break/appetizers/ChatGPT%20Image%20May%208%2C%202026%2C%2004_22_29%20AM%20%281%29.webp",
   "assorted french pastry":
-    "/menu/coffee%20break/dessert/Assorted%20French%20Pastry.png",
+    "/menu/coffee%20break/dessert/Assorted%20French%20Pastry.webp",
   "assorted danish pastry":
-    "/menu/coffee%20break/dessert/Assorted%20Danish%20Pastry.png",
-  "mini croissants": "/menu/coffee%20break/dessert/Mini%20Croissants.png",
-  "fresh-cut fruits": "/menu/coffee%20break/dessert/Fresh-cut%20Fruits.png",
+    "/menu/coffee%20break/dessert/Assorted%20Danish%20Pastry.webp",
+  "mini croissants": "/menu/coffee%20break/dessert/Mini%20Croissants.webp",
+  "fresh-cut fruits": "/menu/coffee%20break/dessert/Fresh-cut%20Fruits.webp",
   "mineral water":
     "/menu/coffee%20break/beverages/689dfc618fefcf4041d9c01e.webp",
   "assorted juices":
-    "/menu/coffee%20break/beverages/ChatGPT%20Image%20May%208%2C%202026%2C%2011_02_30%20AM.png",
+    "/menu/coffee%20break/beverages/ChatGPT%20Image%20May%208%2C%202026%2C%2011_02_30%20AM.webp",
   coffee:
-    "/menu/coffee%20break/beverages/ChatGPT%20Image%20May%208%2C%202026%2C%2011_06_21%20AM.png",
-  tea: "/menu/coffee%20break/beverages/ChatGPT%20Image%20May%208%2C%202026%2C%2011_08_11%20AM.png",
+    "/menu/coffee%20break/beverages/ChatGPT%20Image%20May%208%2C%202026%2C%2011_06_21%20AM.webp",
+  tea: "/menu/coffee%20break/beverages/ChatGPT%20Image%20May%208%2C%202026%2C%2011_08_11%20AM.webp",
 };
 
 const LIVE_COOKING_IMAGES: Record<string, string> = {
-  "lamb ousal": "/menu/live-cooking/lamp%26fish/Lamb%20Ousal.png",
-  "lamb kebab": "/menu/live-cooking/lamp%26fish/lamb%20kebab.png",
-  "fish sabach": "/menu/live-cooking/lamp%26fish/Fish%20Sabach.png",
+  "lamb ousal": "/menu/live-cooking/lamp%26fish/Lamb%20Ousal.webp",
+  "lamb kebab": "/menu/live-cooking/lamp%26fish/lamb%20kebab.webp",
+  "fish sabach": "/menu/live-cooking/lamp%26fish/Fish%20Sabach.webp",
   "served with: tahini sauce & cream sauce":
-    "/menu/live-cooking/lamp%26fish/tahini.png",
+    "/menu/live-cooking/lamp%26fish/tahini.webp",
   "chicken tikka":
     "https://www.eitanbernath.com/wp-content/uploads/2020/10/Chicken-Tikka-LOW-RES-1-819x1024.jpg",
   "chicken kebab":

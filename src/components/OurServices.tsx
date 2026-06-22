@@ -1,310 +1,566 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { useLocale, useTranslations } from "next-intl";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useLocale } from "next-intl";
 
-const CATEGORIES = [
-  {
-    badge: "Our Signature",
-    badgeAr: "توقيعنا المميز",
-    category: "Food & Beverage",
-    categoryAr: "الأغذية والمشروبات",
-    title: "Catering",
-    titleAr: "التموين",
-    slug: "catering",
-    img: "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2070&auto=format&fit=crop",
-    items: [
-      "Full-Service Catering",
-      "Buffet & Live Stations",
-      "Luxury Menu Creation",
-      "Fine Dining Setup",
-      "Arabic Coffee & Dates",
-      "Seafood & Sushi Bar",
-      "Live Cooking Stations",
-    ],
-    itemsAr: [
-      "تموين متكامل",
-      "بوفيه ومحطات حية",
-      "تصميم قوائم فاخرة",
-      "إعداد العشاء الراقي",
-      "قهوة عربية وتمر",
-      "بار مأكولات بحرية وسوشي",
-      "محطات طهي حي",
-    ],
-  },
-  {
-    badge: "Most Booked",
-    badgeAr: "الأكثر حجزاً",
-    category: "Full Coordination",
-    categoryAr: "تنسيق كامل",
-    title: "Event Planning",
-    titleAr: "تنظيم الفعاليات",
-    slug: "planning",
-    img: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop",
-    items: [
-      "Wedding Planning",
-      "Corporate Events",
-      "Private Dinners",
-      "Royal Ceremonies",
-      "Gala & Cocktail Events",
-      "Destination Events",
-      "Event Management",
-    ],
-    itemsAr: [
-      "تخطيط حفلات الزفاف",
-      "الفعاليات المؤسسية",
-      "العشاء الخاص",
-      "المراسم الملكية",
-      "حفلات الغالا والكوكتيل",
-      "فعاليات الوجهات",
-      "إدارة الفعاليات",
-    ],
-  },
-  {
-    badge: "Explore",
-    badgeAr: "استكشف",
-    category: "Ambiance & Aesthetics",
-    categoryAr: "الأجواء والجماليات",
-    title: "Décor & Design",
-    titleAr: "الديكور والتصميم",
-    slug: "decor",
-    img: "https://images.unsplash.com/photo-1478146896981-b80fe463b330?q=80&w=2070&auto=format&fit=crop",
-    items: [
-      "Floral Arrangements",
-      "Display & Dessert Tables",
-      "Luxury Cakes",
-      "Lighting Design",
-      "Venue Dressing & Styling",
-      "Exclusive Accessories",
-      "Stage & Backdrop Design",
-    ],
-    itemsAr: [
-      "تنسيق الزهور",
-      "طاولات العرض والحلوى",
-      "كعكات فاخرة",
-      "تصميم الإضاءة",
-      "تزيين المكان وتصميمه",
-      "إكسسوارات حصرية",
-      "تصميم المسرح والخلفيات",
-    ],
-  },
-  {
-    badge: "Exclusive",
-    badgeAr: "حصري",
-    category: "Elevate Your Event",
-    categoryAr: "ارفع مستوى فعاليتك",
-    title: "Premium Add-ons",
-    titleAr: "الإضافات المميزة",
-    slug: "addons",
-    img: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop",
-    items: [
-      "Professional Photography",
-      "Entertainment & Live Music",
-      "Valet Parking (Valia)",
-      "Stage & AV Solutions",
-      "Branded Luxury Details",
-      "Silverware & Tableware",
-      "Hall Coordination",
-    ],
-    itemsAr: [
-      "التصوير الاحترافي",
-      "الترفيه والموسيقى الحية",
-      "صف السيارات (فاليا)",
-      "حلول المسرح والصوت والصورة",
-      "تفاصيل فاخرة مميزة",
-      "أدوات الفضة والمائدة",
-      "تنسيق القاعة",
-    ],
-  },
-];
+/* ═══════════════════════════════════════════════════════
+   PALETTE
+═══════════════════════════════════════════════════════ */
+const GOLD = "#C79A3B";
+const CREAM = "#F5F2EA";
+const CREAM_BODY = "rgba(245,242,234,0.72)";
+const CREAM_MUTED = "rgba(245,242,234,0.42)";
+const NOISE = `url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")`;
 
-export default function OurServices() {
-  const locale = useLocale();
-  const isAr = locale === "ar";
-  const t = useTranslations("ourServices");
+/* ═══════════════════════════════════════════════════════
+   MOTION
+═══════════════════════════════════════════════════════ */
+const EASE: [number, number, number, number] = [0.22, 0.08, 0.24, 1.0];
+
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 22 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-40px" },
+  transition: { duration: 1.0, delay, ease: EASE },
+});
+
+/* ═══════════════════════════════════════════════════════
+   CONTENT
+═══════════════════════════════════════════════════════ */
+const SERVICES = {
+  en: [
+    {
+      num: "01",
+      title: "Weddings",
+      desc: "From the first vow to the final dance, every moment is orchestrated with grace, precision, and unforgettable beauty.",
+      img: "/images/services/wedding.png",
+      alt: "Luxury wedding by Elie Catering",
+    },
+    {
+      num: "02",
+      title: "Corporate Events",
+      desc: "Executive gatherings and corporate celebrations elevated to the highest standard of Saudi hospitality and discretion.",
+      img: "/images/services/coorperate-events.png",
+      alt: "Corporate events by Elie",
+    },
+    {
+      num: "03",
+      title: "Private Gatherings",
+      desc: "Intimate occasions transformed into extraordinary memories, curated with complete discretion and personal care.",
+      img: "/images/services/private-gathering.png",
+      alt: "Private gatherings by Elie",
+    },
+    {
+      num: "04",
+      title: "Luxury Catering",
+      desc: "Menus of rare distinction, crafted by culinary artisans for the most discerning tables across the Kingdom.",
+      img: "/images/services/luxury-catering.png",
+      alt: "Luxury catering by Elie",
+    },
+    {
+      num: "05",
+      title: "Event Styling & Décor",
+      desc: "Environments of breathtaking beauty — composed, installed, and perfected from initial concept to final detail.",
+      img: "/images/services/event-styling.png",
+      alt: "Event styling and décor",
+    },
+    {
+      num: "06",
+      title: "VIP Hospitality",
+      desc: "An invisible hand behind every extraordinary experience — seamless, sovereign, and impossible to forget.",
+      img: "/images/services/vip.png",
+      alt: "VIP hospitality by Elie",
+    },
+  ],
+  ar: [
+    {
+      num: "01",
+      title: "حفلات الزفاف",
+      desc: "من أول لحظة حتى آخرها — ننسّق كل تفصيل بأناقة واحترافية لا مثيل لهما.",
+      img: "/images/services/wedding.png",
+      alt: "حفلات زفاف فاخرة",
+    },
+    {
+      num: "02",
+      title: "الفعاليات المؤسسية",
+      desc: "تجمعات تنفيذية وفعاليات الشركات تُرتقى إلى أعلى معايير الضيافة السعودية الفاخرة.",
+      img: "/images/services/coorperate-events.png",
+      alt: "الفعاليات المؤسسية",
+    },
+    {
+      num: "03",
+      title: "التجمعات الخاصة",
+      desc: "مناسبات حميمة تتحوّل إلى ذكريات استثنائية، تُقدَّم بسرية وعناية لا حدود لهما.",
+      img: "/images/services/private-gathering.png",
+      alt: "التجمعات الخاصة",
+    },
+    {
+      num: "04",
+      title: "الضيافة الراقية",
+      desc: "قوائم طعام من مستوى استثنائي، تُعدّها أيدٍ فنية لأرفع الموائد وأكثرها تميزاً.",
+      img: "/images/services/luxury-catering.png",
+      alt: "الضيافة الراقية",
+    },
+    {
+      num: "05",
+      title: "تنسيق الفعاليات والديكور",
+      desc: "بيئات من الجمال الباهر تُصمَّم وتُنفَّذ من الفكرة الأولى حتى آخر لمسة بإتقان عالٍ.",
+      img: "/images/services/event-styling.png",
+      alt: "تنسيق الفعاليات والديكور",
+    },
+    {
+      num: "06",
+      title: "ضيافة كبار الضيوف",
+      desc: "يدٌ خفية تُحرّك كل تجربة استثنائية بسلاسة وسيادة لا تُنسى.",
+      img: "/images/services/vip.png",
+      alt: "ضيافة كبار الضيوف",
+    },
+  ],
+};
+
+type ServiceData = (typeof SERVICES.en)[0];
+
+/* ═══════════════════════════════════════════════════════
+   HAIRLINE DIVIDER
+═══════════════════════════════════════════════════════ */
+function ServiceDivider() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 1.2, ease: EASE }}
+      style={{
+        height: "1px",
+        background:
+          "linear-gradient(to right, transparent 0%, rgba(199,154,59,0.12) 20%, rgba(199,154,59,0.22) 50%, rgba(199,154,59,0.12) 80%, transparent 100%)",
+        margin: "clamp(48px, 6.5vw, 88px) 0",
+      }}
+    />
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   SERVICE ROW
+═══════════════════════════════════════════════════════ */
+function ServiceRow({
+  service,
+  index,
+  isArabic,
+  locale,
+}: {
+  service: ServiceData;
+  index: number;
+  isArabic: boolean;
+  locale: string;
+}) {
+  const rowRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: rowRef,
+    offset: ["start end", "end start"],
+  });
+
+  /* Subtle parallax drift on the image */
+  const y = useTransform(scrollYProgress, [0, 1], ["5%", "-5%"]);
+
+  const serif = isArabic ? "font-arabic" : "font-serif";
+
+  /* Visual alternation — same in both languages (dir="ltr" forces layout) */
+  const imageLeft = index % 2 === 0;
 
   return (
-    <section id="services" className="relative bg-primary overflow-hidden py-16 md:py-24">
-
-      {/* Section header */}
-      <div className="container-custom px-6 md:px-14 lg:px-20 mb-10 md:mb-14">
+    <div
+      ref={rowRef}
+      dir="ltr"
+      className={`flex flex-col items-start ${
+        imageLeft ? "md:flex-row" : "md:flex-row-reverse"
+      }`}
+      style={{ gap: "clamp(32px, 5vw, 72px)", alignItems: "stretch" }}
+    >
+      {/* ── IMAGE ── */}
+      <motion.div
+        initial={{ opacity: 0, x: imageLeft ? -28 : 28 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: "-60px" }}
+        transition={{ duration: 1.5, ease: EASE }}
+        className="relative overflow-hidden group shrink-0"
+        style={{
+          flexBasis: "58%",
+          aspectRatio: "4/3",
+          borderRadius: "10px",
+          boxShadow: [
+            "0 70px 140px -35px rgba(0,0,0,0.60)",
+            "0 30px 60px -20px rgba(0,0,0,0.28)",
+            "0 0 80px -15px rgba(199,154,59,0.11)",
+            "inset 0 0 0 1px rgba(199,154,59,0.07)",
+          ].join(", "),
+        }}
+      >
+        {/* Parallax image */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-4"
+          style={{
+            y,
+            scale: 1.12,
+            position: "absolute",
+            inset: 0,
+            willChange: "transform",
+          }}
         >
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-px bg-accent/60" />
-              <span className="text-accent/80 text-[9px] tracking-[0.42em] uppercase font-bold">{t("eyebrow")}</span>
-            </div>
-            <h2 className="font-serif font-light text-[clamp(44px,8vw,96px)] text-cream uppercase leading-[0.88] tracking-tight">
-              {t("headline")}
-            </h2>
-          </div>
-          <p className="text-cream/40 text-[13px] md:text-[14px] max-w-xs font-light leading-relaxed md:text-right pb-2">
-            {t("tagline")}
-          </p>
+          <Image
+            src={service.img}
+            alt={service.alt}
+            fill
+            className="object-cover transition-transform duration-3000 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:scale-[1.03]"
+            sizes="(max-width: 768px) 100vw, 58vw"
+            style={{ filter: "saturate(1.06) contrast(1.03)" }}
+          />
         </motion.div>
-      </div>
 
-      {/* Cards row — horizontal scroll on mobile, grid on desktop */}
-      <div className="px-6 md:px-14 lg:px-20">
-        <div className="flex gap-4 md:gap-5 overflow-x-auto pb-4 snap-x snap-mandatory no-scrollbar lg:grid lg:grid-cols-5 lg:overflow-visible lg:pb-0"
-          style={{ scrollbarWidth: "none" }}
+        {/* Cinematic vignette */}
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(9,0,34,0.16) 0%, transparent 18%, transparent 78%, rgba(9,0,34,0.28) 100%)",
+          }}
+        />
+      </motion.div>
+
+      {/* ── CONTENT ── */}
+      <div className="flex-1 flex items-center">
+        <div
+          dir={isArabic ? "rtl" : "ltr"}
+          style={{
+            maxWidth: "380px",
+            width: "100%",
+            paddingTop: "clamp(8px, 2vw, 0px)",
+            margin: isArabic ? "0 0 0 auto" : "0 auto 0 0",
+          }}
         >
-          {/* Service category cards */}
-          {CATEGORIES.map((cat, i) => (
-            <motion.div
-              key={cat.slug}
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.6, delay: i * 0.08 }}
-              className="group relative flex-shrink-0 w-[280px] sm:w-[300px] lg:w-auto snap-start"
-            >
-              <Link
-                href={`/${locale}/services?category=${cat.slug}`}
-                className="no-underline block h-full rounded-2xl overflow-hidden border border-white/8 hover:border-accent/30 transition-all duration-500 flex flex-col hover:shadow-[0_24px_60px_rgba(0,0,0,0.5)] hover:-translate-y-1"
-                style={{ minHeight: 540 }}
-              >
-                {/* Image */}
-                <div className="relative overflow-hidden flex-shrink-0" style={{ height: 200 }}>
-                  <Image
-                    src={cat.img}
-                    alt={isAr ? cat.titleAr : cat.title}
-                    fill
-                    className="object-cover transition-transform duration-[2s] group-hover:scale-110"
-                    sizes="(max-width: 1024px) 300px, 20vw"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-primary/70" />
-
-                  {/* Badge */}
-                  <div className="absolute top-4 left-4">
-                    <span className="inline-block px-3 py-1 rounded-full text-[9px] tracking-[0.28em] uppercase font-bold bg-accent/90 text-primary backdrop-blur-sm">
-                      {isAr ? cat.badgeAr : cat.badge}
-                    </span>
-                  </div>
-
-                  {/* Hover arrow */}
-                  <div className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-accent flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                    <span className="text-primary text-[12px] font-bold">{isAr ? "←" : "→"}</span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="flex-1 flex flex-col p-6 bg-[#1e1230]">
-                  {/* Category label */}
-                  <p className="text-[9px] tracking-[0.36em] uppercase text-accent/60 font-bold mb-2">
-                    {isAr ? cat.categoryAr : cat.category}
-                  </p>
-
-                  {/* Title */}
-                  <h3
-                    className="text-cream text-[clamp(22px,2.8vw,28px)] leading-tight mb-5 font-light group-hover:text-accent transition-colors duration-300"
-                    style={{ fontFamily: "var(--font-instrument-serif)", fontStyle: "italic" }}
-                  >
-                    {isAr ? cat.titleAr : cat.title}
-                  </h3>
-
-                  {/* Service list */}
-                  <ul className="flex-1 space-y-2 mb-6">
-                    {(isAr ? cat.itemsAr : cat.items).map((item) => (
-                      <li key={item} className="flex items-start gap-2 text-[12px] text-cream/55 leading-snug">
-                        <span className="text-accent/60 mt-[3px] flex-shrink-0">•</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* CTA */}
-                  <span className="inline-flex items-center gap-2 text-[10px] tracking-[0.28em] uppercase font-bold text-accent/70 group-hover:text-accent transition-colors duration-300">
-                    {t("exploreAll")}
-                    <span className="transition-transform duration-300 group-hover:translate-x-1">
-                      {isAr ? "←" : "→"}
-                    </span>
-                  </span>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-
-          {/* 5th card — Signature Experience */}
-          <motion.div
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.6, delay: 0.36 }}
-            className="relative flex-shrink-0 w-[280px] sm:w-[300px] lg:w-auto snap-start rounded-2xl overflow-hidden flex flex-col"
-            style={{ minHeight: 540 }}
+          {/* Number */}
+          <motion.span
+            {...fadeUp(0.10)}
+            style={{
+              display: "block",
+              fontFamily: "var(--font-fraunces), Georgia, serif",
+              fontSize: "11px",
+              letterSpacing: "0.50em",
+              color: GOLD,
+              opacity: 0.70,
+              marginBottom: "16px",
+              direction: "ltr",
+            }}
           >
-            {/* Background image */}
-            <div className="absolute inset-0">
-              <Image
-                src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop"
-                alt="Signature Experience"
-                fill
-                className="object-cover opacity-30"
-                sizes="300px"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/80 to-primary/50" />
-            </div>
+            {service.num}
+          </motion.span>
 
-            <div className="relative flex-1 flex flex-col justify-between p-6">
-              {/* Top label */}
-              <p className="text-[9px] tracking-[0.36em] uppercase text-accent/70 font-bold">
-                {t("signatureEyebrow")}
-              </p>
+          {/* Gold rule */}
+          <motion.div
+            initial={{ scaleX: 0, opacity: 0 }}
+            whileInView={{ scaleX: 1, opacity: 1 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.8, delay: 0.16, ease: EASE }}
+            style={{
+              width: "32px",
+              height: "1px",
+              background: GOLD,
+              opacity: 0.50,
+              marginBottom: "22px",
+              transformOrigin: isArabic ? "right center" : "left center",
+              ...(isArabic ? { marginLeft: "auto", marginRight: 0 } : {}),
+            }}
+          />
 
-              {/* Headline */}
-              <div>
-                <h3
-                  className="font-serif text-cream text-[clamp(28px,3.5vw,40px)] leading-[1.1] mb-8 font-light"
-                  style={{ fontFamily: "var(--font-instrument-serif)", fontStyle: "italic" }}
-                >
-                  {t("signatureHeadline")}
-                </h3>
+          {/* Title */}
+          <motion.h3
+            {...fadeUp(0.20)}
+            className={`${serif} font-light`}
+            style={{
+              color: CREAM,
+              fontSize: isArabic
+                ? "clamp(28px, 3.4vw, 48px)"
+                : "clamp(28px, 3.4vw, 48px)",
+              lineHeight: isArabic ? 1.45 : 1.06,
+              letterSpacing: isArabic ? 0 : "-0.025em",
+              marginBottom: "clamp(16px, 1.8vw, 24px)",
+            }}
+          >
+            {isArabic ? service.title : <em>{service.title}</em>}
+          </motion.h3>
 
-                {/* CTA button */}
-                <Link
-                  href={`/${locale}#booking`}
-                  className="inline-flex items-center justify-between gap-3 w-full px-5 py-4 rounded-full bg-accent text-primary text-[10px] tracking-[0.22em] uppercase font-bold no-underline transition-all duration-300 hover:bg-cream hover:scale-[1.02] active:scale-95 mb-8"
-                >
-                  {t("bookCta")}
-                  <span className="w-7 h-7 rounded-full bg-primary/15 flex items-center justify-center text-[12px]">
-                    {isAr ? "←" : "→"}
-                  </span>
-                </Link>
+          {/* Description */}
+          <motion.p
+            {...fadeUp(0.28)}
+            className={isArabic ? "font-arabic" : ""}
+            style={{
+              color: CREAM_BODY,
+              fontSize: isArabic
+                ? "clamp(14px, 1.2vw, 17px)"
+                : "clamp(13.5px, 1.1vw, 16px)",
+              lineHeight: isArabic ? 1.95 : 1.82,
+              fontWeight: 300,
+              marginBottom: "clamp(24px, 2.8vw, 36px)",
+              maxWidth: isArabic ? "360px" : "300px",
+            }}
+          >
+            {service.desc}
+          </motion.p>
 
-                {/* Stats */}
-                <div className="flex gap-8">
-                  <div>
-                    <p className="font-serif text-accent text-[clamp(28px,3vw,40px)] font-light leading-none">14+</p>
-                    <p className="text-[9px] tracking-[0.22em] uppercase text-cream/40 font-bold mt-1">{t("yearsLabel")}</p>
-                  </div>
-                  <div>
-                    <p className="font-serif text-accent text-[clamp(28px,3vw,40px)] font-light leading-none">500+</p>
-                    <p className="text-[9px] tracking-[0.22em] uppercase text-cream/40 font-bold mt-1">{t("eventsLabel")}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* CTA link */}
+          <motion.div {...fadeUp(0.36)}>
+            <Link
+              href={`/${locale}/services`}
+              className="group inline-flex items-center gap-2"
+              style={{ textDecoration: "none" }}
+            >
+              <span
+                className={isArabic ? "font-arabic" : ""}
+                style={{
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  letterSpacing: isArabic ? "0.08em" : "0.40em",
+                  textTransform: isArabic ? "none" : "uppercase",
+                  color: GOLD,
+                  opacity: 0.68,
+                  transition: "opacity 0.35s ease",
+                }}
+              >
+                {isArabic ? "اكتشف الخدمة" : "Explore Service"}
+              </span>
+              <span
+                style={{
+                  color: GOLD,
+                  opacity: 0.68,
+                  fontSize: "13px",
+                  display: "inline-block",
+                  transition: "transform 0.35s ease, opacity 0.35s ease",
+                }}
+                className={
+                  isArabic
+                    ? "group-hover:-translate-x-1"
+                    : "group-hover:translate-x-1"
+                }
+              >
+                {isArabic ? "←" : "→"}
+              </span>
+            </Link>
           </motion.div>
         </div>
       </div>
+    </div>
+  );
+}
 
-      {/* Bottom link */}
-      <div className="container-custom px-6 md:px-14 lg:px-20 mt-8 flex justify-end">
-        <Link
-          href={`/${locale}/services`}
-          className="text-[10px] tracking-[0.32em] uppercase font-bold text-accent/50 hover:text-accent transition-colors duration-300 flex items-center gap-2"
+/* ═══════════════════════════════════════════════════════
+   SECTION
+═══════════════════════════════════════════════════════ */
+export default function OurServices() {
+  const locale = useLocale();
+  const isArabic = locale === "ar";
+  const services = isArabic ? SERVICES.ar : SERVICES.en;
+  const serif = isArabic ? "font-arabic" : "font-serif";
+
+  return (
+    <section
+      id="services"
+      style={{
+        background:
+          "linear-gradient(180deg, #090022 0%, #0C0026 35%, #0F002C 65%, #090022 100%)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Ambient glows */}
+      <div
+        aria-hidden
+        style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0 }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: "4%",
+            right: "-5%",
+            width: "46%",
+            height: "46%",
+            background:
+              "radial-gradient(ellipse, rgba(199,154,59,0.07) 0%, transparent 65%)",
+            filter: "blur(80px)",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: "40%",
+            left: "-6%",
+            width: "50%",
+            height: "50%",
+            background:
+              "radial-gradient(ellipse, rgba(199,154,59,0.05) 0%, transparent 62%)",
+            filter: "blur(95px)",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "8%",
+            right: "8%",
+            width: "42%",
+            height: "42%",
+            background:
+              "radial-gradient(ellipse, rgba(199,154,59,0.06) 0%, transparent 60%)",
+            filter: "blur(75px)",
+          }}
+        />
+      </div>
+
+      {/* Grain */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage: NOISE,
+          opacity: 0.030,
+          mixBlendMode: "overlay",
+          pointerEvents: "none",
+          zIndex: 1,
+        }}
+      />
+
+      <div
+        className="relative max-w-360 mx-auto"
+        style={{
+          zIndex: 2,
+          paddingTop: "clamp(80px, 10vw, 140px)",
+          paddingBottom: "clamp(80px, 10vw, 140px)",
+          paddingLeft: "clamp(24px, 6vw, 96px)",
+          paddingRight: "clamp(24px, 6vw, 96px)",
+        }}
+      >
+
+        {/* ══════════════════════════════════════
+            SECTION HEADER — left-anchored
+        ══════════════════════════════════════ */}
+        <div
+          className={isArabic ? "text-right" : "text-left"}
+          style={{ marginBottom: "clamp(60px, 8vw, 100px)" }}
         >
-          {t("viewAll")} {isAr ? "←" : "→"}
-        </Link>
+          {/* Eyebrow */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.9, ease: EASE }}
+            className={`flex items-center gap-3 ${
+              isArabic ? "flex-row-reverse justify-end" : "justify-start"
+            }`}
+            style={{ marginBottom: "clamp(20px, 2.5vw, 30px)" }}
+          >
+            <div
+              style={{
+                width: "22px",
+                height: "1px",
+                background: GOLD,
+                opacity: 0.48,
+              }}
+            />
+            <span
+              className={isArabic ? "font-arabic" : ""}
+              style={{
+                fontSize: isArabic ? "12px" : "10px",
+                fontWeight: 600,
+                letterSpacing: isArabic ? "0.18em" : "0.44em",
+                textTransform: isArabic ? "none" : "uppercase",
+                color: GOLD,
+                opacity: 0.76,
+              }}
+            >
+              {isArabic ? "خدماتنا" : "Our Services"}
+            </span>
+          </motion.div>
+
+          {/* Main heading */}
+          <motion.h2
+            initial={{ opacity: 0, y: 26 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.1, delay: 0.08, ease: EASE }}
+            className={`${serif} font-light`}
+            style={{
+              color: CREAM,
+              fontSize: isArabic
+                ? "clamp(36px, 5.4vw, 74px)"
+                : "clamp(36px, 5.2vw, 72px)",
+              lineHeight: isArabic ? 1.38 : 1.04,
+              letterSpacing: isArabic ? 0 : "-0.025em",
+              marginBottom: "clamp(18px, 2.2vw, 28px)",
+              maxWidth: isArabic ? "800px" : "680px",
+            }}
+          >
+            {isArabic ? (
+              "صياغة تجارب ضيافة\nاستثنائية."
+            ) : (
+              <>
+                Crafting Extraordinary{" "}
+                <em
+                  style={{
+                    color: "rgba(199,154,59,0.84)",
+                    fontStyle: "italic",
+                    fontWeight: 300,
+                  }}
+                >
+                  Hospitality.
+                </em>
+              </>
+            )}
+          </motion.h2>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 1.0, delay: 0.16, ease: EASE }}
+            className={isArabic ? "font-arabic" : ""}
+            style={{
+              color: CREAM_MUTED,
+              fontSize: isArabic
+                ? "clamp(15px, 1.3vw, 18px)"
+                : "clamp(14px, 1.2vw, 17px)",
+              lineHeight: isArabic ? 1.9 : 1.7,
+              fontWeight: 300,
+              maxWidth: isArabic ? "500px" : "460px",
+              letterSpacing: isArabic ? 0 : "0.01em",
+              ...(isArabic ? { marginLeft: "auto", marginRight: 0 } : {}),
+            }}
+          >
+            {isArabic
+              ? "ستة تخصصات راقية تحمل معها مستوى الإتقان الذي اشتهرنا به منذ أربعة عشر عاماً في المملكة."
+              : "Six extraordinary specialities, each carrying the same standard of excellence upheld for fourteen years across Saudi Arabia."}
+          </motion.p>
+        </div>
+
+        {/* ══════════════════════════════════════
+            EDITORIAL SERVICE GALLERY
+        ══════════════════════════════════════ */}
+        <div>
+          {services.map((service, i) => (
+            <div key={service.num}>
+              {i > 0 && <ServiceDivider />}
+              <ServiceRow
+                service={service}
+                index={i}
+                isArabic={isArabic}
+                locale={locale}
+              />
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );

@@ -5,6 +5,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import "../globals.css";
 
 const fraunces = Fraunces({
@@ -75,10 +76,12 @@ export default async function LocaleLayout({
         } antialiased`}
         suppressHydrationWarning
       >
-        <NextIntlClientProvider messages={messages}>
-          {children}
-          <WhatsAppFloat />
-        </NextIntlClientProvider>
+        <SmoothScrollProvider>
+          <NextIntlClientProvider messages={messages}>
+            {children}
+            <WhatsAppFloat />
+          </NextIntlClientProvider>
+        </SmoothScrollProvider>
       </body>
     </html>
   );
