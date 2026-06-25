@@ -82,6 +82,37 @@ export default function ClientsReach() {
           0%   { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
+        .cr-metrics {
+          display: grid;
+          grid-template-columns: 2fr 1fr 1fr 1fr;
+          align-items: start;
+        }
+        @media (max-width: 767px) {
+          .cr-metrics {
+            grid-template-columns: 1fr 1fr;
+          }
+          .cr-hero-metric {
+            grid-column: 1 / -1;
+            border-right: none !important;
+            border-bottom: 1px solid rgba(199,154,59,0.18);
+            padding-bottom: clamp(20px, 4vw, 32px) !important;
+            margin-bottom: 0;
+          }
+          .cr-support-metric {
+            border-left: none !important;
+            border-right: none !important;
+          }
+          .cr-support-metric:nth-child(2),
+          .cr-support-metric:nth-child(3) {
+            border-top: none;
+          }
+          .cr-support-metric:nth-child(3) {
+            border-right: 1px solid rgba(199,154,59,0.14) !important;
+          }
+        }
+        @media (max-width: 767px) and (prefers-reduced-motion: no-preference) {
+          .cr-marquee { animation-duration: 35s; }
+        }
       `}</style>
 
       {/* Ambient glow */}
@@ -396,11 +427,10 @@ export default function ClientsReach() {
           />
 
           <div
+            className="cr-metrics"
             style={{
-              display: "grid",
               gridTemplateColumns: isArabic ? "1fr 1fr 1fr 2fr" : "2fr 1fr 1fr 1fr",
               direction: isArabic ? "rtl" : "ltr",
-              alignItems: "start",
             }}
           >
 
@@ -410,6 +440,7 @@ export default function ClientsReach() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 1.0, delay: 0, ease: EASE }}
+              className="cr-hero-metric"
               style={{
                 paddingTop: "clamp(36px, 4.5vw, 56px)",
                 paddingBottom: "clamp(28px, 3.5vw, 44px)",
@@ -486,6 +517,7 @@ export default function ClientsReach() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.90, delay, ease: EASE }}
+                  className="cr-support-metric"
                   style={{
                     paddingTop: "clamp(36px, 4.5vw, 56px)",
                     paddingBottom: "clamp(28px, 3.5vw, 44px)",

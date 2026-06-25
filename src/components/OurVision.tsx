@@ -184,7 +184,7 @@ export default function OurVision() {
                   </div>
                 </motion.div>
 
-                <motion.h2 {...fadeUp(0.13)} className="font-serif font-light tracking-tight leading-[0.88] text-cream text-[clamp(52px,8vw,104px)]">
+                <motion.h2 {...fadeUp(0.13)} className="font-serif font-light tracking-tight leading-[0.9] text-cream text-[clamp(36px,8vw,104px)]">
                   {isRTL ? (
                     <em className="text-accent italic">{t("headline1")}</em>
                   ) : (
@@ -226,7 +226,7 @@ export default function OurVision() {
                   </div>
                 </motion.div>
 
-                <motion.h2 {...fadeUp(0.13)} className="font-serif font-light tracking-tight leading-[0.88] text-cream text-[clamp(52px,8vw,104px)]">
+                <motion.h2 {...fadeUp(0.13)} className="font-serif font-light tracking-tight leading-[0.9] text-cream text-[clamp(36px,8vw,104px)]">
                   {isRTL ? (
                     <em className="text-accent italic">{t("missionH1")}</em>
                   ) : (

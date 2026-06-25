@@ -264,9 +264,10 @@ function MobileTab({
         border: "none",
         outline: "none",
         cursor: "pointer",
-        padding: "12px 0",
+        padding: "16px 0",
         marginRight: "26px",
         position: "relative",
+        minHeight: "44px",
       }}
     >
       <span

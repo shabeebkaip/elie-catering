@@ -82,7 +82,7 @@ export default function CoreValues() {
           ))}
         </div>
         {/* Row 2 — 2 cards centred */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-[calc(66.67%+16px)] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 md:max-w-[calc(66.67%+16px)] mx-auto">
           {items.slice(3).map((v, i) => (
             <ValueCard key={v.t} v={v} i={i + 3} img={IMGS[i + 3]} />
           ))}

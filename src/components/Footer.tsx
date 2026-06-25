@@ -204,6 +204,8 @@ export default function Footer() {
           display: flex;
           align-items: center;
           justify-content: center;
+          min-width: 44px;
+          min-height: 44px;
           transition: color 0.22s ease, transform 0.22s ease, filter 0.22s ease;
         }
         .ft-ico:hover {
@@ -235,8 +237,16 @@ export default function Footer() {
         @media (max-width: 639px) {
           .ft-bot {
             flex-direction: column !important;
-            align-items: flex-start !important;
+            align-items: center !important;
+            text-align: center;
             gap: 12px !important;
+          }
+          .ft-social-grid {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: wrap !important;
+            justify-content: flex-start !important;
+            gap: 0 !important;
           }
         }
       `}</style>
@@ -397,10 +407,10 @@ export default function Footer() {
             {/* Social column */}
             <motion.div {...fade(0.18)}>
               <Label>{c.follow}</Label>
-              <div style={{
+              <div className="ft-social-grid" style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(3, auto)",
-                gap: "10px 18px",
+                gap: "4px 4px",
                 justifyContent: "start",
               }}>
                 {c.socials.map((s) => {

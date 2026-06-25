@@ -328,8 +328,8 @@ export default function OurProcess() {
                 style={{
                   color: CREAM_BODY,
                   fontSize: isArabic
-                    ? "clamp(11.5px, 0.9vw, 13px)"
-                    : "clamp(11px, 0.86vw, 12.5px)",
+                    ? "clamp(13px, 0.9vw, 14px)"
+                    : "clamp(13px, 0.86vw, 14px)",
                   lineHeight: isArabic ? 1.90 : 1.80,
                   fontWeight: 300,
                   maxWidth: isArabic ? "420px" : "400px",
@@ -404,7 +404,7 @@ export default function OurProcess() {
                     background: "none",
                     border: "none",
                     outline: "none",
-                    padding: "7px",
+                    padding: "16px 12px",
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
@@ -450,7 +450,7 @@ export default function OurProcess() {
                   outline: "none",
                   cursor: "pointer",
                   textAlign: "center",
-                  padding: "0 4px",
+                  padding: "14px 4px",
                 }}
               >
                 <span

@@ -213,8 +213,8 @@ export default function WhyChooseUs() {
           style={{
             color: CREAM,
             fontSize: isArabic
-              ? "clamp(42px, 6.2vw, 86px)"
-              : "clamp(38px, 5.6vw, 78px)",
+              ? "clamp(34px, 6.2vw, 86px)"
+              : "clamp(32px, 5.6vw, 78px)",
             lineHeight: isArabic ? 1.32 : 1.02,
             letterSpacing: isArabic ? 0 : "-0.025em",
             marginBottom: "clamp(18px, 2.5vw, 28px)",
@@ -374,8 +374,8 @@ export default function WhyChooseUs() {
                   style={{
                     color: CREAM_BODY,
                     fontSize: isArabic
-                      ? "clamp(13px, 1.15vw, 16px)"
-                      : "clamp(12px, 1.0vw, 15px)",
+                      ? "clamp(14px, 1.15vw, 16px)"
+                      : "clamp(13px, 1.0vw, 15px)",
                     lineHeight: isArabic ? 1.9 : 1.78,
                     fontWeight: 300,
                     maxWidth: isArabic ? "260px" : "220px",

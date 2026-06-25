@@ -272,7 +272,7 @@ export default function BookingForm() {
                 style={{
                   fontFamily: "Georgia, 'Times New Roman', serif",
                   fontWeight: 300,
-                  fontSize: "clamp(52px,5.8vw,92px)",
+                  fontSize: "clamp(38px,5.8vw,92px)",
                   color: CREAM,
                   lineHeight: 0.9,
                   letterSpacing: "-0.02em",

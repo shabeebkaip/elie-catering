@@ -52,7 +52,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, delay: 0.35 }}
-          className="flex items-center justify-center gap-4 mb-10 md:mb-12 lg:mb-14"
+          className="flex items-center justify-center gap-4 mb-6 md:mb-12 lg:mb-14"
         >
           <div className="w-10 md:w-14 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(187,138,60,0.6))" }} />
           <span className="text-[9px] md:text-[10px] tracking-[0.52em] uppercase font-bold" style={{ color: "#bb8a3c" }}>{t("eyebrow")}</span>
@@ -95,7 +95,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.72 }}
-          className="text-[clamp(14px,1.4vw,16px)] leading-[1.9] font-light max-w-[400px] md:max-w-[480px]"
+          className="text-[clamp(16px,1.4vw,18px)] leading-[1.9] font-light max-w-[400px] md:max-w-[480px]"
           style={{ color: "rgba(237,229,255,0.62)", textShadow: "0 1px 14px rgba(0,0,0,0.45)" }}
         >
           {t("body")}
@@ -106,11 +106,11 @@ export default function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.88 }}
-          className="mt-10 md:mt-14 lg:mt-16"
+          className="mt-8 md:mt-14 lg:mt-16 w-full max-w-[420px]"
         >
           <Link
             href="#booking"
-            className="inline-flex items-center gap-[14px] px-12 py-[19px] rounded-full text-[10px] tracking-[0.36em] uppercase font-bold text-primary no-underline transition-all duration-600 hover:brightness-[1.08] hover:shadow-[0_14px_44px_rgba(187,138,60,0.32),0_0_0_1px_rgba(212,168,78,0.28)] active:brightness-95 active:scale-[0.98]"
+            className="flex items-center justify-center gap-[14px] w-full px-12 py-[19px] rounded-full text-[11px] tracking-[0.36em] uppercase font-bold text-primary no-underline transition-all duration-600 hover:brightness-[1.08] hover:shadow-[0_14px_44px_rgba(187,138,60,0.32),0_0_0_1px_rgba(212,168,78,0.28)] active:brightness-95 active:scale-[0.98]"
             style={{
               background: "linear-gradient(135deg, #d4a84e 0%, #bb8a3c 100%)",
               boxShadow: "0 6px 28px rgba(187,138,60,0.18), inset 0 1px 0 rgba(255,255,255,0.16)",

@@ -166,7 +166,7 @@ export default function ClosingStatement() {
               style={{
                 fontFamily: "Georgia, 'Times New Roman', serif",
                 fontWeight: 300,
-                fontSize: "clamp(48px,5.8vw,88px)",
+                fontSize: "clamp(36px,5.8vw,88px)",
                 color: CREAM,
                 textTransform: "uppercase",
                 lineHeight: 0.9,
@@ -224,6 +224,7 @@ export default function ClosingStatement() {
             {/* CTA Group */}
             <motion.div
               {...fade(0.48)}
+              className="closing-cta-group"
               style={{
                 display: "flex",
                 flexDirection: "row",
@@ -234,9 +235,11 @@ export default function ClosingStatement() {
             >
               <Link
                 href="#contact"
+                className="closing-cta-btn"
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
+                  justifyContent: "center",
                   gap: 10,
                   padding: "18px clamp(28px,3vw,44px)",
                   borderRadius: 9999,
@@ -266,7 +269,7 @@ export default function ClosingStatement() {
                 </span>
               </Link>
 
-              <div style={{ display: "flex", flexDirection: "column", alignItems: isAr ? "flex-end" : "flex-start" }}>
+              <div className="closing-phone" style={{ display: "flex", flexDirection: "column", alignItems: isAr ? "flex-end" : "flex-start" }}>
                 <span
                   style={{
                     color: GOLD,
@@ -356,11 +359,25 @@ export default function ClosingStatement() {
         </div>
       </div>
 
-      {/* Responsive: show image panel on lg+ */}
       <style>{`
         @media (min-width: 1024px) {
           .closing-image-panel {
             display: block !important;
+          }
+        }
+        @media (max-width: 639px) {
+          .closing-cta-group {
+            flex-direction: column !important;
+            align-items: stretch !important;
+            gap: 20px !important;
+          }
+          .closing-cta-btn {
+            text-align: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+          }
+          .closing-phone {
+            align-items: center !important;
           }
         }
       `}</style>
