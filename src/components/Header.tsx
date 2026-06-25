@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -141,6 +140,7 @@ export default function Header() {
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 30);
+    fn();
     window.addEventListener("scroll", fn, { passive: true });
     return () => window.removeEventListener("scroll", fn);
   }, []);
@@ -153,135 +153,188 @@ export default function Header() {
   function handleServicesEnter() {
     if (leaveTimer.current) clearTimeout(leaveTimer.current);
     setDecoratingOpen(false);
+    setPlanningOpen(false);
     setMegaOpen(true);
   }
-
   function handleServicesLeave() {
     leaveTimer.current = setTimeout(() => setMegaOpen(false), 120);
   }
-
   function handleDecoratingEnter() {
     if (decoratingLeaveTimer.current) clearTimeout(decoratingLeaveTimer.current);
     setMegaOpen(false);
+    setPlanningOpen(false);
     setDecoratingOpen(true);
   }
-
   function handleDecoratingLeave() {
     decoratingLeaveTimer.current = setTimeout(() => setDecoratingOpen(false), 120);
   }
-
   function handlePlanningEnter() {
     if (planningLeaveTimer.current) clearTimeout(planningLeaveTimer.current);
     setMegaOpen(false);
     setDecoratingOpen(false);
     setPlanningOpen(true);
   }
-
   function handlePlanningLeave() {
     planningLeaveTimer.current = setTimeout(() => setPlanningOpen(false), 120);
   }
 
   return (
     <>
+      <style>{`
+        .hdr-bar {
+          transition:
+            padding 650ms cubic-bezier(0.19,1,0.22,1),
+            background 650ms cubic-bezier(0.19,1,0.22,1),
+            box-shadow 650ms cubic-bezier(0.19,1,0.22,1),
+            border-color 650ms cubic-bezier(0.19,1,0.22,1);
+        }
+        .hdr-gold-line {
+          transition: opacity 650ms cubic-bezier(0.19,1,0.22,1);
+        }
+        .hdr-logo {
+          transition: width 650ms cubic-bezier(0.19,1,0.22,1);
+        }
+        .hdr-nav-ind {
+          transform-origin: center;
+          transition: transform 380ms cubic-bezier(0.19,1,0.22,1);
+        }
+        .hdr-cta {
+          background: linear-gradient(135deg, #c49a42 0%, #d8b05a 50%, #c49a42 100%);
+          box-shadow: 0 4px 20px rgba(187,138,60,0.28);
+          transition: box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.19,1,0.22,1);
+          will-change: transform;
+        }
+        .hdr-cta:hover {
+          box-shadow: 0 8px 36px rgba(187,138,60,0.55);
+          transform: translateY(-2px) scale(1.02);
+        }
+        .hdr-cta:active {
+          transform: scale(0.96);
+          transition-duration: 0.15s;
+        }
+        .hdr-ham span {
+          display: block;
+          height: 1px;
+          background: #bb8a3c;
+          transition: all 380ms cubic-bezier(0.19,1,0.22,1);
+        }
+      `}</style>
+
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? "py-3 bg-primary/97 backdrop-blur-xl shadow-[0_4px_32px_rgba(0,0,0,0.3)]"
-            : "py-7 md:py-9 bg-transparent"
-        }`}
+        className={`hdr-bar fixed top-0 left-0 right-0 z-50 ${scrolled ? "py-[14px]" : "py-8 md:py-10"}`}
+        style={{
+          background: scrolled ? "rgba(18,9,42,0.90)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px) saturate(160%)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(14px) saturate(160%)" : "none",
+          boxShadow: scrolled ? "0 8px 48px rgba(0,0,0,0.38), 0 1px 0 rgba(187,138,60,0.09)" : "none",
+          borderBottom: scrolled ? "1px solid rgba(187,138,60,0.08)" : "1px solid transparent",
+        }}
       >
-        <div className="flex items-center justify-between px-6 md:px-14 max-w-[1440px] 2xl:max-w-[1600px] mx-auto">
-        {/* Logo */}
-        <Link href={`/${locale}`} className="relative z-[60] no-underline flex items-center gap-3 flex-shrink-0">
-          <img
-            src="/images/elite-logo.webp"
-            className={`transition-all duration-500 ${scrolled ? "w-12" : "w-16"}`}
-            alt="Elie Logo"
-          />
-        </Link>
+        {/* Gold top highlight — fades in on scroll */}
+        <div
+          className="hdr-gold-line absolute top-0 left-0 right-0 h-px pointer-events-none"
+          style={{
+            background: "linear-gradient(90deg, transparent 0%, rgba(187,138,60,0.6) 30%, rgba(187,138,60,0.6) 70%, transparent 100%)",
+            opacity: scrolled ? 1 : 0,
+          }}
+        />
 
-        {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-[11px] tracking-[0.14em] uppercase">
-          {NAV.map((item) => {
-            const isActive = item.href !== `/${locale}`
-              ? pathname.startsWith(item.href)
-              : pathname === `/${locale}` || pathname === `/${locale}/`;
+        <div className="relative flex items-center justify-between px-6 md:px-14 max-w-[1440px] 2xl:max-w-[1600px] mx-auto">
 
-            if (item.mega === "services") {
-              const active = pathname.startsWith(`/${locale}/services`);
-              return (
-                <div key={item.key} onMouseEnter={handleServicesEnter} onMouseLeave={handleServicesLeave} className="relative">
-                  <button className={`relative text-[11px] tracking-[0.14em] uppercase font-medium transition-all duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${active || megaOpen ? "text-accent" : "text-cream/70 hover:text-accent"}`}>
-                    {item.label}
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-300 ${megaOpen ? "rotate-180" : ""}`}>
-                      <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className={`absolute -bottom-1 left-0 h-[1px] bg-accent transition-all duration-300 ${active || megaOpen ? "w-full" : "w-0"}`} />
-                  </button>
-                </div>
-              );
-            }
-            if (item.mega === "decorating") {
-              const active = pathname.startsWith(`/${locale}/decorating`);
-              return (
-                <div key={item.key} onMouseEnter={handleDecoratingEnter} onMouseLeave={handleDecoratingLeave} className="relative">
-                  <button className={`relative text-[11px] tracking-[0.14em] uppercase font-medium transition-all duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${active || decoratingOpen ? "text-accent" : "text-cream/70 hover:text-accent"}`}>
-                    {item.label}
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-300 ${decoratingOpen ? "rotate-180" : ""}`}>
-                      <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className={`absolute -bottom-1 left-0 h-[1px] bg-accent transition-all duration-300 ${active || decoratingOpen ? "w-full" : "w-0"}`} />
-                  </button>
-                </div>
-              );
-            }
-            if (item.mega === "planning") {
-              const active = pathname.startsWith(`/${locale}/planning`);
-              return (
-                <div key={item.key} onMouseEnter={handlePlanningEnter} onMouseLeave={handlePlanningLeave} className="relative">
-                  <button className={`relative text-[11px] tracking-[0.14em] uppercase font-medium transition-all duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${active || planningOpen ? "text-accent" : "text-cream/70 hover:text-accent"}`}>
-                    {item.label}
-                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-300 ${planningOpen ? "rotate-180" : ""}`}>
-                      <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                    <span className={`absolute -bottom-1 left-0 h-[1px] bg-accent transition-all duration-300 ${active || planningOpen ? "w-full" : "w-0"}`} />
-                  </button>
-                </div>
-              );
-            }
-            return (
-              <Link
-                key={item.key}
-                href={item.href}
-                className={`relative no-underline transition-all duration-300 hover:text-accent group whitespace-nowrap ${isActive ? "text-accent" : "text-cream/70"}`}
-              >
-                {item.label}
-                <span className={`absolute -bottom-1 left-0 h-[1px] bg-accent transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`} />
-              </Link>
-            );
-          })}
-        </nav>
-
-        {/* Right side */}
-        <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
-          <LanguageSwitcher />
-          <Link
-            href="#booking"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[11px] tracking-[0.14em] uppercase font-bold bg-accent text-primary no-underline transition-all duration-300 hover:bg-navy hover:scale-105 active:scale-95 shadow-lg whitespace-nowrap"
-          >
-            {t("bookCta")}
-            <span className="text-[8px]">{isRTL ? "←" : "→"}</span>
+          {/* Logo */}
+          <Link href={`/${locale}`} className="relative z-[60] no-underline flex items-center flex-shrink-0">
+            <img
+              src="/images/elite-logo.webp"
+              className="hdr-logo"
+              style={{ width: scrolled ? "44px" : "68px" }}
+              alt="Elie Logo"
+            />
           </Link>
-        </div>
 
-        {/* Mobile toggle */}
-        <button
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          className="lg:hidden relative z-[60] text-accent bg-transparent border-none cursor-pointer p-2"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          {mobileOpen ? <X size={26} strokeWidth={1.5} /> : <Menu size={26} strokeWidth={1.5} />}
-        </button>
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-8 xl:gap-10 text-[10.5px] tracking-[0.15em] uppercase">
+            {NAV.map((item) => {
+              const isActive = item.href !== `/${locale}`
+                ? pathname.startsWith(item.href)
+                : pathname === `/${locale}` || pathname === `/${locale}/`;
+
+              if (item.mega === "services") {
+                const active = pathname.startsWith(`/${locale}/services`);
+                return (
+                  <div key={item.key} onMouseEnter={handleServicesEnter} onMouseLeave={handleServicesLeave} className="relative">
+                    <button className={`relative text-[10.5px] tracking-[0.15em] uppercase font-medium transition-colors duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${active || megaOpen ? "text-accent" : "text-cream/65 hover:text-cream"}`}>
+                      {item.label}
+                      <svg width="9" height="9" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-350 ease-out ${megaOpen ? "rotate-180 text-accent" : ""}`}>
+                        <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span className={`hdr-nav-ind absolute -bottom-[3px] left-0 right-0 h-px bg-accent ${active || megaOpen ? "scale-x-100" : "scale-x-0"}`} />
+                    </button>
+                  </div>
+                );
+              }
+              if (item.mega === "decorating") {
+                const active = pathname.startsWith(`/${locale}/decorating`);
+                return (
+                  <div key={item.key} onMouseEnter={handleDecoratingEnter} onMouseLeave={handleDecoratingLeave} className="relative">
+                    <button className={`relative text-[10.5px] tracking-[0.15em] uppercase font-medium transition-colors duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${active || decoratingOpen ? "text-accent" : "text-cream/65 hover:text-cream"}`}>
+                      {item.label}
+                      <svg width="9" height="9" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-350 ease-out ${decoratingOpen ? "rotate-180 text-accent" : ""}`}>
+                        <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span className={`hdr-nav-ind absolute -bottom-[3px] left-0 right-0 h-px bg-accent ${active || decoratingOpen ? "scale-x-100" : "scale-x-0"}`} />
+                    </button>
+                  </div>
+                );
+              }
+              if (item.mega === "planning") {
+                const active = pathname.startsWith(`/${locale}/planning`);
+                return (
+                  <div key={item.key} onMouseEnter={handlePlanningEnter} onMouseLeave={handlePlanningLeave} className="relative">
+                    <button className={`relative text-[10.5px] tracking-[0.15em] uppercase font-medium transition-colors duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${active || planningOpen ? "text-accent" : "text-cream/65 hover:text-cream"}`}>
+                      {item.label}
+                      <svg width="9" height="9" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-350 ease-out ${planningOpen ? "rotate-180 text-accent" : ""}`}>
+                        <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      <span className={`hdr-nav-ind absolute -bottom-[3px] left-0 right-0 h-px bg-accent ${active || planningOpen ? "scale-x-100" : "scale-x-0"}`} />
+                    </button>
+                  </div>
+                );
+              }
+              return (
+                <Link
+                  key={item.key}
+                  href={item.href}
+                  className={`relative no-underline transition-colors duration-300 group whitespace-nowrap ${isActive ? "text-accent" : "text-cream/65 hover:text-cream"}`}
+                >
+                  {item.label}
+                  <span className={`hdr-nav-ind absolute -bottom-[3px] left-0 right-0 h-px bg-accent ${isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Right side */}
+          <div className="hidden lg:flex items-center gap-4 flex-shrink-0">
+            <LanguageSwitcher />
+            <Link
+              href="#booking"
+              className="hdr-cta inline-flex items-center gap-2.5 px-7 py-[13px] rounded-full text-[10px] tracking-[0.18em] uppercase font-bold text-primary no-underline whitespace-nowrap"
+            >
+              {t("bookCta")}
+              <span className="text-[10px] opacity-70">{isRTL ? "←" : "→"}</span>
+            </Link>
+          </div>
+
+          {/* Mobile toggle — animated gold hamburger */}
+          <button
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            className="hdr-ham lg:hidden relative z-[60] flex flex-col items-end justify-center gap-[5px] w-10 h-10 bg-transparent border-none cursor-pointer"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            <span style={{ width: "22px", transform: mobileOpen ? "rotate(45deg) translateY(6px)" : undefined }} />
+            <span style={{ width: mobileOpen ? "0px" : "14px", opacity: mobileOpen ? 0 : 1 }} />
+            <span style={{ width: "22px", transform: mobileOpen ? "rotate(-45deg) translateY(-6px)" : undefined }} />
+          </button>
         </div>
       </header>
 
@@ -462,57 +515,62 @@ export default function Header() {
                 <div className="absolute bottom-0 left-[8%] w-[36px] h-[120px] border border-accent/12 rounded-full rotate-[22deg]" />
               </div>
 
-              {/* 3 tall cinematic full-bleed cards */}
-              <div className="relative z-10 grid grid-cols-3 min-h-[400px]">
+              {/* Header row */}
+              <div className="relative z-10 px-8 pt-7 pb-5 border-b border-accent/10 flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-5 h-px bg-accent opacity-60" />
+                  <span className="text-[9px] tracking-[0.45em] uppercase font-bold" style={{ color: "rgba(199,154,59,0.6)" }}>
+                    {isRTL ? "الديكور والتصميم" : "Décor & Design"}
+                  </span>
+                </div>
+                <p className="font-serif italic" style={{ fontSize: "11px", color: "rgba(245,242,234,0.2)" }}>
+                  {isRTL ? "تحويل كل مكان إلى لوحة فنية" : "Transforming every space into a work of art"}
+                </p>
+              </div>
+
+              {/* 3 editorial panels — no images */}
+              <div className="relative z-10 grid grid-cols-3 min-h-[300px] divide-x divide-accent/10">
                 {DECORATING_ITEMS.map((item, ci) => (
                   <motion.div
                     key={item.slug}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.04 + ci * 0.08, ease: [0.19, 1, 0.22, 1] }}
-                    className="relative"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.04 + ci * 0.07, ease: [0.19, 1, 0.22, 1] }}
                   >
                     <Link
                       href={`/${locale}/decorating/${item.slug}`}
                       onClick={() => setDecoratingOpen(false)}
-                      className="group/card relative flex h-full min-h-[400px] overflow-hidden no-underline border-r border-white/10 last:border-0"
+                      className="group/card flex flex-col h-full min-h-[300px] px-8 py-7 no-underline transition-colors duration-300 hover:bg-white/[0.03]"
                     >
-                      <Image
-                        src={item.img}
-                        alt={isRTL ? item.titleAr : item.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover/card:scale-105"
-                        sizes="500px"
-                      />
-                      {/* Dark gradient from bottom */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,6,20,0.92)] via-[rgba(10,6,20,0.35)] to-[rgba(10,6,20,0.05)]" />
-                      {/* Hover shimmer */}
-                      <div className="absolute inset-0 bg-accent/0 group-hover/card:bg-accent/8 transition-colors duration-500" />
+                      {/* Number */}
+                      <span className="font-serif font-light leading-none mb-5 block tabular-nums" style={{ fontSize: "46px", color: "rgba(199,154,59,0.16)" }}>
+                        0{ci + 1}
+                      </span>
 
-                      {/* Tag — top left */}
-                      <div className="absolute top-5 left-5">
-                        <span className="bg-accent text-primary px-3 py-1 rounded-full text-[10px] tracking-[0.18em] uppercase font-bold">
-                          {isRTL ? item.tagAr : item.tag}
+                      {/* Gold rule */}
+                      <div className="w-7 h-px mb-5" style={{ background: "rgba(199,154,59,0.55)" }} />
+
+                      {/* Eyebrow */}
+                      <p className="mb-3 font-bold" style={{ fontSize: "9px", letterSpacing: "0.38em", textTransform: "uppercase", color: "rgba(199,154,59,0.55)" }}>
+                        {isRTL ? item.eyebrowAr : item.eyebrow}
+                      </p>
+
+                      {/* Title */}
+                      <h3 className="font-serif italic font-light leading-tight mb-4 transition-colors duration-300 group-hover/card:text-accent" style={{ fontSize: "24px", color: "#F5F2EA" }}>
+                        {isRTL ? item.titleAr : item.title}
+                      </h3>
+
+                      {/* Description */}
+                      <p className="flex-1 transition-colors duration-300 group-hover/card:text-cream/65" style={{ fontSize: "12px", color: "rgba(245,242,234,0.40)", lineHeight: 1.78 }}>
+                        {isRTL ? item.descAr : item.desc}
+                      </p>
+
+                      {/* CTA */}
+                      <div className="flex items-center gap-2 font-bold transition-colors duration-200 group-hover/card:text-accent mt-6" style={{ fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(199,154,59,0.58)" }}>
+                        <span>{isRTL ? "اكتشف" : "Explore"}</span>
+                        <span className="translate-x-0 group-hover/card:translate-x-1 transition-transform inline-block">
+                          {isRTL ? "←" : "→"}
                         </span>
-                      </div>
-
-                      {/* Content — bottom */}
-                      <div className="absolute bottom-0 left-0 right-0 p-7">
-                        <p className="text-[9px] tracking-[0.35em] uppercase text-accent font-bold mb-2">
-                          {isRTL ? item.eyebrowAr : item.eyebrow}
-                        </p>
-                        <h3 className="font-serif text-white text-[26px] font-light italic leading-tight mb-3">
-                          {isRTL ? item.titleAr : item.title}
-                        </h3>
-                        <p className="text-[12px] text-white/55 leading-relaxed line-clamp-2 mb-5 group-hover/card:text-white/75 transition-colors">
-                          {isRTL ? item.descAr : item.desc}
-                        </p>
-                        <div className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-accent/70 group-hover/card:text-accent transition-colors font-bold">
-                          <span>{isRTL ? "اكتشف" : "Explore"}</span>
-                          <span className="translate-x-0 group-hover/card:translate-x-1 transition-transform">
-                            {isRTL ? "←" : "→"}
-                          </span>
-                        </div>
                       </div>
                     </Link>
                   </motion.div>
@@ -614,7 +672,6 @@ export default function Header() {
                 ))}
               </div>
 
-
               {/* Bottom strip */}
               <div className="border-t border-accent/15 px-6 py-4 flex items-center justify-between">
                 <p className="text-[11px] text-cream/25 tracking-[0.15em] uppercase">
@@ -640,14 +697,21 @@ export default function Header() {
             initial={{ opacity: 0, clipPath: "circle(0% at 95% 5%)" }}
             animate={{ opacity: 1, clipPath: "circle(150% at 95% 5%)" }}
             exit={{ opacity: 0, clipPath: "circle(0% at 95% 5%)" }}
-            transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
-            className="fixed inset-0 bg-primary z-[50] flex flex-col items-center justify-center lg:hidden overflow-hidden"
+            transition={{ duration: 0.65, ease: [0.19, 1, 0.22, 1] }}
+            className="fixed inset-0 z-[50] flex flex-col items-center justify-center lg:hidden overflow-hidden"
+            style={{ background: "#12092a" }}
           >
+            {/* Background shapes */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-[-15%] right-[-10%] w-[160px] h-[400px] bg-accent/10 rounded-full rotate-[-30deg]" />
               <div className="absolute top-[-5%] right-[5%] w-[80px] h-[200px] border border-accent/20 rounded-full rotate-[-30deg]" />
               <div className="absolute bottom-[-15%] left-[-10%] w-[160px] h-[400px] bg-accent/8 rounded-full rotate-[30deg]" />
               <div className="absolute bottom-[-5%] left-[5%] w-[80px] h-[200px] border border-accent/15 rounded-full rotate-[30deg]" />
+            </div>
+
+            {/* Logo watermark */}
+            <div className="absolute top-8 left-1/2 -translate-x-1/2 pointer-events-none">
+              <img src="/images/elite-logo.webp" className="w-14 opacity-40" alt="" aria-hidden="true" />
             </div>
 
             <nav className="relative z-10 flex flex-col items-center gap-5">
@@ -676,7 +740,7 @@ export default function Header() {
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.72, ease: "easeOut" }}
-                className="mt-3"
+                className="mt-4"
               >
                 <LanguageSwitcher />
               </motion.div>
@@ -690,7 +754,8 @@ export default function Header() {
                 <Link
                   href="#booking"
                   onClick={() => setMobileOpen(false)}
-                  className="px-10 py-4 rounded-full text-[10px] tracking-[0.24em] uppercase font-bold bg-accent text-primary no-underline shadow-2xl transition-all hover:bg-cream active:scale-95"
+                  className="px-10 py-4 rounded-full text-[10px] tracking-[0.24em] uppercase font-bold text-primary no-underline shadow-2xl transition-opacity hover:opacity-90 active:scale-95 inline-block"
+                  style={{ background: "linear-gradient(135deg, #c49a42, #d8b05a)" }}
                 >
                   {t("bookCta")}
                 </Link>
