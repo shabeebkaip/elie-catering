@@ -233,7 +233,6 @@ export default function BookingForm() {
         />
 
         <div
-          className="bf-outer-pad"
           style={{
             maxWidth: 1400,
             margin: "0 auto",
@@ -419,7 +418,7 @@ export default function BookingForm() {
             />
 
             {/* ── FORM COLUMN ── */}
-            <div style={{ flex: "1 1 0", minWidth: 0, maxWidth: "min(580px, 100%)" }}>
+            <div className="bf-form-col" style={{ flex: "1 1 0", minWidth: 0, maxWidth: "min(580px, 100%)" }}>
               <AnimatePresence mode="wait">
                 {submitted ? (
                   <motion.div
@@ -813,13 +812,11 @@ export default function BookingForm() {
           .bf-two-col { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 767px) {
-          .bf-outer-pad {
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-          }
-          .bf-editorial {
-            padding-left: clamp(20px, 5vw, 32px);
-            padding-right: clamp(20px, 5vw, 32px);
+          .bf-form-col {
+            width: 100vw !important;
+            max-width: 100vw !important;
+            margin-left: -24px !important;
+            margin-right: -24px !important;
           }
           .bf-form-card {
             border-radius: 0 !important;
