@@ -1,0 +1,184 @@
+[     186ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     193ms] [LOG] [HMR] connected @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     293ms] [WARNING] Image with src "/images/introduction-v2-copy.webp" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   32208ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   32218ms] [LOG] [HMR] connected @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   32305ms] [WARNING] Image with src "/images/introduction-v2-copy.webp" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   33513ms] [WARNING] Image with src "/images/services/wedding.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  621381ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  621432ms] [LOG] [Fast Refresh] done in 48ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  813846ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  814022ms] [LOG] [Fast Refresh] done in 141ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  814034ms] [WARNING] [HMR] Invalid message: {"isTrusted":true}
+TypeError: Cannot convert undefined or null to object
+    at Object.keys (<anonymous>)
+    at extractModulesFromTurbopackMessage (http://localhost:3002/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13639:39)
+    at TurbopackHmr.onTurbopackMessage (http://localhost:3002/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13586:32)
+    at processMessage (http://localhost:3002/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13944:30)
+    at WebSocket.handleMessage (http://localhost:3002/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13343:52) @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  814248ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3002/en/:0
+[  814278ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  814285ms] [LOG] [HMR] connected @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  814352ms] Error: Failed to call `useTranslations` because the context from `NextIntlClientProvider` was not found.
+
+This can happen because:
+1) You intended to render this component as a Server Component, the render
+   failed, and therefore React attempted to render the component on the client
+   instead. If this is the case, check the console for server errors.
+2) You intended to render this component on the client side, but no context was found.
+   Learn more about this error here: https://next-intl.dev/docs/environments/server-client-components#missing-context
+    at http://localhost:3002/_next/static/chunks/node_modules_09wirlr._.js:5418:19
+    at Header (http://localhost:3002/_next/static/chunks/src_0u1sx5y._.js:1044:224)
+    at Object.react_stack_bottom_frame (http://localhost:3002/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:15037:24)
+    at renderWithHooks (http://localhost:3002/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:4620:24)
+    at updateFunctionComponent (http://localhost:3002/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6081:21)
+    at beginWork (http://localhost:3002/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:6665:639)
+    at runWithFiberInDEV (http://localhost:3002/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:965:74)
+    at performUnitOfWork (http://localhost:3002/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9555:97)
+    at workLoopSync (http://localhost:3002/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9449:40)
+    at renderRootSync (http://localhost:3002/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9433:13)
+    at performWorkOnRoot (http://localhost:3002/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:9098:47)
+    at performWorkOnRootViaSchedulerTask (http://localhost:3002/_next/static/chunks/node_modules_next_dist_compiled_react-dom_058-ah~._.js:10255:9)
+    at MessagePort.performWorkUntilDeadline (http://localhost:3002/_next/static/chunks/node_modules_next_dist_compiled_0rpq4pf._.js:2647:64)
+[  819221ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  819261ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  819312ms] [ERROR] ./src/app/[locale]/layout.tsx:6:1
+Module not found: Can't resolve '@/components/LocaleHtmlSync'
+  4 | import { routing } from "@/i18n/routing";
+  5 | import WhatsAppFloat from "@/components/WhatsAppFloat";
+> 6 | import LocaleHtmlSync from "@/components/LocaleHtmlSync";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 |
+  8 | export function generateStaticParams() {
+  9 |   return routing.locales.map((locale) => ({ locale }));
+
+Import map: aliased to relative './src/components/LocaleHtmlSync' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  819416ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  819603ms] [ERROR] ./src/app/[locale]/layout.tsx:6:1
+Module not found: Can't resolve '@/components/LocaleHtmlSync'
+  4 | import { routing } from "@/i18n/routing";
+  5 | import WhatsAppFloat from "@/components/WhatsAppFloat";
+> 6 | import LocaleHtmlSync from "@/components/LocaleHtmlSync";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 |
+  8 | export function generateStaticParams() {
+  9 |   return routing.locales.map((locale) => ({ locale }));
+
+Import map: aliased to relative './src/components/LocaleHtmlSync' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  819705ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  819791ms] [ERROR] ./src/app/[locale]/layout.tsx:6:1
+Module not found: Can't resolve '@/components/LocaleHtmlSync'
+  4 | import { routing } from "@/i18n/routing";
+  5 | import WhatsAppFloat from "@/components/WhatsAppFloat";
+> 6 | import LocaleHtmlSync from "@/components/LocaleHtmlSync";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 |
+  8 | export function generateStaticParams() {
+  9 |   return routing.locales.map((locale) => ({ locale }));
+
+Import map: aliased to relative './src/components/LocaleHtmlSync' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  819793ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3002/en/:0
+[  819839ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3002/_next/static/chunks/node_modules_react-dom_0bruynb._.js:15305
+[  819865ms] Error: ./src/app/[locale]/layout.tsx:6:1
+Module not found: Can't resolve '@/components/LocaleHtmlSync'
+  4 | import { routing } from "@/i18n/routing";
+  5 | import WhatsAppFloat from "@/components/WhatsAppFloat";
+> 6 | import LocaleHtmlSync from "@/components/LocaleHtmlSync";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 |
+  8 | export function generateStaticParams() {
+  9 |   return routing.locales.map((locale) => ({ locale }));
+
+Import map: aliased to relative './src/components/LocaleHtmlSync' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (Error: ./src/app/[locale]/layout.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at Object.getCompilationErrors (file:///Users/shabeeb/Documents/Shab.co/elie-catering/node_modules/next/dist/server/dev/hot-reloader-turbopack.js:1186:59)
+    at DevBundlerService.getCompilationError (file:///Users/shabeeb/Documents/Shab.co/elie-catering/node_modules/next/dist/server/lib/dev-bundler-service.js:44:55)
+    at DevServer.getCompilationError (file:///Users/shabeeb/Documents/Shab.co/elie-catering/node_modules/next/dist/server/dev/next-dev-server.js:719:42)
+    at DevServer.findPageComponents (file:///Users/shabeeb/Documents/Shab.co/elie-catering/node_modules/next/dist/server/dev/next-dev-server.js:689:43)
+    at async DevServer.renderErrorToResponseImpl (file:///Users/shabeeb/Documents/Shab.co/elie-catering/node_modules/next/dist/server/base-server.js:1745:26)
+[  819865ms] [LOG] [HMR] connected @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1226
+[  819877ms] [ERROR] ./src/app/[locale]/layout.tsx:6:1
+Module not found: Can't resolve '@/components/LocaleHtmlSync'
+  4 | import { routing } from "@/i18n/routing";
+  5 | import WhatsAppFloat from "@/components/WhatsAppFloat";
+> 6 | import LocaleHtmlSync from "@/components/LocaleHtmlSync";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 |
+  8 | export function generateStaticParams() {
+  9 |   return routing.locales.map((locale) => ({ locale }));
+
+Import map: aliased to relative './src/components/LocaleHtmlSync' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  819922ms] [ERROR] ./src/app/[locale]/layout.tsx:6:1
+Module not found: Can't resolve '@/components/LocaleHtmlSync'
+  4 | import { routing } from "@/i18n/routing";
+  5 | import WhatsAppFloat from "@/components/WhatsAppFloat";
+> 6 | import LocaleHtmlSync from "@/components/LocaleHtmlSync";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 |
+  8 | export function generateStaticParams() {
+  9 |   return routing.locales.map((locale) => ({ locale }));
+
+Import map: aliased to relative './src/components/LocaleHtmlSync' inside of [project]/
+
+https://nextjs.org/docs/messages/module-not-found @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1945
+[  819977ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1226
+[  823740ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1226
+[  823817ms] [LOG] [Fast Refresh] done in 65ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_0u_w_5s._.js:1226
+[  824081ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  824113ms] [LOG] [HMR] connected @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  824191ms] [WARNING] Image with src "/images/introduction-v2-copy.webp" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1462973ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1463015ms] [LOG] [Fast Refresh] done in 126ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1656950ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1656970ms] [LOG] [Fast Refresh] done in 53ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1661322ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1661347ms] [LOG] [Fast Refresh] done in 39ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1665293ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1665318ms] [LOG] [Fast Refresh] done in 41ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1670244ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1670268ms] [LOG] [Fast Refresh] done in 34ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1674208ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1674233ms] [LOG] [Fast Refresh] done in 30ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1677808ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1677834ms] [LOG] [Fast Refresh] done in 39ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1683040ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1683064ms] [LOG] [Fast Refresh] done in 34ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1687518ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1687543ms] [LOG] [Fast Refresh] done in 33ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1691734ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1691760ms] [LOG] [Fast Refresh] done in 32ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1696852ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1696877ms] [LOG] [Fast Refresh] done in 32ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1708206ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1708232ms] [LOG] [Fast Refresh] done in 30ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1713968ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1713993ms] [LOG] [Fast Refresh] done in 34ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1717650ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1717674ms] [LOG] [Fast Refresh] done in 33ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1726441ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1726467ms] [LOG] [Fast Refresh] done in 35ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1730287ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1730304ms] [LOG] [Fast Refresh] done in 38ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1734414ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1734442ms] [LOG] [Fast Refresh] done in 31ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1739006ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 1739031ms] [LOG] [Fast Refresh] done in 32ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 2165563ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 2166189ms] [LOG] [Fast Refresh] done in 727ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 2252272ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[ 2252294ms] [LOG] [Fast Refresh] done in 61ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431

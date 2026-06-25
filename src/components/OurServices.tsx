@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLocale } from "next-intl";
 
 /* ═══════════════════════════════════════════════════════
@@ -12,20 +12,10 @@ import { useLocale } from "next-intl";
 const GOLD = "#C79A3B";
 const CREAM = "#F5F2EA";
 const CREAM_BODY = "rgba(245,242,234,0.72)";
-const CREAM_MUTED = "rgba(245,242,234,0.42)";
+const CREAM_MUTED = "rgba(245,242,234,0.40)";
 const NOISE = `url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E")`;
-
-/* ═══════════════════════════════════════════════════════
-   MOTION
-═══════════════════════════════════════════════════════ */
 const EASE: [number, number, number, number] = [0.22, 0.08, 0.24, 1.0];
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 22 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, margin: "-40px" },
-  transition: { duration: 1.0, delay, ease: EASE },
-});
+const ZOOM_EASE: [number, number, number, number] = [0.25, 0.46, 0.45, 0.94];
 
 /* ═══════════════════════════════════════════════════════
    CONTENT
@@ -124,234 +114,189 @@ const SERVICES = {
 type ServiceData = (typeof SERVICES.en)[0];
 
 /* ═══════════════════════════════════════════════════════
-   HAIRLINE DIVIDER
+   NAV ITEM — lives in the dedicated dark panel
 ═══════════════════════════════════════════════════════ */
-function ServiceDivider() {
+function NavItem({
+  service,
+  isActive,
+  isFirst,
+  isArabic,
+  onClick,
+}: {
+  service: ServiceData;
+  isActive: boolean;
+  isFirst: boolean;
+  isArabic: boolean;
+  onClick: () => void;
+}) {
+  const serif = isArabic ? "font-arabic" : "font-serif";
+
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 1.2, ease: EASE }}
+    <motion.button
+      onClick={onClick}
+      whileHover={{ x: isArabic ? -3 : 3, backgroundColor: "rgba(199,154,59,0.04)" }}
+      transition={{ duration: 0.20, ease: EASE }}
       style={{
-        height: "1px",
-        background:
-          "linear-gradient(to right, transparent 0%, rgba(199,154,59,0.12) 20%, rgba(199,154,59,0.22) 50%, rgba(199,154,59,0.12) 80%, transparent 100%)",
-        margin: "clamp(48px, 6.5vw, 88px) 0",
+        direction: "ltr",
+        display: "flex",
+        flexDirection: isArabic ? "row-reverse" : "row",
+        alignItems: "center",
+        gap: "clamp(12px, 1.2vw, 18px)",
+        width: "100%",
+        /* Left/right padding provides the indent; accent bar is absolute */
+        paddingTop: isActive ? "clamp(15px, 1.7vw, 22px)" : "clamp(13px, 1.5vw, 19px)",
+        paddingBottom: isActive ? "clamp(15px, 1.7vw, 22px)" : "clamp(13px, 1.5vw, 19px)",
+        paddingLeft: isArabic ? "0" : "clamp(22px, 2.5vw, 36px)",
+        paddingRight: isArabic ? "clamp(22px, 2.5vw, 36px)" : "clamp(16px, 1.8vw, 24px)",
+        background: "none",
+        border: "none",
+        outline: "none",
+        borderTop: isFirst ? "none" : "1px solid rgba(245,242,234,0.07)",
+        cursor: "pointer",
+        position: "relative",
+        borderRadius: "4px",
       }}
-    />
+    >
+      {/* Animated gold accent bar */}
+      <motion.div
+        animate={{
+          height: isActive ? "clamp(22px, 2.4vw, 34px)" : "0px",
+          opacity: isActive ? 1 : 0,
+        }}
+        transition={{ duration: 0.42, ease: EASE }}
+        style={{
+          position: "absolute",
+          [isArabic ? "right" : "left"]: 0,
+          top: "50%",
+          transform: "translateY(-50%)",
+          width: "2px",
+          background: GOLD,
+          borderRadius: "1px",
+        }}
+      />
+
+      {/* Number */}
+      <motion.span
+        animate={{
+          opacity: isActive ? 1 : 0.55,
+          color: isActive ? GOLD : "rgba(199,154,59,0.70)",
+        }}
+        transition={{ duration: 0.35 }}
+        style={{
+          fontSize: "10px",
+          letterSpacing: "0.34em",
+          fontFamily: "var(--font-fraunces), Georgia, serif",
+          flexShrink: 0,
+          lineHeight: 1,
+        }}
+      >
+        {service.num}
+      </motion.span>
+
+      {/* Title */}
+      <motion.span
+        animate={{ opacity: isActive ? 1 : 0.62 }}
+        transition={{ duration: 0.35 }}
+        className={serif}
+        style={{
+          /* Active items are slightly larger to create hierarchy */
+          fontSize: isActive
+            ? isArabic
+              ? "clamp(17px, 1.65vw, 26px)"
+              : "clamp(16px, 1.55vw, 25px)"
+            : isArabic
+            ? "clamp(15px, 1.48vw, 23px)"
+            : "clamp(14px, 1.40vw, 22px)",
+          fontWeight: 300,
+          color: CREAM,
+          letterSpacing: isArabic ? 0 : isActive ? "-0.025em" : "-0.015em",
+          lineHeight: 1.22,
+          flex: 1,
+          textAlign: isArabic ? "right" : "left",
+          direction: isArabic ? "rtl" : "ltr",
+          transition: "font-size 0.30s ease",
+        }}
+      >
+        {isArabic
+          ? service.title
+          : isActive
+          ? <em>{service.title}</em>
+          : service.title}
+      </motion.span>
+
+      {/* Arrow — slides in for the active item */}
+      <motion.span
+        animate={{
+          opacity: isActive ? 0.75 : 0,
+          x: isActive ? 0 : isArabic ? 10 : -10,
+        }}
+        transition={{ duration: 0.42, ease: EASE }}
+        style={{
+          color: GOLD,
+          fontSize: "12px",
+          flexShrink: 0,
+        }}
+      >
+        {isArabic ? "←" : "→"}
+      </motion.span>
+    </motion.button>
   );
 }
 
 /* ═══════════════════════════════════════════════════════
-   SERVICE ROW
+   MOBILE TAB
 ═══════════════════════════════════════════════════════ */
-function ServiceRow({
+function MobileTab({
   service,
-  index,
-  isArabic,
-  locale,
+  isActive,
+  onClick,
 }: {
   service: ServiceData;
-  index: number;
-  isArabic: boolean;
-  locale: string;
+  isActive: boolean;
+  onClick: () => void;
 }) {
-  const rowRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: rowRef,
-    offset: ["start end", "end start"],
-  });
-
-  /* Subtle parallax drift on the image */
-  const y = useTransform(scrollYProgress, [0, 1], ["5%", "-5%"]);
-
-  const serif = isArabic ? "font-arabic" : "font-serif";
-
-  /* Visual alternation — same in both languages (dir="ltr" forces layout) */
-  const imageLeft = index % 2 === 0;
-
   return (
-    <div
-      ref={rowRef}
-      dir="ltr"
-      className={`flex flex-col items-start ${
-        imageLeft ? "md:flex-row" : "md:flex-row-reverse"
-      }`}
-      style={{ gap: "clamp(32px, 5vw, 72px)", alignItems: "stretch" }}
+    <button
+      onClick={onClick}
+      style={{
+        flexShrink: 0,
+        background: "none",
+        border: "none",
+        outline: "none",
+        cursor: "pointer",
+        padding: "12px 0",
+        marginRight: "26px",
+        position: "relative",
+      }}
     >
-      {/* ── IMAGE ── */}
-      <motion.div
-        initial={{ opacity: 0, x: imageLeft ? -28 : 28 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 1.5, ease: EASE }}
-        className="relative overflow-hidden group shrink-0"
+      <span
         style={{
-          flexBasis: "58%",
-          aspectRatio: "4/3",
-          borderRadius: "10px",
-          boxShadow: [
-            "0 70px 140px -35px rgba(0,0,0,0.60)",
-            "0 30px 60px -20px rgba(0,0,0,0.28)",
-            "0 0 80px -15px rgba(199,154,59,0.11)",
-            "inset 0 0 0 1px rgba(199,154,59,0.07)",
-          ].join(", "),
+          fontSize: "9px",
+          letterSpacing: "0.38em",
+          textTransform: "uppercase",
+          fontFamily: "var(--font-fraunces), Georgia, serif",
+          color: isActive ? CREAM : CREAM_MUTED,
+          display: "block",
+          paddingBottom: "7px",
+          transition: "color 0.35s ease",
         }}
       >
-        {/* Parallax image */}
-        <motion.div
-          style={{
-            y,
-            scale: 1.12,
-            position: "absolute",
-            inset: 0,
-            willChange: "transform",
-          }}
-        >
-          <Image
-            src={service.img}
-            alt={service.alt}
-            fill
-            className="object-cover transition-transform duration-3000 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:scale-[1.03]"
-            sizes="(max-width: 768px) 100vw, 58vw"
-            style={{ filter: "saturate(1.06) contrast(1.03)" }}
-          />
-        </motion.div>
-
-        {/* Cinematic vignette */}
-        <div
-          aria-hidden
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(9,0,34,0.16) 0%, transparent 18%, transparent 78%, rgba(9,0,34,0.28) 100%)",
-          }}
-        />
-      </motion.div>
-
-      {/* ── CONTENT ── */}
-      <div className="flex-1 flex items-center">
-        <div
-          dir={isArabic ? "rtl" : "ltr"}
-          style={{
-            maxWidth: "380px",
-            width: "100%",
-            paddingTop: "clamp(8px, 2vw, 0px)",
-            margin: isArabic ? "0 0 0 auto" : "0 auto 0 0",
-          }}
-        >
-          {/* Number */}
-          <motion.span
-            {...fadeUp(0.10)}
-            style={{
-              display: "block",
-              fontFamily: "var(--font-fraunces), Georgia, serif",
-              fontSize: "11px",
-              letterSpacing: "0.50em",
-              color: GOLD,
-              opacity: 0.70,
-              marginBottom: "16px",
-              direction: "ltr",
-            }}
-          >
-            {service.num}
-          </motion.span>
-
-          {/* Gold rule */}
-          <motion.div
-            initial={{ scaleX: 0, opacity: 0 }}
-            whileInView={{ scaleX: 1, opacity: 1 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.8, delay: 0.16, ease: EASE }}
-            style={{
-              width: "32px",
-              height: "1px",
-              background: GOLD,
-              opacity: 0.50,
-              marginBottom: "22px",
-              transformOrigin: isArabic ? "right center" : "left center",
-              ...(isArabic ? { marginLeft: "auto", marginRight: 0 } : {}),
-            }}
-          />
-
-          {/* Title */}
-          <motion.h3
-            {...fadeUp(0.20)}
-            className={`${serif} font-light`}
-            style={{
-              color: CREAM,
-              fontSize: isArabic
-                ? "clamp(28px, 3.4vw, 48px)"
-                : "clamp(28px, 3.4vw, 48px)",
-              lineHeight: isArabic ? 1.45 : 1.06,
-              letterSpacing: isArabic ? 0 : "-0.025em",
-              marginBottom: "clamp(16px, 1.8vw, 24px)",
-            }}
-          >
-            {isArabic ? service.title : <em>{service.title}</em>}
-          </motion.h3>
-
-          {/* Description */}
-          <motion.p
-            {...fadeUp(0.28)}
-            className={isArabic ? "font-arabic" : ""}
-            style={{
-              color: CREAM_BODY,
-              fontSize: isArabic
-                ? "clamp(14px, 1.2vw, 17px)"
-                : "clamp(13.5px, 1.1vw, 16px)",
-              lineHeight: isArabic ? 1.95 : 1.82,
-              fontWeight: 300,
-              marginBottom: "clamp(24px, 2.8vw, 36px)",
-              maxWidth: isArabic ? "360px" : "300px",
-            }}
-          >
-            {service.desc}
-          </motion.p>
-
-          {/* CTA link */}
-          <motion.div {...fadeUp(0.36)}>
-            <Link
-              href={`/${locale}/services`}
-              className="group inline-flex items-center gap-2"
-              style={{ textDecoration: "none" }}
-            >
-              <span
-                className={isArabic ? "font-arabic" : ""}
-                style={{
-                  fontSize: "11px",
-                  fontWeight: 600,
-                  letterSpacing: isArabic ? "0.08em" : "0.40em",
-                  textTransform: isArabic ? "none" : "uppercase",
-                  color: GOLD,
-                  opacity: 0.68,
-                  transition: "opacity 0.35s ease",
-                }}
-              >
-                {isArabic ? "اكتشف الخدمة" : "Explore Service"}
-              </span>
-              <span
-                style={{
-                  color: GOLD,
-                  opacity: 0.68,
-                  fontSize: "13px",
-                  display: "inline-block",
-                  transition: "transform 0.35s ease, opacity 0.35s ease",
-                }}
-                className={
-                  isArabic
-                    ? "group-hover:-translate-x-1"
-                    : "group-hover:translate-x-1"
-                }
-              >
-                {isArabic ? "←" : "→"}
-              </span>
-            </Link>
-          </motion.div>
-        </div>
-      </div>
-    </div>
+        {service.num}
+      </span>
+      <motion.div
+        animate={{ scaleX: isActive ? 1 : 0, opacity: isActive ? 0.80 : 0 }}
+        transition={{ duration: 0.40, ease: EASE }}
+        style={{
+          position: "absolute",
+          bottom: "5px",
+          left: 0,
+          right: 0,
+          height: "1px",
+          background: GOLD,
+          transformOrigin: "left center",
+        }}
+      />
+    </button>
   );
 }
 
@@ -363,6 +308,15 @@ export default function OurServices() {
   const isArabic = locale === "ar";
   const services = isArabic ? SERVICES.ar : SERVICES.en;
   const serif = isArabic ? "font-arabic" : "font-serif";
+  const [active, setActive] = useState(0);
+  const current = services[active];
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setActive(prev => (prev + 1) % services.length);
+    }, 6000);
+    return () => clearTimeout(id);
+  }, [active, services.length]);
 
   return (
     <section
@@ -382,10 +336,10 @@ export default function OurServices() {
         <div
           style={{
             position: "absolute",
-            top: "4%",
+            top: "8%",
             right: "-5%",
-            width: "46%",
-            height: "46%",
+            width: "42%",
+            height: "52%",
             background:
               "radial-gradient(ellipse, rgba(199,154,59,0.07) 0%, transparent 65%)",
             filter: "blur(80px)",
@@ -394,25 +348,13 @@ export default function OurServices() {
         <div
           style={{
             position: "absolute",
-            top: "40%",
-            left: "-6%",
-            width: "50%",
-            height: "50%",
+            top: "45%",
+            left: "-5%",
+            width: "44%",
+            height: "48%",
             background:
               "radial-gradient(ellipse, rgba(199,154,59,0.05) 0%, transparent 62%)",
             filter: "blur(95px)",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "8%",
-            right: "8%",
-            width: "42%",
-            height: "42%",
-            background:
-              "radial-gradient(ellipse, rgba(199,154,59,0.06) 0%, transparent 60%)",
-            filter: "blur(75px)",
           }}
         />
       </div>
@@ -424,7 +366,7 @@ export default function OurServices() {
           position: "absolute",
           inset: 0,
           backgroundImage: NOISE,
-          opacity: 0.030,
+          opacity: 0.03,
           mixBlendMode: "overlay",
           pointerEvents: "none",
           zIndex: 1,
@@ -441,13 +383,12 @@ export default function OurServices() {
           paddingRight: "clamp(24px, 6vw, 96px)",
         }}
       >
-
         {/* ══════════════════════════════════════
-            SECTION HEADER — left-anchored
+            SECTION HEADER
         ══════════════════════════════════════ */}
         <div
           className={isArabic ? "text-right" : "text-left"}
-          style={{ marginBottom: "clamp(60px, 8vw, 100px)" }}
+          style={{ marginBottom: "clamp(40px, 5vw, 68px)" }}
         >
           {/* Eyebrow */}
           <motion.div
@@ -458,7 +399,7 @@ export default function OurServices() {
             className={`flex items-center gap-3 ${
               isArabic ? "flex-row-reverse justify-end" : "justify-start"
             }`}
-            style={{ marginBottom: "clamp(20px, 2.5vw, 30px)" }}
+            style={{ marginBottom: "clamp(20px, 2.5vw, 28px)" }}
           >
             <div
               style={{
@@ -483,7 +424,7 @@ export default function OurServices() {
             </span>
           </motion.div>
 
-          {/* Main heading */}
+          {/* Heading */}
           <motion.h2
             initial={{ opacity: 0, y: 26 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -493,16 +434,16 @@ export default function OurServices() {
             style={{
               color: CREAM,
               fontSize: isArabic
-                ? "clamp(36px, 5.4vw, 74px)"
-                : "clamp(36px, 5.2vw, 72px)",
+                ? "clamp(34px, 5.2vw, 70px)"
+                : "clamp(34px, 5.0vw, 68px)",
               lineHeight: isArabic ? 1.38 : 1.04,
               letterSpacing: isArabic ? 0 : "-0.025em",
-              marginBottom: "clamp(18px, 2.2vw, 28px)",
-              maxWidth: isArabic ? "800px" : "680px",
+              marginBottom: "clamp(16px, 2vw, 24px)",
+              maxWidth: isArabic ? "760px" : "640px",
             }}
           >
             {isArabic ? (
-              "صياغة تجارب ضيافة\nاستثنائية."
+              "صياغة تجارب ضيافة استثنائية."
             ) : (
               <>
                 Crafting Extraordinary{" "}
@@ -529,38 +470,398 @@ export default function OurServices() {
             style={{
               color: CREAM_MUTED,
               fontSize: isArabic
-                ? "clamp(15px, 1.3vw, 18px)"
-                : "clamp(14px, 1.2vw, 17px)",
+                ? "clamp(14px, 1.2vw, 17px)"
+                : "clamp(13.5px, 1.1vw, 16px)",
               lineHeight: isArabic ? 1.9 : 1.7,
               fontWeight: 300,
-              maxWidth: isArabic ? "500px" : "460px",
+              maxWidth: isArabic ? "480px" : "440px",
               letterSpacing: isArabic ? 0 : "0.01em",
               ...(isArabic ? { marginLeft: "auto", marginRight: 0 } : {}),
             }}
           >
             {isArabic
-              ? "ستة تخصصات راقية تحمل معها مستوى الإتقان الذي اشتهرنا به منذ أربعة عشر عاماً في المملكة."
-              : "Six extraordinary specialities, each carrying the same standard of excellence upheld for fourteen years across Saudi Arabia."}
+              ? "ستة تخصصات راقية تحمل مستوى الإتقان الذي اشتهرنا به منذ أربعة عشر عاماً."
+              : "Six extraordinary specialities. One standard of excellence upheld for fourteen years across Saudi Arabia."}
           </motion.p>
         </div>
 
         {/* ══════════════════════════════════════
-            EDITORIAL SERVICE GALLERY
+            MOBILE TABS
         ══════════════════════════════════════ */}
-        <div>
-          {services.map((service, i) => (
-            <div key={service.num}>
-              {i > 0 && <ServiceDivider />}
-              <ServiceRow
-                service={service}
-                index={i}
-                isArabic={isArabic}
-                locale={locale}
-              />
-            </div>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.8, ease: EASE }}
+          className="flex md:hidden overflow-x-auto"
+          style={{
+            marginBottom: "clamp(14px, 2vw, 22px)",
+            scrollbarWidth: "none",
+            direction: isArabic ? "rtl" : "ltr",
+          }}
+        >
+          {services.map((s, i) => (
+            <MobileTab
+              key={s.num}
+              service={s}
+              isActive={i === active}
+              onClick={() => setActive(i)}
+            />
           ))}
-        </div>
+        </motion.div>
 
+        {/* ══════════════════════════════════════
+            UNIFIED SHOWCASE
+            image panel (left) + nav panel (right)
+            both children of one overflow-hidden container
+        ══════════════════════════════════════ */}
+        <motion.div
+          initial={{ opacity: 0, y: 36 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 1.2, ease: EASE }}
+          style={{
+            display: "flex",
+            flexDirection: isArabic ? "row-reverse" : "row",
+            height: "clamp(480px, 72vh, 800px)",
+            borderRadius: "12px",
+            overflow: "hidden",
+            boxShadow: [
+              "0 80px 160px -40px rgba(0,0,0,0.74)",
+              "0 40px 80px -24px rgba(0,0,0,0.40)",
+              "0 0 120px -24px rgba(199,154,59,0.14)",
+              "inset 0 0 0 1px rgba(199,154,59,0.10)",
+            ].join(", "),
+          }}
+        >
+          {/* ── IMAGE PANEL ── */}
+          <div
+            className="relative overflow-hidden"
+            style={{ flex: 1, minWidth: 0 }}
+          >
+            {/* Full-bleed image with luxury zoom crossfade */}
+            <AnimatePresence initial={false}>
+              <motion.div
+                key={active}
+                initial={{ opacity: 0, scale: 1.06 }}
+                animate={{ opacity: 1, scale: 1.0 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  opacity: { duration: 0.75, ease: EASE },
+                  scale: { duration: 1.8, ease: ZOOM_EASE },
+                }}
+                style={{ position: "absolute", inset: 0 }}
+              >
+                <Image
+                  src={current.img}
+                  alt={current.alt}
+                  fill
+                  className="object-cover"
+                  style={{ filter: "saturate(1.08) contrast(1.03)" }}
+                  sizes="(max-width: 768px) 100vw, 63vw"
+                  priority={active === 0}
+                />
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Strong bottom gradient — anchors the editorial content */}
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                inset: 0,
+                zIndex: 1,
+                pointerEvents: "none",
+                background:
+                  "linear-gradient(to top, rgba(6,0,18,0.98) 0%, rgba(6,0,18,0.80) 20%, rgba(6,0,18,0.28) 42%, transparent 60%)",
+              }}
+            />
+
+            {/* Subtle left-edge ambient gradient for depth */}
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                inset: 0,
+                zIndex: 1,
+                pointerEvents: "none",
+                background: isArabic
+                  ? "linear-gradient(to left, rgba(9,0,28,0.38) 0%, transparent 40%)"
+                  : "linear-gradient(to right, rgba(9,0,28,0.38) 0%, transparent 40%)",
+              }}
+            />
+
+            {/* ── EDITORIAL CONTENT — bottom of image ── */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                padding: "clamp(28px, 4vw, 56px)",
+                zIndex: 2,
+              }}
+              dir={isArabic ? "rtl" : "ltr"}
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.50, ease: EASE }}
+                >
+                  {/* Service number */}
+                  <span
+                    style={{
+                      display: "block",
+                      fontFamily: "var(--font-fraunces), Georgia, serif",
+                      fontSize: "11px",
+                      letterSpacing: "0.46em",
+                      color: GOLD,
+                      opacity: 0.72,
+                      marginBottom: "clamp(12px, 1.4vw, 18px)",
+                      direction: "ltr",
+                    }}
+                  >
+                    {current.num}
+                    <span style={{ opacity: 0.45, letterSpacing: "0.28em" }}> / 06</span>
+                  </span>
+
+                  {/* Large editorial title */}
+                  <h3
+                    className={`${serif} font-light`}
+                    style={{
+                      color: CREAM,
+                      fontSize: isArabic
+                        ? "clamp(34px, 4.8vw, 76px)"
+                        : "clamp(34px, 4.6vw, 74px)",
+                      lineHeight: isArabic ? 1.30 : 1.03,
+                      letterSpacing: isArabic ? "0.01em" : "-0.03em",
+                      marginBottom: "clamp(14px, 1.6vw, 20px)",
+                    }}
+                  >
+                    {isArabic ? current.title : <em>{current.title}</em>}
+                  </h3>
+
+                  {/* Gold rule */}
+                  <div
+                    style={{
+                      width: "28px",
+                      height: "1px",
+                      background: GOLD,
+                      opacity: 0.44,
+                      marginBottom: "clamp(14px, 1.6vw, 20px)",
+                      ...(isArabic
+                        ? { marginLeft: "auto", marginRight: 0 }
+                        : {}),
+                    }}
+                  />
+
+                  {/* Description */}
+                  <p
+                    className={isArabic ? "font-arabic" : ""}
+                    style={{
+                      color: CREAM_BODY,
+                      fontSize: "clamp(12.5px, 0.92vw, 15px)",
+                      lineHeight: isArabic ? 1.9 : 1.78,
+                      fontWeight: 300,
+                      marginBottom: "clamp(20px, 2.4vw, 32px)",
+                      maxWidth: isArabic ? "340px" : "310px",
+                    }}
+                  >
+                    {current.desc}
+                  </p>
+
+                  {/* CTA */}
+                  <Link
+                    href={`/${locale}/services`}
+                    className="inline-flex items-center gap-2 group"
+                    style={{ textDecoration: "none" }}
+                  >
+                    <span
+                      className={isArabic ? "font-arabic" : ""}
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: 600,
+                        letterSpacing: isArabic ? "0.08em" : "0.44em",
+                        textTransform: isArabic ? "none" : "uppercase",
+                        color: GOLD,
+                        opacity: 0.82,
+                        transition: "opacity 0.28s ease",
+                      }}
+                    >
+                      {isArabic ? "اكتشف الخدمة" : "Explore Service"}
+                    </span>
+                    <span
+                      style={{
+                        color: GOLD,
+                        opacity: 0.82,
+                        fontSize: "11px",
+                        display: "inline-block",
+                        transition: "transform 0.28s ease",
+                      }}
+                      className={
+                        isArabic
+                          ? "group-hover:-translate-x-1"
+                          : "group-hover:translate-x-1"
+                      }
+                    >
+                      {isArabic ? "←" : "→"}
+                    </span>
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* ── DEDICATED NAV PANEL — desktop only ── */}
+          <div
+            className="hidden md:flex flex-col justify-center relative overflow-hidden"
+            style={{
+              flexShrink: 0,
+              width: "37%",
+              /* Deep luxury dark — subtle purple-black depth */
+              background:
+                "linear-gradient(160deg, #0E0028 0%, #08001C 52%, #0C0024 100%)",
+              /* Gold hairline joining to image */
+              borderLeft: isArabic
+                ? "none"
+                : "1px solid rgba(199,154,59,0.15)",
+              borderRight: isArabic
+                ? "1px solid rgba(199,154,59,0.15)"
+                : "none",
+            }}
+          >
+            {/* Grain on the nav panel */}
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundImage: NOISE,
+                opacity: 0.045,
+                mixBlendMode: "overlay",
+                pointerEvents: "none",
+              }}
+            />
+
+            {/* Subtle radial depth — warm centre */}
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                inset: 0,
+                pointerEvents: "none",
+                background:
+                  "radial-gradient(ellipse at 60% 35%, rgba(28,6,56,0.55) 0%, transparent 65%)",
+              }}
+            />
+
+            {/* Inner left-edge shadow — adds perceived depth at the seam */}
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                [isArabic ? "right" : "left"]: 0,
+                width: "48px",
+                background: isArabic
+                  ? "linear-gradient(to left, rgba(0,0,0,0.22), transparent)"
+                  : "linear-gradient(to right, rgba(0,0,0,0.22), transparent)",
+                pointerEvents: "none",
+              }}
+            />
+
+            {/* Nav content */}
+            <div
+              style={{
+                position: "relative",
+                zIndex: 1,
+                padding: "clamp(28px, 3.5vw, 52px) clamp(20px, 2.8vw, 40px)",
+              }}
+              dir={isArabic ? "rtl" : "ltr"}
+            >
+              {/* Animated service counter */}
+              <div
+                style={{
+                  marginBottom: "clamp(22px, 3vw, 38px)",
+                  direction: "ltr",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-fraunces), Georgia, serif",
+                    fontSize: "10px",
+                    letterSpacing: "0.32em",
+                    color: CREAM_MUTED,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "3px",
+                  }}
+                >
+                  <AnimatePresence mode="wait">
+                    <motion.span
+                      key={active}
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -6 }}
+                      transition={{ duration: 0.28 }}
+                      style={{ display: "inline-block" }}
+                    >
+                      {String(active + 1).padStart(2, "0")}
+                    </motion.span>
+                  </AnimatePresence>
+                  <span style={{ opacity: 0.45 }}> / 06</span>
+                </span>
+
+                {/* Timer progress hairline — resets on each service change */}
+                <div
+                  style={{
+                    marginTop: "10px",
+                    height: "1px",
+                    background: "rgba(245,242,234,0.08)",
+                    position: "relative",
+                    overflow: "hidden",
+                    borderRadius: "1px",
+                  }}
+                >
+                  <motion.div
+                    key={active}
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 6, ease: "linear" }}
+                    style={{
+                      position: "absolute",
+                      left: 0,
+                      top: 0,
+                      width: "100%",
+                      height: "100%",
+                      background: GOLD,
+                      opacity: 0.55,
+                      transformOrigin: "left center",
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Service index */}
+              <nav aria-label="Services navigation">
+                {services.map((s, i) => (
+                  <NavItem
+                    key={s.num}
+                    service={s}
+                    isActive={i === active}
+                    isFirst={i === 0}
+                    isArabic={isArabic}
+                    onClick={() => setActive(i)}
+                  />
+                ))}
+              </nav>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

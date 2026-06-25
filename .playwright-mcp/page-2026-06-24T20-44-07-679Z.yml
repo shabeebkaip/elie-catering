@@ -1,0 +1,458 @@
+- generic [active] [ref=e1]:
+  - main [ref=e2]:
+    - generic [ref=e4]:
+      - link "Elie Logo" [ref=e5] [cursor=pointer]:
+        - /url: /ar/
+        - img "Elie Logo" [ref=e6]
+      - navigation [ref=e7]:
+        - link "الرئيسية" [ref=e8] [cursor=pointer]:
+          - /url: /ar/
+          - text: الرئيسية
+        - link "من نحن" [ref=e10] [cursor=pointer]:
+          - /url: /ar/about/
+          - text: من نحن
+        - button "الخدمات" [ref=e12] [cursor=pointer]:
+          - text: الخدمات
+          - img [ref=e13]
+        - button "التزيين" [ref=e16] [cursor=pointer]:
+          - text: التزيين
+          - img [ref=e17]
+        - button "التخطيط" [ref=e20] [cursor=pointer]:
+          - text: التخطيط
+          - img [ref=e21]
+        - link "Menu" [ref=e23] [cursor=pointer]:
+          - /url: /ar/menu/
+          - text: Menu
+        - link "تواصل معنا" [ref=e24] [cursor=pointer]:
+          - /url: /ar/contact/
+          - text: تواصل معنا
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - button "EN" [ref=e27]
+          - button "AR" [ref=e28]
+        - link "احجز فعاليتك ←" [ref=e29] [cursor=pointer]:
+          - /url: "#booking"
+          - text: احجز فعاليتك
+          - generic [ref=e30]: ←
+    - generic [ref=e31]:
+      - generic [ref=e37]:
+        - generic [ref=e40]: التموين وتنظيم الفعاليات
+        - heading "نصنع تجارب استثنائية" [level=1] [ref=e42]:
+          - generic [ref=e43]: نصنع تجارب
+          - emphasis [ref=e44]: استثنائية
+        - paragraph [ref=e45]: خدمات تموين راقية وفعاليات لا تُنسى، مصممة لأبرز اللحظات في جميع أنحاء المملكة العربية السعودية.
+        - link "احجز استشارة ←" [ref=e47] [cursor=pointer]:
+          - /url: "#booking"
+          - text: احجز استشارة
+          - generic [ref=e48]: ←
+      - generic [ref=e50]: فعاليات فاخرة · أعراس · مؤسسات · عشاء خاص
+    - generic [ref=e51]:
+      - generic [ref=e54]:
+        - paragraph [ref=e55]: EST · 2010
+        - generic [ref=e56]:
+          - generic [ref=e57]: منذ ٢٠١٠ · الرياض
+          - heading "فن الضيافة الراقية." [level=2] [ref=e58]:
+            - text: فن
+            - emphasis [ref=e59]: الضيافة الراقية.
+          - paragraph [ref=e60]: من أول استشارة حتى آخر شمعة — كل تفصيل مدروس، وكل لحظة مصاغة لتبقى.
+          - link "اكتشف حرفتنا ←" [ref=e62] [cursor=pointer]:
+            - /url: "#services"
+            - generic [ref=e63]: اكتشف حرفتنا
+            - generic [ref=e64]: ←
+      - generic [ref=e69]: أكثر من ١٤ عاماً في تنظيم الفعاليات الفاخرة
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - generic [ref=e74]: لماذا إيلي
+        - heading "تميّز إيلي." [level=2] [ref=e76]
+        - paragraph [ref=e77]: أكثر من 14 عاماً من الضيافة الفاخرة المصمّمة بعناية في المملكة.
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - img "تجارب ضيافة فاخرة مصمّمة" [ref=e81]
+          - generic [ref=e82]:
+            - generic [ref=e83]: "01"
+            - heading "تجارب مصمّمة بعناية" [level=3] [ref=e84]
+            - paragraph [ref=e85]: قوائم وضيافة تُصاغ خصيصاً لكل مناسبة.
+        - generic [ref=e86]:
+          - img "تنفيذ متكامل للفعاليات" [ref=e87]
+          - generic [ref=e88]:
+            - generic [ref=e89]: "02"
+            - heading "تنفيذ متكامل من البداية إلى النهاية" [level=3] [ref=e90]
+            - paragraph [ref=e91]: كل تفصيل مُنسَّق بدقة وهدوء خلف الكواليس.
+        - generic [ref=e92]:
+          - img "خبرة في المناسبات الخاصة والشركات" [ref=e93]
+          - generic [ref=e94]:
+            - generic [ref=e95]: "03"
+            - heading "خبرة في المناسبات الخاصة والشركات" [level=3] [ref=e96]
+            - paragraph [ref=e97]: موثوقون لدى العائلات والشركات وكبار الشخصيات.
+        - generic [ref=e98]:
+          - img "ضيافة راقية في جميع أنحاء المملكة" [ref=e99]
+          - generic [ref=e100]:
+            - generic [ref=e101]: "04"
+            - heading "ضيافة راقية في أنحاء المملكة" [level=3] [ref=e102]
+            - paragraph [ref=e103]: تجارب استثنائية تمتد عبر كل أرجاء المملكة.
+    - generic [ref=e105]:
+      - generic [ref=e106]:
+        - generic [ref=e109]: خدماتنا
+        - heading "صياغة تجارب ضيافة استثنائية." [level=2] [ref=e110]
+        - paragraph [ref=e111]: ستة تخصصات راقية تحمل مستوى الإتقان الذي اشتهرنا به منذ أربعة عشر عاماً.
+      - generic [ref=e112]:
+        - generic [ref=e113]:
+          - img "حفلات زفاف فاخرة" [ref=e115]
+          - generic [ref=e117]:
+            - generic [ref=e118]: "01"
+            - heading "حفلات الزفاف" [level=3] [ref=e119]
+            - paragraph [ref=e120]: من أول لحظة حتى آخرها — ننسّق كل تفصيل بأناقة واحترافية لا مثيل لهما.
+            - link "اكتشف الخدمة ←" [ref=e121] [cursor=pointer]:
+              - /url: /ar/services/
+              - generic [ref=e122]: اكتشف الخدمة
+              - generic [ref=e123]: ←
+        - generic [ref=e124]:
+          - generic [ref=e127]:
+            - generic [ref=e128]: "01"
+            - generic [ref=e129]: "06"
+          - button "01 حفلات الزفاف ←" [ref=e130] [cursor=pointer]:
+            - generic [ref=e131]: "01"
+            - generic [ref=e132]: حفلات الزفاف
+            - generic [ref=e133]: ←
+          - button "02 الفعاليات المؤسسية ←" [ref=e134] [cursor=pointer]:
+            - generic [ref=e135]: "02"
+            - generic [ref=e136]: الفعاليات المؤسسية
+            - generic [ref=e137]: ←
+          - button "03 التجمعات الخاصة ←" [ref=e138] [cursor=pointer]:
+            - generic [ref=e139]: "03"
+            - generic [ref=e140]: التجمعات الخاصة
+            - generic [ref=e141]: ←
+          - button "04 الضيافة الراقية ←" [ref=e142] [cursor=pointer]:
+            - generic [ref=e143]: "04"
+            - generic [ref=e144]: الضيافة الراقية
+            - generic [ref=e145]: ←
+          - button "05 تنسيق الفعاليات والديكور ←" [ref=e146] [cursor=pointer]:
+            - generic [ref=e147]: "05"
+            - generic [ref=e148]: تنسيق الفعاليات والديكور
+            - generic [ref=e149]: ←
+          - button "06 ضيافة كبار الضيوف ←" [ref=e150] [cursor=pointer]:
+            - generic [ref=e151]: "06"
+            - generic [ref=e152]: ضيافة كبار الضيوف
+            - generic [ref=e153]: ←
+    - generic [ref=e156]:
+      - generic [ref=e157]:
+        - paragraph [ref=e158]: خيارات التموين الراقية
+        - heading "عالم من النكهات" [level=2] [ref=e159]
+      - generic [ref=e160]:
+        - link "المقبلات اللقيمات المقبلات اللقيمات لقيمات دقيقة وراقية لحفلات الاستقبال الأنيقة استكشف القائمة ←" [ref=e162] [cursor=pointer]:
+          - /url: /ar/menu/finger-food/
+          - img "المقبلات اللقيمات" [ref=e167]
+          - heading "المقبلات اللقيمات" [level=3] [ref=e168]
+          - paragraph [ref=e169]: لقيمات دقيقة وراقية لحفلات الاستقبال الأنيقة
+          - paragraph [ref=e170]:
+            - text: استكشف القائمة
+            - generic [ref=e171]: ←
+        - link "استراحة القهوة استراحة القهوة قهوة متميزة ومرطبات لفترات راحة سلسة خلال الفعاليات استكشف القائمة ←" [ref=e173] [cursor=pointer]:
+          - /url: /ar/menu/coffee-break/
+          - img "استراحة القهوة" [ref=e178]
+          - heading "استراحة القهوة" [level=3] [ref=e179]
+          - paragraph [ref=e180]: قهوة متميزة ومرطبات لفترات راحة سلسة خلال الفعاليات
+          - paragraph [ref=e181]:
+            - text: استكشف القائمة
+            - generic [ref=e182]: ←
+        - link "محطات الطهي الحي محطات الطهي الحي تجارب طهوية تفاعلية يطهو فيها طهاتنا أمام ضيوفكم استكشف القائمة ←" [ref=e184] [cursor=pointer]:
+          - /url: /ar/menu/live-cooking-stations/
+          - img "محطات الطهي الحي" [ref=e189]
+          - heading "محطات الطهي الحي" [level=3] [ref=e190]
+          - paragraph [ref=e191]: تجارب طهوية تفاعلية يطهو فيها طهاتنا أمام ضيوفكم
+          - paragraph [ref=e192]:
+            - text: استكشف القائمة
+            - generic [ref=e193]: ←
+        - link "قسم المشويات قسم المشويات متخصصات مشوية راقية من أفضل اللحوم والمكونات استكشف القائمة ←" [ref=e195] [cursor=pointer]:
+          - /url: /ar/menu/bbq-section/
+          - img "قسم المشويات" [ref=e200]
+          - heading "قسم المشويات" [level=3] [ref=e201]
+          - paragraph [ref=e202]: متخصصات مشوية راقية من أفضل اللحوم والمكونات
+          - paragraph [ref=e203]:
+            - text: استكشف القائمة
+            - generic [ref=e204]: ←
+        - link "المطبخ الشرقي والإيطالي المطبخ الشرقي والإيطالي نكهات شرقية أصيلة وأطباق إيطالية رائعة على أيدي طهاة متميزين استكشف القائمة ←" [ref=e206] [cursor=pointer]:
+          - /url: /ar/menu/eastern-italian-cuisine/
+          - img "المطبخ الشرقي والإيطالي" [ref=e211]
+          - heading "المطبخ الشرقي والإيطالي" [level=3] [ref=e212]
+          - paragraph [ref=e213]: نكهات شرقية أصيلة وأطباق إيطالية رائعة على أيدي طهاة متميزين
+          - paragraph [ref=e214]:
+            - text: استكشف القائمة
+            - generic [ref=e215]: ←
+        - link "المأكولات البحرية والسوشي المأكولات البحرية والسوشي مأكولات بحرية طازجة فاخرة وسوشي ملون محضر بإتقان استكشف القائمة ←" [ref=e217] [cursor=pointer]:
+          - /url: /ar/menu/seafood-sushi/
+          - img "المأكولات البحرية والسوشي" [ref=e222]
+          - heading "المأكولات البحرية والسوشي" [level=3] [ref=e223]
+          - paragraph [ref=e224]: مأكولات بحرية طازجة فاخرة وسوشي ملون محضر بإتقان
+          - paragraph [ref=e225]:
+            - text: استكشف القائمة
+            - generic [ref=e226]: ←
+        - link "القهوة المتخصصة والعربية القهوة المتخصصة والعربية ضيافة عربية أصيلة وقهوة متخصصة تُقدَّم بأسلوب راقٍ استكشف القائمة ←" [ref=e228] [cursor=pointer]:
+          - /url: /ar/menu/specialty-arabic-coffee/
+          - img "القهوة المتخصصة والعربية" [ref=e233]
+          - heading "القهوة المتخصصة والعربية" [level=3] [ref=e234]
+          - paragraph [ref=e235]: ضيافة عربية أصيلة وقهوة متخصصة تُقدَّم بأسلوب راقٍ
+          - paragraph [ref=e236]:
+            - text: استكشف القائمة
+            - generic [ref=e237]: ←
+      - link "عرض القائمة الكاملة ←" [ref=e239] [cursor=pointer]:
+        - /url: /ar/menu/
+        - text: عرض القائمة الكاملة
+        - generic [ref=e240]: ←
+    - generic [ref=e241]:
+      - generic [ref=e243]:
+        - generic [ref=e244]:
+          - paragraph [ref=e245]: خدمات مميزة
+          - heading "ما وراء المائدة." [level=2] [ref=e246]:
+            - text: ما وراء
+            - text: المائدة.
+        - link "عرض كل الخدمات ←" [ref=e248] [cursor=pointer]:
+          - /url: /ar/services/?category=addons
+          - text: عرض كل الخدمات
+          - generic [ref=e249]: ←
+      - generic [ref=e250]:
+        - link "01 التصوير الاحترافي تغطية سينمائية لأبرز لحظات فعاليتك. اكتشف ←" [ref=e252] [cursor=pointer]:
+          - /url: /ar/services/professional-photography/
+          - generic [ref=e254]:
+            - generic [ref=e255]: "01"
+            - img [ref=e257]
+            - heading "التصوير الاحترافي" [level=3] [ref=e260]
+            - paragraph [ref=e262]: تغطية سينمائية لأبرز لحظات فعاليتك.
+            - generic [ref=e263]:
+              - generic [ref=e264]: اكتشف
+              - generic [ref=e265]: ←
+        - link "02 الترفيه والموسيقى الحية فنانون منتقون بعناية لتتناسب مع أجواء فعاليتك. اكتشف ←" [ref=e267] [cursor=pointer]:
+          - /url: /ar/services/entertainment-live-music/
+          - generic [ref=e269]:
+            - generic [ref=e270]: "02"
+            - img [ref=e272]
+            - heading "الترفيه والموسيقى الحية" [level=3] [ref=e275]
+            - paragraph [ref=e277]: فنانون منتقون بعناية لتتناسب مع أجواء فعاليتك.
+            - generic [ref=e278]:
+              - generic [ref=e279]: اكتشف
+              - generic [ref=e280]: ←
+        - link "03 تنسيق القاعة والديكور تحويل الأماكن إلى بيئات فاخرة غامرة. اكتشف ←" [ref=e282] [cursor=pointer]:
+          - /url: /ar/services/hall-decor-coordination/
+          - generic [ref=e284]:
+            - generic [ref=e285]: "03"
+            - img [ref=e287]
+            - heading "تنسيق القاعة والديكور" [level=3] [ref=e290]
+            - paragraph [ref=e292]: تحويل الأماكن إلى بيئات فاخرة غامرة.
+            - generic [ref=e293]:
+              - generic [ref=e294]: اكتشف
+              - generic [ref=e295]: ←
+        - link "04 خدمة صف السيارات (فاليا) خدمة صف سيارات احترافية وسلسة لضيوفكم. اكتشف ←" [ref=e297] [cursor=pointer]:
+          - /url: /ar/services/valet-parking/
+          - generic [ref=e299]:
+            - generic [ref=e300]: "04"
+            - img [ref=e302]
+            - heading "خدمة صف السيارات (فاليا)" [level=3] [ref=e306]
+            - paragraph [ref=e308]: خدمة صف سيارات احترافية وسلسة لضيوفكم.
+            - generic [ref=e309]:
+              - generic [ref=e310]: اكتشف
+              - generic [ref=e311]: ←
+        - link "05 حلول المسرح والصوت والصورة إنتاج صوتي ومرئي احترافي للمسرح. اكتشف ←" [ref=e313] [cursor=pointer]:
+          - /url: /ar/services/stage-av-solutions/
+          - generic [ref=e315]:
+            - generic [ref=e316]: "05"
+            - img [ref=e318]
+            - heading "حلول المسرح والصوت والصورة" [level=3] [ref=e322]
+            - paragraph [ref=e324]: إنتاج صوتي ومرئي احترافي للمسرح.
+            - generic [ref=e325]:
+              - generic [ref=e326]: اكتشف
+              - generic [ref=e327]: ←
+    - generic [ref=e330]:
+      - generic [ref=e331]:
+        - generic [ref=e334]: عملاؤنا ونطاقنا
+        - heading "موثوق من قِبَل التميز." [level=2] [ref=e335]:
+          - text: موثوق من قِبَل
+          - emphasis [ref=e336]: التميز.
+      - generic [ref=e337]:
+        - generic [ref=e338]:
+          - paragraph [ref=e339]: نفخر بتقديم خدماتنا الراقية لأكثر العملاء تميزاً في المملكة وما وراءها.
+          - generic [ref=e340]:
+            - generic [ref=e341]:
+              - generic [ref=e342]: ◆
+              - generic [ref=e343]: شخصيات بارزة
+            - generic [ref=e345]:
+              - generic [ref=e346]: ◆
+              - generic [ref=e347]: جهات حكومية
+            - generic [ref=e349]:
+              - generic [ref=e350]: ◆
+              - generic [ref=e351]: شركات خاصة
+            - generic [ref=e353]:
+              - generic [ref=e354]: ◆
+              - generic [ref=e355]: مناسبات ملكية
+            - generic [ref=e357]:
+              - generic [ref=e358]: ◆
+              - generic [ref=e359]: فعاليات عائلية حصرية
+          - paragraph [ref=e364]: نغطي جميع مناطق المملكة العربية السعودية — فريقنا المتخصص مجهز تماماً للتعامل مع الفعاليات البارزة باستعداد فوري ومهنية لا مثيل لها.
+        - generic [ref=e365]:
+          - generic [ref=e366]:
+            - generic [ref=e368]: 14+
+            - generic [ref=e369]: سنة من الحرفة
+          - generic [ref=e370]:
+            - generic [ref=e372]: 500+
+            - generic [ref=e373]: فعالية مُنجزة
+          - generic [ref=e374]:
+            - generic [ref=e376]: "13"
+            - generic [ref=e377]: منطقة مغطاة
+          - generic [ref=e378]:
+            - generic [ref=e380]: 100%
+            - generic [ref=e381]: رضا العملاء
+    - generic [ref=e382]:
+      - img "Luxury event atmosphere" [ref=e384]
+      - generic [ref=e388]:
+        - generic [ref=e389]:
+          - generic [ref=e392]: ابدأ الرحلة
+          - paragraph [ref=e393]: "\"نؤمن بخلق تجارب استثنائية حيث تلتقي الفخامة بالحرفة المثالية.\""
+          - heading "احجز فعاليتك." [level=2] [ref=e394]:
+            - text: احجز
+            - emphasis [ref=e395]: فعاليتك.
+          - generic [ref=e396]:
+            - link "ابدأ المحادثة ←" [ref=e397] [cursor=pointer]:
+              - /url: "#contact"
+              - text: ابدأ المحادثة
+              - generic [ref=e398]: ←
+            - generic [ref=e399]:
+              - generic [ref=e400]: الخط المباشر
+              - generic [ref=e401]: +966 54 435 6564
+        - generic [ref=e402]:
+          - img "Table detail" [ref=e404]
+          - img "Elie Logo" [ref=e409]
+    - generic [ref=e414]:
+      - generic [ref=e415]:
+        - generic [ref=e418]: Reserve Your Date
+        - heading "Begin the Conversation." [level=2] [ref=e419]:
+          - text: Begin the
+          - emphasis [ref=e420]: Conversation.
+        - paragraph [ref=e421]: Choose the way you prefer to connect — we respond within 24 hours.
+      - generic [ref=e422]:
+        - link "Chat on WhatsApp Instant reply · Fastest way to reach us →" [ref=e423] [cursor=pointer]:
+          - /url: https://wa.me/966544356564?text=Hello!%20I'd%20like%20to%20discuss%20my%20event%20with%20Elie%20Catering%20%26%20Event%20Planning.
+          - img [ref=e425]
+          - generic [ref=e427]:
+            - paragraph [ref=e428]: Chat on WhatsApp
+            - paragraph [ref=e429]: Instant reply · Fastest way to reach us
+          - generic [ref=e430]: →
+        - generic [ref=e433]: or fill the form below
+      - generic [ref=e437]:
+        - generic [ref=e438]:
+          - generic [ref=e439]: Full Name *
+          - textbox "Your full name" [ref=e440]
+        - generic [ref=e441]:
+          - generic [ref=e442]: Email Address *
+          - textbox "you@example.com" [ref=e443]
+        - generic [ref=e444]:
+          - generic [ref=e445]: Phone Number *
+          - textbox "+966 xx xxx xxxx" [ref=e446]
+        - generic [ref=e447]:
+          - generic [ref=e448]: Event Date *
+          - textbox [ref=e449]
+        - generic [ref=e450]:
+          - generic [ref=e451]: Event Type *
+          - generic [ref=e452]:
+            - button "Wedding" [ref=e453]
+            - button "Corporate" [ref=e454]
+            - button "Birthday" [ref=e455]
+            - button "Gala" [ref=e456]
+            - button "Private Dinner" [ref=e457]
+            - button "Other" [ref=e458]
+        - generic [ref=e459]:
+          - generic [ref=e460]: Number of Guests *
+          - spinbutton [ref=e461]
+        - generic [ref=e462]:
+          - generic [ref=e463]: Venue / Location *
+          - textbox "Venue name or city" [ref=e464]
+        - generic [ref=e465]:
+          - generic [ref=e466]: Budget Range *
+          - generic [ref=e467]:
+            - button "Under $5,000" [ref=e468]
+            - button "$5,000 – $15,000" [ref=e469]
+            - button "$15,000 – $30,000" [ref=e470]
+            - button "$30,000+" [ref=e471]
+        - generic [ref=e472]:
+          - generic [ref=e473]: Service Type *
+          - generic [ref=e474]:
+            - button "Full Catering" [ref=e475]
+            - button "Canapés & Cocktails" [ref=e476]
+            - button "Desserts Only" [ref=e477]
+            - button "Bar Service" [ref=e478]
+            - button "Full Event Planning" [ref=e479]
+        - generic [ref=e480]:
+          - generic [ref=e481]: Dietary Requirements
+          - generic [ref=e482]:
+            - button "Vegetarian" [ref=e483]: Vegetarian
+            - button "Vegan" [ref=e485]: Vegan
+            - button "Halal" [ref=e487]: Halal
+            - button "Gluten-Free" [ref=e489]: Gluten-Free
+            - button "Nut-Free" [ref=e491]: Nut-Free
+            - button "Dairy-Free" [ref=e493]: Dairy-Free
+        - generic [ref=e495]:
+          - generic [ref=e496]: Additional Notes
+          - textbox "Tell us about your vision, theme, special requests, or anything else we should know…" [ref=e497]
+        - generic [ref=e498]:
+          - button "Send Enquiry →" [ref=e499]:
+            - text: Send Enquiry
+            - generic [ref=e500]: →
+          - generic [ref=e501]: or
+          - link "WhatsApp us" [ref=e502] [cursor=pointer]:
+            - /url: https://wa.me/966544356564?text=Hello!%20I'd%20like%20to%20discuss%20my%20event%20with%20Elie%20Catering%20%26%20Event%20Planning.
+            - img [ref=e503]
+            - text: WhatsApp us
+    - generic [ref=e506]:
+      - generic [ref=e507]:
+        - link "Elie Logo" [ref=e508] [cursor=pointer]:
+          - /url: /ar/
+          - img "Elie Logo" [ref=e509]
+        - generic [ref=e510]: التموين وتنظيم الفعاليات
+      - generic [ref=e515]:
+        - generic [ref=e516]:
+          - generic [ref=e519]: الأتيليه
+          - generic [ref=e520]:
+            - link "الرياض، المملكة العربية السعودية" [ref=e521] [cursor=pointer]:
+              - /url: "#"
+            - link "الأحد–الخميس · 10—18" [ref=e522] [cursor=pointer]:
+              - /url: "#"
+        - generic [ref=e523]:
+          - generic [ref=e526]: تواصل
+          - generic [ref=e527]:
+            - link "+966 54 435 6564" [ref=e528] [cursor=pointer]:
+              - /url: tel:+966544356564
+            - link "info@elie-catering.com" [ref=e529] [cursor=pointer]:
+              - /url: mailto:info@elie-catering.com
+        - generic [ref=e530]:
+          - generic [ref=e533]: الخدمات
+          - generic [ref=e534]:
+            - link "الأعراس" [ref=e535] [cursor=pointer]:
+              - /url: "#services"
+            - link "المؤسسات" [ref=e536] [cursor=pointer]:
+              - /url: "#services"
+            - link "العشاء الخاص" [ref=e537] [cursor=pointer]:
+              - /url: "#services"
+            - link "الحفلات الكبرى" [ref=e538] [cursor=pointer]:
+              - /url: "#services"
+        - generic [ref=e539]:
+          - generic [ref=e542]: المجلة
+          - generic [ref=e543]:
+            - link "رسالة من المطبخ،" [ref=e544] [cursor=pointer]:
+              - /url: "#"
+            - link "أربع مرات في السنة." [ref=e545] [cursor=pointer]:
+              - /url: "#"
+            - link "← اشترك" [ref=e546] [cursor=pointer]:
+              - /url: "#"
+      - generic [ref=e547]:
+        - generic [ref=e548]: © 2026 إيلي للتموين وتنظيم الفعاليات
+        - generic [ref=e549]:
+          - link "الشروط" [ref=e550] [cursor=pointer]:
+            - /url: "#"
+          - link "الخصوصية" [ref=e551] [cursor=pointer]:
+            - /url: "#"
+          - link "انستغرام" [ref=e552] [cursor=pointer]:
+            - /url: "#"
+        - generic [ref=e553]: جميع الحقوق محفوظة
+  - link "Chat on WhatsApp" [ref=e555] [cursor=pointer]:
+    - /url: https://wa.me/966544356564?text=Hello!%20I'm%20interested%20in%20Elie%20Catering%20%26%20Event%20Planning%20services.%20I'd%20like%20to%20discuss%20my%20event.
+    - img [ref=e557]
+  - button "Open Next.js Dev Tools" [ref=e564] [cursor=pointer]:
+    - img [ref=e565]

@@ -1,0 +1,5 @@
+[     964ms] [INFO] Slow network is detected. See https://www.chromestatus.com/feature/5636954674692096 for more details. Fallback font will be used while loading: https://static.whatsapp.net/rsrc.php/yN/r/fQtw5exLIdT.woff2 @ https://api.whatsapp.com/send/?phone=966544356564&text=Hello%21+I%27d+like+to+discuss+my+celebration+with+Elie+Catering.&type=phone_number&app_absent=0:20
+[    1253ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://api.whatsapp.com/data/manifest.json:0
+[    1295ms] [ERROR] Manifest fetch from https://api.whatsapp.com/data/manifest.json failed, code 404 @ https://api.whatsapp.com/send/?phone=966544356564&text=Hello%21+I%27d+like+to+discuss+my+celebration+with+Elie+Catering.&type=phone_number&app_absent=0:0
+[    1847ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://api.whatsapp.com/data/manifest.json:0
+[    1890ms] [ERROR] Manifest fetch from https://api.whatsapp.com/data/manifest.json failed, code 404 @ https://api.whatsapp.com/send/?phone=966544356564&text=Hello%21+I%27d+like+to+discuss+my+celebration+with+Elie+Catering.&type=phone_number&app_absent=0:0

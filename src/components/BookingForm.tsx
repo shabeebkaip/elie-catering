@@ -1,413 +1,830 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useLocale } from "next-intl";
 
-const EVENT_TYPES = ["Wedding", "Corporate", "Birthday", "Gala", "Private Dinner", "Other"];
-const SERVICE_TYPES = ["Full Catering", "Canapés & Cocktails", "Desserts Only", "Bar Service", "Full Event Planning"];
-const BUDGET_RANGES = ["Under $5,000", "$5,000 – $15,000", "$15,000 – $30,000", "$30,000+"];
-const DIETARY = ["Vegetarian", "Vegan", "Halal", "Gluten-Free", "Nut-Free", "Dairy-Free"];
+const GOLD = "#C79A3B";
+const CREAM = "#F5F2EA";
+const CREAM_BODY = "rgba(245,242,234,0.62)";
+const CREAM_MUTED = "rgba(245,242,234,0.32)";
+const EASE: [number, number, number, number] = [0.22, 0.08, 0.24, 1.0];
+const WA = "966544356564";
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 28 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true },
-  transition: { duration: 0.7, delay, ease: [0.19, 1, 0.22, 1] as [number, number, number, number] },
-});
+const WaSvg = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    style={{ width: 15, height: 15, flexShrink: 0 }}
+  >
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+  </svg>
+);
+
+const CONTENT = {
+  en: {
+    eyebrow: "RESERVE YOUR DATE",
+    headline1: "Begin the",
+    headline2: "Conversation.",
+    subtitle:
+      "Our hospitality consultants are ready to craft something extraordinary with you.",
+    qualities: [
+      "Within 30 minutes",
+      "Private consultation",
+      "Complete confidentiality",
+    ],
+    concierge: {
+      label: "Private Concierge",
+      body: "Your dedicated hospitality consultant, available daily for personalised event planning.",
+      support: "All enquiries treated with complete confidentiality.",
+      cta: "Connect on WhatsApp",
+      message: "Hello! I'd like to discuss my celebration with Elie Catering.",
+    },
+    formIntro: "A few details to begin the conversation.",
+    fields: {
+      name:    { label: "Full Name",            placeholder: "Your full name" },
+      phone:   { label: "Phone Number",         placeholder: "+966 xx xxx xxxx" },
+      email:   { label: "Email Address",        placeholder: "you@example.com" },
+      date:    { label: "Preferred Event Date" },
+      message: {
+        label: "Tell us about your celebration",
+        placeholder:
+          "Share your vision, the occasion, and any details that will help us begin…",
+      },
+    },
+    submit:      "Begin the Journey",
+    arrow:       "→",
+    divider:     "or speak with us directly",
+    reassurance: "Every enquiry is personally reviewed by our hospitality team.",
+    success: {
+      headline: "We've received your message.",
+      body: (name: string) =>
+        `Thank you, ${name}. A member of our hospitality team will be in touch shortly.`,
+      reset: "Send another enquiry",
+    },
+  },
+  ar: {
+    eyebrow: "احجز تاريخك",
+    headline1: "ابدأ",
+    headline2: "المحادثة.",
+    subtitle:
+      "مستشارو الضيافة لدينا على أتمّ الاستعداد لصياغة تجربة استثنائية معك.",
+    qualities: [
+      "خلال ٣٠ دقيقة",
+      "استشارة خاصة",
+      "سرية تامة",
+    ],
+    concierge: {
+      label: "كونسيرج خاص",
+      body: "مستشار ضيافتك الخاص، متاح يومياً للتخطيط المخصص لمناسبتك.",
+      support: "تُعامَل جميع الاستفسارات بسرية تامة.",
+      cta: "تواصل عبر واتساب",
+      message: "مرحباً! أودّ مناقشة احتفالي مع إيلي للضيافة.",
+    },
+    formIntro: "بعض التفاصيل لبدء المحادثة.",
+    fields: {
+      name:    { label: "الاسم الكامل",              placeholder: "اسمك الكامل" },
+      phone:   { label: "رقم الهاتف",                placeholder: "+966 xx xxx xxxx" },
+      email:   { label: "البريد الإلكتروني",          placeholder: "you@example.com" },
+      date:    { label: "التاريخ المفضّل للمناسبة" },
+      message: {
+        label: "أخبرنا عن احتفالك",
+        placeholder:
+          "شاركنا رؤيتك، ومناسبتك، وأي تفاصيل تساعدنا على البدء في التخطيط…",
+      },
+    },
+    submit:      "ابدأ الرحلة",
+    arrow:       "←",
+    divider:     "أو تحدّث معنا مباشرةً",
+    reassurance: "كل استفسار يُراجع شخصياً من قِبل فريق ضيافتنا.",
+    success: {
+      headline: "تلقّينا رسالتك.",
+      body: (name: string) =>
+        `شكراً لك، ${name}. سيتواصل معك أحد أعضاء فريق الضيافة قريباً.`,
+      reset: "أرسل استفساراً آخر",
+    },
+  },
+} as const;
 
 type FormData = {
   name: string;
-  email: string;
   phone: string;
+  email: string;
   date: string;
-  eventType: string;
-  guestCount: string;
-  venue: string;
-  budget: string;
-  serviceType: string;
-  dietary: string[];
   message: string;
 };
 
-const initialForm: FormData = {
-  name: "",
-  email: "",
-  phone: "",
-  date: "",
-  eventType: "",
-  guestCount: "",
-  venue: "",
-  budget: "",
-  serviceType: "",
-  dietary: [],
-  message: "",
+const EMPTY: FormData = { name: "", phone: "", email: "", date: "", message: "" };
+
+function fadeUp(delay: number) {
+  return {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.05 as number },
+    transition: { duration: 0.9, delay, ease: EASE },
+  };
+}
+
+const fieldVariant = {
+  hidden:  { opacity: 0, y: 12 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
 };
 
-function Label({ children }: { children: React.ReactNode }) {
+function styleInput(el: HTMLElement, focused: boolean) {
+  if (focused) {
+    el.style.borderColor  = "rgba(199,154,59,0.38)";
+    el.style.background   = "rgba(199,154,59,0.035)";
+    el.style.boxShadow    = "0 0 0 1px rgba(199,154,59,0.15), 0 6px 24px rgba(199,154,59,0.07)";
+  } else {
+    el.style.borderColor  = "rgba(245,242,234,0.06)";
+    el.style.background   = "rgba(255,255,255,0.035)";
+    el.style.boxShadow    = "none";
+  }
+}
+
+function Field({
+  label,
+  isAr,
+  children,
+}: {
+  label: string;
+  isAr: boolean;
+  children: React.ReactNode;
+}) {
   return (
-    <span className="block text-[9px] tracking-[0.36em] uppercase font-bold text-cream/45 mb-2">
+    <div>
+      <span
+        style={{
+          display: "block",
+          fontSize: 9,
+          letterSpacing: "0.32em",
+          textTransform: "uppercase",
+          fontWeight: 700,
+          color: "rgba(245,242,234,0.36)",
+          marginBottom: isAr ? 11 : 9,
+          textAlign: isAr ? "right" : "left",
+        }}
+      >
+        {label}
+      </span>
       {children}
-    </span>
+    </div>
   );
 }
 
-const inputBase =
-  "w-full bg-white/[0.08] border border-cream/12 rounded-2xl px-5 py-4 text-[13px] text-cream placeholder:text-cream/30 font-light focus:outline-none focus:border-accent/60 focus:bg-white/[0.13] transition-all duration-300 backdrop-blur-sm";
-
 export default function BookingForm() {
-  const [form, setForm] = useState<FormData>(initialForm);
+  const locale = useLocale();
+  const isAr = locale === "ar";
+  const c = isAr ? CONTENT.ar : CONTENT.en;
+
+  const [form, setForm] = useState<FormData>(EMPTY);
   const [submitted, setSubmitted] = useState(false);
+
+  const waHref = `https://wa.me/${WA}?text=${encodeURIComponent(c.concierge.message)}`;
 
   function set(field: keyof FormData, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
-  function toggleDietary(item: string) {
-    setForm((prev) => ({
-      ...prev,
-      dietary: prev.dietary.includes(item)
-        ? prev.dietary.filter((d) => d !== item)
-        : [...prev.dietary, item],
-    }));
-  }
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setSubmitted(true);
-  }
+  const inputBase: React.CSSProperties = {
+    width: "100%",
+    background: "rgba(255,255,255,0.035)",
+    border: "1px solid rgba(245,242,234,0.06)",
+    borderRadius: 12,
+    padding: "16px 22px",
+    fontSize: 14,
+    color: CREAM,
+    fontWeight: 300,
+    outline: "none",
+    transition: "border-color 0.35s, background 0.35s, box-shadow 0.35s",
+    fontFamily: "inherit",
+    boxSizing: "border-box",
+  };
 
   return (
-    <div id="booking" className="bg-purple-deep overflow-hidden">
-
-      {/* ── Arch transition: ClosingStatement primary → dark ── */}
-      <div className="bg-primary">
+    <div
+      id="contact"
+      className="bg-purple-deep overflow-hidden"
+      dir={isAr ? "rtl" : "ltr"}
+    >
+      {/* Arch transition */}
+      <div style={{ background: "#090022" }}>
         <div className="h-16 md:h-24 bg-purple-deep rounded-t-[80px] md:rounded-t-[120px]" />
       </div>
 
-      <section className="relative bg-purple-deep">
+      <section style={{ position: "relative", overflow: "hidden" }}>
 
-        {/* Ambient capsule decorations */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-0 left-[-6%] w-[90px] h-[420px] bg-accent/6 rounded-full rotate-[20deg]" />
-          <div className="absolute top-[10%] left-[2%] w-[40px] h-[200px] border border-accent/12 rounded-full rotate-[20deg]" />
-          <div className="absolute bottom-[12%] right-[-4%] w-[110px] h-[480px] bg-primary/5 rounded-full rotate-[-28deg]" />
-          <div className="absolute bottom-[25%] right-[8%] w-[32px] h-[120px] border border-primary/10 rounded-full rotate-[-28deg]" />
-          <div className="absolute top-[40%] right-[20%] w-[18px] h-[60px] rounded-full bg-accent/10 rotate-[12deg]" />
-        </div>
+        {/* Soft radial glow behind headline */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: "0%",
+            left: isAr ? "auto" : "-10%",
+            right: isAr ? "-10%" : "auto",
+            width: "60%",
+            height: "70%",
+            background:
+              "radial-gradient(ellipse, rgba(199,154,59,0.065) 0%, transparent 65%)",
+            pointerEvents: "none",
+            filter: "blur(56px)",
+          }}
+        />
 
-        <div className="container-custom px-6 md:px-14 lg:px-20 py-16 md:py-24 relative z-10">
+        <div
+          style={{
+            maxWidth: 1400,
+            margin: "0 auto",
+            padding:
+              "clamp(56px,7vw,96px) clamp(24px,6vw,80px) clamp(72px,10vw,120px)",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "flex-start",
+              gap: "clamp(28px,3.5vw,48px)",
+            }}
+            className="bf-grid"
+          >
 
-          {/* ── Section Header ── */}
-          <motion.div {...fadeUp(0)} className="mb-12 md:mb-16">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-px bg-accent/60" />
-              <span className="text-accent text-[9px] tracking-[0.42em] uppercase font-bold">
-                Reserve Your Date
-              </span>
-            </div>
-            <h2 className="font-serif font-light leading-[0.88] tracking-tight text-cream text-[clamp(44px,7vw,96px)]">
-              Begin the<br />
-              <em className="text-accent italic">Conversation.</em>
-            </h2>
-            <p className="mt-5 text-[clamp(14px,1.3vw,16px)] text-cream/45 font-light max-w-md leading-relaxed">
-              Choose the way you prefer to connect — we respond within 24 hours.
-            </p>
-          </motion.div>
+            {/* ── EDITORIAL COLUMN ── */}
+            <div className="bf-editorial">
 
-          {/* ── WhatsApp Primary CTA ── */}
-          <motion.div {...fadeUp(0.08)} className="mb-10">
-            <a
-              href={`https://wa.me/966544356564?text=${encodeURIComponent("Hello! I'd like to discuss my event with Elie Catering & Event Planning.")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-4 bg-[#25D366] hover:bg-[#20bc5a] text-white px-8 py-5 rounded-2xl shadow-[0_8px_32px_rgba(37,211,102,0.35)] hover:shadow-[0_12px_40px_rgba(37,211,102,0.5)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] no-underline"
-            >
-              <span className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-5 h-5">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                </svg>
-              </span>
-              <div>
-                <p className="text-[13px] font-bold tracking-wide">Chat on WhatsApp</p>
-                <p className="text-[11px] text-white/75 font-light">Instant reply · Fastest way to reach us</p>
-              </div>
-              <span className="ml-auto text-white/60 group-hover:text-white group-hover:translate-x-1 transition-all duration-300 text-lg">→</span>
-            </a>
-
-            {/* Divider */}
-            <div className="flex items-center gap-4 mt-10 mb-2">
-              <div className="flex-1 h-px bg-cream/10" />
-              <span className="text-[10px] tracking-[0.3em] uppercase text-cream/30 font-medium">or fill the form below</span>
-              <div className="flex-1 h-px bg-cream/10" />
-            </div>
-          </motion.div>
-
-          {/* ── Form Card ── */}
-          <motion.div {...fadeUp(0.1)}>
-            {submitted ? (
+              {/* Eyebrow */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.94 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
-                className="relative rounded-[40px] border border-primary/10 bg-primary text-cream px-10 py-20 text-center overflow-hidden shadow-[0_40px_100px_rgba(28,20,40,0.12)]"
+                {...fadeUp(0)}
+                style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: "clamp(22px,2.8vw,32px)" }}
               >
-                {/* Capsule accents inside success card */}
-                <div className="absolute top-[-40px] right-[-20px] w-20 h-60 rounded-full bg-accent/10 rotate-[-20deg]" />
-                <div className="absolute bottom-[-30px] left-[-16px] w-14 h-40 rounded-full border border-accent/15 rotate-[18deg]" />
-
-                <div className="relative z-10">
-                  <div className="w-14 h-14 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center mx-auto mb-6">
-                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-                      <path d="M4 11.5L9 16.5L18 6" stroke="#bb8a3c" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                  <h3 className="font-serif font-light text-[clamp(28px,4vw,48px)] text-cream mb-3 leading-tight">
-                    Request Received.
-                  </h3>
-                  <p className="text-cream/50 text-[14px] font-light max-w-sm mx-auto leading-relaxed">
-                    Thank you, <span className="text-accent">{form.name}</span>. Our team will be in touch within 24 hours to begin planning your event.
-                  </p>
-                  <button
-                    onClick={() => { setSubmitted(false); setForm(initialForm); }}
-                    className="mt-10 text-[10px] tracking-[0.32em] uppercase text-accent/60 hover:text-accent transition-colors duration-200 font-bold"
-                  >
-                    Submit another enquiry →
-                  </button>
-                </div>
+                <div style={{ width: 28, height: 1, background: GOLD, opacity: 0.52, flexShrink: 0 }} />
+                <span style={{ color: GOLD, opacity: 0.76, fontSize: 9, letterSpacing: "0.44em", textTransform: "uppercase", fontWeight: 700 }}>
+                  {c.eyebrow}
+                </span>
               </motion.div>
-            ) : (
-              <form
-                onSubmit={handleSubmit}
-                className="relative rounded-[40px] border border-cream/10 bg-white/[0.05] backdrop-blur-md px-8 md:px-14 py-12 md:py-16 shadow-[0_40px_100px_rgba(0,0,0,0.3)] overflow-hidden"
+
+              {/* Headline */}
+              <motion.h2
+                {...fadeUp(0.1)}
+                style={{
+                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  fontWeight: 300,
+                  fontSize: "clamp(52px,5.8vw,92px)",
+                  color: CREAM,
+                  lineHeight: 0.9,
+                  letterSpacing: "-0.02em",
+                  marginBottom: "clamp(18px,2.2vw,28px)",
+                  textTransform: "uppercase",
+                }}
               >
-                {/* Subtle inner capsule decoration */}
-                <div className="absolute top-[-30px] right-10 w-10 h-40 rounded-full bg-accent/6 rotate-[-16deg] pointer-events-none" />
-                <div className="absolute bottom-20 left-[-10px] w-8 h-28 rounded-full border border-accent/10 rotate-[18deg] pointer-events-none" />
+                {c.headline1}
+                <br />
+                <em style={{ color: GOLD, fontStyle: "italic" }}>{c.headline2}</em>
+              </motion.h2>
 
-                <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-7">
+              {/* Subtitle */}
+              <motion.p
+                {...fadeUp(0.18)}
+                style={{
+                  fontSize: "clamp(13px,1.1vw,15px)",
+                  color: CREAM_BODY,
+                  lineHeight: isAr ? 1.9 : 1.72,
+                  marginBottom: "clamp(24px,3vw,36px)",
+                  fontWeight: 300,
+                  maxWidth: 340,
+                }}
+              >
+                {c.subtitle}
+              </motion.p>
 
-                  {/* Full Name */}
-                  <div>
-                    <Label>Full Name *</Label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="Your full name"
-                      value={form.name}
-                      onChange={(e) => set("name", e.target.value)}
-                      className={inputBase}
+              {/* Quality assurances */}
+              <motion.div
+                {...fadeUp(0.26)}
+                style={{ marginBottom: "clamp(36px,5vw,56px)" }}
+              >
+                {c.qualities.map((q, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 12,
+                      marginBottom: i < c.qualities.length - 1 ? 10 : 0,
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 4,
+                        height: 4,
+                        borderRadius: "50%",
+                        background: GOLD,
+                        opacity: 0.45,
+                        flexShrink: 0,
+                      }}
                     />
+                    <span
+                      style={{
+                        color: CREAM_MUTED,
+                        fontSize: 11,
+                        letterSpacing: isAr ? "0.04em" : "0.1em",
+                        fontWeight: 400,
+                        lineHeight: 1.4,
+                      }}
+                    >
+                      {q}
+                    </span>
                   </div>
+                ))}
+              </motion.div>
 
-                  {/* Email */}
-                  <div>
-                    <Label>Email Address *</Label>
-                    <input
-                      required
-                      type="email"
-                      placeholder="you@example.com"
-                      value={form.email}
-                      onChange={(e) => set("email", e.target.value)}
-                      className={inputBase}
-                    />
-                  </div>
+              {/* Private Concierge — pure typography */}
+              <motion.div {...fadeUp(0.35)} style={{ maxWidth: 380 }}>
 
-                  {/* Phone */}
-                  <div>
-                    <Label>Phone Number *</Label>
-                    <input
-                      required
-                      type="tel"
-                      placeholder="+966 xx xxx xxxx"
-                      value={form.phone}
-                      onChange={(e) => set("phone", e.target.value)}
-                      className={inputBase}
-                    />
-                  </div>
+                <p style={{ color: GOLD, fontSize: 9, letterSpacing: "0.42em", textTransform: "uppercase", fontWeight: 700, opacity: 0.76, marginBottom: 16 }}>
+                  {c.concierge.label}
+                </p>
 
-                  {/* Event Date */}
-                  <div>
-                    <Label>Event Date *</Label>
-                    <input
-                      required
-                      type="date"
-                      value={form.date}
-                      onChange={(e) => set("date", e.target.value)}
-                      className={`${inputBase} [color-scheme:dark]`}
-                    />
-                  </div>
+                <p style={{ color: CREAM, fontSize: "clamp(14px,1.15vw,16px)", fontWeight: 300, lineHeight: isAr ? 1.88 : 1.68, marginBottom: 11 }}>
+                  {c.concierge.body}
+                </p>
 
-                  {/* Event Type */}
-                  <div>
-                    <Label>Event Type *</Label>
-                    <div className="flex flex-wrap gap-2 mt-1">
-                      {EVENT_TYPES.map((t) => (
-                        <button
-                          key={t}
-                          type="button"
-                          onClick={() => set("eventType", t)}
-                          className={`px-4 py-2 rounded-full text-[11px] tracking-[0.06em] font-medium border transition-all duration-250 ${
-                            form.eventType === t
-                              ? "bg-primary text-cream border-primary"
-                              : "bg-white/[0.08] text-cream/55 border-cream/12 hover:border-cream/28 hover:text-cream"
-                          }`}
-                        >
-                          {t}
-                        </button>
-                      ))}
+                <p style={{ color: CREAM_MUTED, fontSize: 12, fontWeight: 300, lineHeight: isAr ? 1.72 : 1.58, marginBottom: 26 }}>
+                  {c.concierge.support}
+                </p>
+
+                {/* Gradient rule */}
+                <div
+                  style={{
+                    height: 1,
+                    background: `linear-gradient(${isAr ? "to left" : "to right"}, rgba(199,154,59,0.28), transparent)`,
+                    marginBottom: 20,
+                    width: "75%",
+                  }}
+                />
+
+                {/* WhatsApp link */}
+                <a
+                  href={waHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 9,
+                    textDecoration: "none",
+                    color: CREAM,
+                    fontSize: 12,
+                    fontWeight: 500,
+                    letterSpacing: "0.1em",
+                    opacity: 0.75,
+                    transition: "opacity 0.3s, color 0.3s",
+                  }}
+                  onMouseEnter={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.opacity = "1";
+                    el.style.color = GOLD;
+                  }}
+                  onMouseLeave={(e) => {
+                    const el = e.currentTarget as HTMLElement;
+                    el.style.opacity = "0.75";
+                    el.style.color = CREAM;
+                  }}
+                >
+                  <span style={{ color: GOLD, fontWeight: 600, fontSize: 13 }}>{c.arrow}</span>
+                  <WaSvg />
+                  {c.concierge.cta}
+                </a>
+              </motion.div>
+            </div>
+
+            {/* Vertical hairline — reduced to barely perceptible */}
+            <motion.div
+              initial={{ scaleY: 0, opacity: 0 }}
+              whileInView={{ scaleY: 1, opacity: 1 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 1.8, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="bf-vdivider"
+              style={{
+                flexShrink: 0,
+                width: 1,
+                alignSelf: "stretch",
+                background:
+                  "linear-gradient(to bottom, transparent 0%, rgba(199,154,59,0.07) 20%, rgba(199,154,59,0.07) 80%, transparent 100%)",
+                transformOrigin: "top center",
+              }}
+            />
+
+            {/* ── FORM COLUMN ── */}
+            <div style={{ flex: "1 1 0", minWidth: 0, maxWidth: "min(580px, 100%)" }}>
+              <AnimatePresence mode="wait">
+                {submitted ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.6, ease: EASE }}
+                    style={{
+                      position: "relative",
+                      overflow: "hidden",
+                      background: "rgba(12,4,30,0.65)",
+                      border: "1px solid rgba(199,154,59,0.14)",
+                      borderRadius: 28,
+                      padding: "clamp(52px,7vw,88px) clamp(32px,4.5vw,56px)",
+                      textAlign: "center",
+                      backdropFilter: "blur(28px)",
+                    }}
+                  >
+                    {/* Monogram watermark */}
+                    <div
+                      aria-hidden
+                      style={{
+                        position: "absolute",
+                        bottom: "-8%",
+                        right: isAr ? "auto" : "-4%",
+                        left: isAr ? "-4%" : "auto",
+                        fontFamily: "Georgia, 'Times New Roman', serif",
+                        fontSize: "clamp(180px,22vw,280px)",
+                        fontWeight: 700,
+                        color: GOLD,
+                        opacity: 0.022,
+                        pointerEvents: "none",
+                        userSelect: "none",
+                        lineHeight: 1,
+                        zIndex: 0,
+                      }}
+                    >
+                      E
                     </div>
-                  </div>
-
-                  {/* Guest Count */}
-                  <div>
-                    <Label>Number of Guests *</Label>
-                    <input
-                      required
-                      type="number"
-                      min="1"
-                      placeholder="e.g. 120"
-                      value={form.guestCount}
-                      onChange={(e) => set("guestCount", e.target.value)}
-                      className={inputBase}
-                    />
-                  </div>
-
-                  {/* Venue */}
-                  <div>
-                    <Label>Venue / Location *</Label>
-                    <input
-                      required
-                      type="text"
-                      placeholder="Venue name or city"
-                      value={form.venue}
-                      onChange={(e) => set("venue", e.target.value)}
-                      className={inputBase}
-                    />
-                  </div>
-
-                  {/* Budget */}
-                  <div>
-                    <Label>Budget Range *</Label>
-                    <div className="flex flex-wrap gap-2 mt-1">
-                      {BUDGET_RANGES.map((b) => (
-                        <button
-                          key={b}
-                          type="button"
-                          onClick={() => set("budget", b)}
-                          className={`px-4 py-2 rounded-full text-[11px] tracking-[0.04em] font-medium border transition-all duration-250 ${
-                            form.budget === b
-                              ? "bg-accent text-primary border-accent"
-                              : "bg-white/[0.08] text-cream/55 border-cream/12 hover:border-accent/40 hover:text-cream"
-                          }`}
-                        >
-                          {b}
-                        </button>
-                      ))}
+                    <div style={{ position: "relative", zIndex: 1 }}>
+                      <div
+                        style={{
+                          width: 46,
+                          height: 46,
+                          borderRadius: "50%",
+                          background: "rgba(199,154,59,0.09)",
+                          border: "1px solid rgba(199,154,59,0.24)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          margin: "0 auto 20px",
+                        }}
+                      >
+                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none">
+                          <path d="M2.5 9L7 13.5L14.5 5" stroke={GOLD} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      </div>
+                      <h3
+                        style={{
+                          fontFamily: "Georgia, 'Times New Roman', serif",
+                          fontWeight: 300,
+                          fontSize: "clamp(20px,2.8vw,34px)",
+                          color: CREAM,
+                          marginBottom: 12,
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        {c.success.headline}
+                      </h3>
+                      <p
+                        style={{
+                          color: CREAM_BODY,
+                          fontSize: 14,
+                          fontWeight: 300,
+                          maxWidth: 300,
+                          margin: "0 auto 28px",
+                          lineHeight: isAr ? 1.85 : 1.65,
+                        }}
+                      >
+                        {c.success.body(form.name)}
+                      </p>
+                      <button
+                        onClick={() => { setSubmitted(false); setForm(EMPTY); }}
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: GOLD,
+                          fontSize: 9,
+                          letterSpacing: "0.28em",
+                          textTransform: "uppercase",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          opacity: 0.55,
+                          fontFamily: "inherit",
+                          transition: "opacity 0.25s",
+                        }}
+                        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}
+                        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = "0.55"; }}
+                      >
+                        {c.success.reset}
+                      </button>
                     </div>
-                  </div>
-
-                  {/* Service Type — full width */}
-                  <div className="md:col-span-2">
-                    <Label>Service Type *</Label>
-                    <div className="flex flex-wrap gap-2 mt-1">
-                      {SERVICE_TYPES.map((s) => (
-                        <button
-                          key={s}
-                          type="button"
-                          onClick={() => set("serviceType", s)}
-                          className={`px-5 py-2.5 rounded-full text-[11px] tracking-[0.05em] font-medium border transition-all duration-250 ${
-                            form.serviceType === s
-                              ? "bg-primary text-cream border-primary shadow-[0_4px_16px_rgba(28,20,40,0.18)]"
-                              : "bg-white/[0.08] text-cream/55 border-cream/12 hover:border-cream/28 hover:text-cream"
-                          }`}
-                        >
-                          {s}
-                        </button>
-                      ))}
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="form"
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.05 }}
+                    transition={{ duration: 0.9, delay: 0.16, ease: EASE }}
+                    style={{
+                      position: "relative",
+                      overflow: "hidden",
+                      background: "rgba(12,4,30,0.65)",
+                      border: "1px solid rgba(245,242,234,0.06)",
+                      borderRadius: 28,
+                      padding: "clamp(28px,3.5vw,44px) clamp(24px,3vw,42px)",
+                      backdropFilter: "blur(32px)",
+                    }}
+                  >
+                    {/* Monogram watermark — Elie signature */}
+                    <div
+                      aria-hidden
+                      style={{
+                        position: "absolute",
+                        bottom: "-8%",
+                        right: isAr ? "auto" : "-4%",
+                        left: isAr ? "-4%" : "auto",
+                        fontFamily: "Georgia, 'Times New Roman', serif",
+                        fontSize: "clamp(180px,22vw,280px)",
+                        fontWeight: 700,
+                        color: GOLD,
+                        opacity: 0.022,
+                        pointerEvents: "none",
+                        userSelect: "none",
+                        lineHeight: 1,
+                        zIndex: 0,
+                      }}
+                    >
+                      E
                     </div>
-                  </div>
 
-                  {/* Dietary Requirements — full width */}
-                  <div className="md:col-span-2">
-                    <Label>Dietary Requirements</Label>
-                    <div className="flex flex-wrap gap-2 mt-1">
-                      {DIETARY.map((d) => {
-                        const checked = form.dietary.includes(d);
-                        return (
+                    <div style={{ position: "relative", zIndex: 1 }}>
+                      {/* Form intro */}
+                      <p
+                        style={{
+                          fontSize: 10,
+                          letterSpacing: "0.2em",
+                          color: CREAM_MUTED,
+                          textTransform: "uppercase",
+                          fontWeight: 500,
+                          marginBottom: 26,
+                          textAlign: isAr ? "right" : "left",
+                        }}
+                      >
+                        {c.formIntro}
+                      </p>
+
+                      {/* Fields */}
+                      <motion.form
+                        onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.1 }}
+                        variants={{
+                          hidden: {},
+                          visible: { transition: { staggerChildren: 0.1, delayChildren: 0.12 } },
+                        }}
+                        style={{ display: "flex", flexDirection: "column", gap: isAr ? 26 : 22 }}
+                      >
+                        {/* Full Name */}
+                        <motion.div variants={fieldVariant}>
+                          <Field label={c.fields.name.label} isAr={isAr}>
+                            <input
+                              required
+                              type="text"
+                              placeholder={c.fields.name.placeholder}
+                              value={form.name}
+                              onChange={(e) => set("name", e.target.value)}
+                              className="bf-input"
+                              style={inputBase}
+                              onFocus={(e) => styleInput(e.currentTarget, true)}
+                              onBlur={(e) => styleInput(e.currentTarget, false)}
+                            />
+                          </Field>
+                        </motion.div>
+
+                        {/* Phone + Email */}
+                        <motion.div
+                          variants={fieldVariant}
+                          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}
+                          className="bf-two-col"
+                        >
+                          <Field label={c.fields.phone.label} isAr={isAr}>
+                            <input
+                              required
+                              type="tel"
+                              placeholder={c.fields.phone.placeholder}
+                              value={form.phone}
+                              onChange={(e) => set("phone", e.target.value)}
+                              className="bf-input"
+                              style={{ ...inputBase, direction: "ltr", textAlign: isAr ? "right" : "left" }}
+                              onFocus={(e) => styleInput(e.currentTarget, true)}
+                              onBlur={(e) => styleInput(e.currentTarget, false)}
+                            />
+                          </Field>
+                          <Field label={c.fields.email.label} isAr={isAr}>
+                            <input
+                              required
+                              type="email"
+                              placeholder={c.fields.email.placeholder}
+                              value={form.email}
+                              onChange={(e) => set("email", e.target.value)}
+                              className="bf-input"
+                              style={{ ...inputBase, direction: "ltr", textAlign: isAr ? "right" : "left" }}
+                              onFocus={(e) => styleInput(e.currentTarget, true)}
+                              onBlur={(e) => styleInput(e.currentTarget, false)}
+                            />
+                          </Field>
+                        </motion.div>
+
+                        {/* Event Date */}
+                        <motion.div variants={fieldVariant}>
+                          <Field label={c.fields.date.label} isAr={isAr}>
+                            <input
+                              required
+                              type="date"
+                              value={form.date}
+                              onChange={(e) => set("date", e.target.value)}
+                              className="bf-input"
+                              style={{ ...inputBase, direction: "ltr", colorScheme: "dark" }}
+                              onFocus={(e) => styleInput(e.currentTarget, true)}
+                              onBlur={(e) => styleInput(e.currentTarget, false)}
+                            />
+                          </Field>
+                        </motion.div>
+
+                        {/* Message */}
+                        <motion.div variants={fieldVariant}>
+                          <Field label={c.fields.message.label} isAr={isAr}>
+                            <textarea
+                              rows={4}
+                              placeholder={c.fields.message.placeholder}
+                              value={form.message}
+                              onChange={(e) => set("message", e.target.value)}
+                              className="bf-input"
+                              style={{ ...inputBase, resize: "none", lineHeight: isAr ? 1.8 : 1.62 }}
+                              onFocus={(e) => styleInput(e.currentTarget, true)}
+                              onBlur={(e) => styleInput(e.currentTarget, false)}
+                            />
+                          </Field>
+                        </motion.div>
+
+                        {/* Actions */}
+                        <motion.div
+                          variants={fieldVariant}
+                          style={{ display: "flex", flexDirection: "column", gap: 13, paddingTop: 4 }}
+                        >
+                          {/* Primary submit */}
                           <button
-                            key={d}
-                            type="button"
-                            onClick={() => toggleDietary(d)}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] tracking-[0.04em] font-medium border transition-all duration-250 ${
-                              checked
-                                ? "bg-accent/15 text-cream border-accent/50"
-                                : "bg-white/[0.08] text-cream/50 border-cream/12 hover:border-accent/30 hover:text-cream"
-                            }`}
+                            type="submit"
+                            className="bf-submit"
+                            style={{
+                              position: "relative",
+                              overflow: "hidden",
+                              width: "100%",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              gap: 8,
+                              padding: "15px 28px",
+                              borderRadius: 9999,
+                              fontSize: 12,
+                              letterSpacing: "0.14em",
+                              fontWeight: 600,
+                              background: "linear-gradient(105deg, #BF9234 0%, #D4AA48 60%, #C29638 100%)",
+                              color: "#0A0018",
+                              border: "none",
+                              cursor: "pointer",
+                              fontFamily: "inherit",
+                              transition: "opacity 0.3s",
+                            }}
+                            onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.opacity = "0.88"; }}
+                            onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}
                           >
+                            {c.submit}
+                            <span style={{ opacity: 0.65 }}>{c.arrow}</span>
+                            {/* Subtle shimmer — every 9 seconds */}
                             <span
-                              className={`w-3.5 h-3.5 rounded-full border flex-shrink-0 flex items-center justify-center transition-all duration-200 ${
-                                checked ? "border-accent bg-accent" : "border-primary/25"
-                              }`}
-                            >
-                              {checked && (
-                                <svg width="7" height="7" viewBox="0 0 7 7" fill="none">
-                                  <path d="M1 3.5L3 5.5L6 2" stroke="white" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                              )}
-                            </span>
-                            {d}
+                              aria-hidden
+                              className="bf-shimmer"
+                              style={{
+                                position: "absolute",
+                                inset: 0,
+                                background:
+                                  "linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.22) 50%, transparent 70%)",
+                                backgroundSize: "200% 100%",
+                                pointerEvents: "none",
+                              }}
+                            />
                           </button>
-                        );
-                      })}
+
+                          {/* Divider */}
+                          <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "3px 0" }}>
+                            <div style={{ flex: 1, height: 1, background: "rgba(245,242,234,0.06)" }} />
+                            <span style={{ color: CREAM_MUTED, fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 500, whiteSpace: "nowrap" }}>
+                              {c.divider}
+                            </span>
+                            <div style={{ flex: 1, height: 1, background: "rgba(245,242,234,0.06)" }} />
+                          </div>
+
+                          {/* WhatsApp */}
+                          <a
+                            href={waHref}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              gap: 9,
+                              padding: "13px 24px",
+                              borderRadius: 9999,
+                              fontSize: 11,
+                              letterSpacing: "0.12em",
+                              fontWeight: 500,
+                              background: "rgba(37,211,102,0.06)",
+                              border: "1px solid rgba(37,211,102,0.18)",
+                              color: "#25D366",
+                              textDecoration: "none",
+                              transition: "background 0.35s, border-color 0.35s",
+                            }}
+                            onMouseEnter={(e) => {
+                              const el = e.currentTarget as HTMLElement;
+                              el.style.background = "rgba(37,211,102,0.12)";
+                              el.style.borderColor = "rgba(37,211,102,0.32)";
+                            }}
+                            onMouseLeave={(e) => {
+                              const el = e.currentTarget as HTMLElement;
+                              el.style.background = "rgba(37,211,102,0.06)";
+                              el.style.borderColor = "rgba(37,211,102,0.18)";
+                            }}
+                          >
+                            <WaSvg />
+                            {c.concierge.cta}
+                          </a>
+
+                          {/* Reassurance */}
+                          <p
+                            style={{
+                              color: CREAM_MUTED,
+                              fontSize: 10,
+                              letterSpacing: isAr ? "0.02em" : "0.06em",
+                              textAlign: "center",
+                              fontWeight: 400,
+                              marginTop: 5,
+                              lineHeight: isAr ? 1.72 : 1.5,
+                              opacity: 0.85,
+                            }}
+                          >
+                            {c.reassurance}
+                          </p>
+                        </motion.div>
+                      </motion.form>
                     </div>
-                  </div>
-
-                  {/* Message — full width */}
-                  <div className="md:col-span-2">
-                    <Label>Additional Notes</Label>
-                    <textarea
-                      rows={4}
-                      placeholder="Tell us about your vision, theme, special requests, or anything else we should know…"
-                      value={form.message}
-                      onChange={(e) => set("message", e.target.value)}
-                      className={`${inputBase} resize-none leading-relaxed`}
-                    />
-                  </div>
-
-                  {/* Submit — full width */}
-                  <div className="md:col-span-2 flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-2">
-                    <button
-                      type="submit"
-                      className="group relative inline-flex items-center justify-center gap-3 px-12 py-5 rounded-full text-[11px] tracking-[0.32em] uppercase font-bold bg-primary text-cream transition-all duration-500 hover:bg-accent hover:text-primary hover:scale-105 active:scale-95 shadow-[0_20px_50px_rgba(28,20,40,0.18)]"
-                    >
-                      Send Enquiry
-                      <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
-                    </button>
-                    <span className="text-cream/20 text-[11px] hidden sm:block">or</span>
-                    <a
-                      href={`https://wa.me/966544356564?text=${encodeURIComponent("Hello! I'd like to discuss my event with Elie Catering & Event Planning.")}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2.5 px-7 py-5 rounded-full text-[11px] tracking-[0.18em] uppercase font-bold bg-[#25D366] text-white hover:bg-[#20bc5a] transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_8px_24px_rgba(37,211,102,0.3)] no-underline"
-                    >
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-4 h-4 flex-shrink-0">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                      </svg>
-                      WhatsApp us
-                    </a>
-                  </div>
-
-                </div>
-              </form>
-            )}
-          </motion.div>
-        </div>
-
-        {/* ── Arch transition: cream → Footer primary ── */}
-        <div className="bg-primary">
-          <div className="h-0" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
       </section>
+
+      <style>{`
+        .bf-editorial {
+          flex-shrink: 0;
+          width: clamp(300px, 38vw, 440px);
+        }
+        .bf-vdivider { display: none; }
+        @media (min-width: 1024px) {
+          .bf-vdivider { display: block !important; }
+        }
+        @media (max-width: 1023px) {
+          .bf-grid { flex-direction: column !important; }
+          .bf-editorial { width: 100% !important; }
+        }
+        @media (max-width: 599px) {
+          .bf-two-col { grid-template-columns: 1fr !important; }
+        }
+        .bf-input::placeholder {
+          color: rgba(245,242,234,0.2);
+          font-weight: 300;
+        }
+        @keyframes bf-shimmer {
+          0%, 78%, 100% { background-position: -200% center; }
+          86%            { background-position: 200% center; }
+        }
+        .bf-shimmer {
+          animation: bf-shimmer 9s ease-in-out infinite;
+          background-size: 200% 100%;
+        }
+        .bf-submit:hover .bf-shimmer {
+          animation-play-state: paused;
+        }
+      `}</style>
     </div>
   );
 }

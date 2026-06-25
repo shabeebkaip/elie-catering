@@ -1,0 +1,41 @@
+[     173ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     191ms] [LOG] [HMR] connected @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     299ms] [WARNING] Image with src "/images/introduction-v2-copy.webp" has "fill" prop and "sizes" prop of "100vw", but image is not rendered at full viewport width. Please adjust "sizes" to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[    3812ms] [WARNING] Image with src "/images/services/wedding.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[    7049ms] [ERROR] In HTML, %s cannot be a child of <%s>.%s
+This will cause a hydration error.%s <html> body  
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:"...", ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/en/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head>
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html suppressHydrationWarning={true}>
+>                         <body suppressHydrationWarning={true}>
+                            ...
+                              <SegmentViewNode type="layout" pagePath="[locale]/l...">
+                                <SegmentTrieNode>
+                                <link>
+                                <script>
+                                <script>
+                                <script>
+                                <LocaleLayout>
+>                                 <html lang="en" dir="ltr" className="" suppressHydrationWarning={true}>
+                  ...
+ @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[    7049ms] [ERROR] <%s> cannot contain a nested %s.
+See this log for the ancestor stack trace. body <html> @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[  911567ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  911824ms] [LOG] [Fast Refresh] done in 327ms @ http://localhost:3002/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431

@@ -3,7 +3,6 @@ import Hero from "@/components/Hero";
 import BrandStory from "@/components/BrandStory";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import OurServices from "@/components/OurServices";
-import CateringOptions from "@/components/CateringOptions";
 import EliteServices from "@/components/EliteServices";
 import ClientsReach from "@/components/ClientsReach";
 import ClosingStatement from "@/components/ClosingStatement";
@@ -18,7 +17,6 @@ export default function Home() {
       <BrandStory />
       <WhyChooseUs />
       <OurServices />
-      <CateringOptions />
       <EliteServices />
       <ClientsReach />
       <ClosingStatement />
