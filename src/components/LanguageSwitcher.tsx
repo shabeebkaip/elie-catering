@@ -12,7 +12,6 @@ export default function LanguageSwitcher() {
 
   function switchLocale(next: string) {
     if (next === locale) return;
-    // Replace the locale segment in the path
     const segments = pathname.split("/");
     segments[1] = next;
     startTransition(() => {
@@ -21,16 +20,22 @@ export default function LanguageSwitcher() {
   }
 
   return (
-    <div className="flex items-center gap-1 rounded-full border border-cream/20 p-1">
+    <div
+      className="flex items-center rounded-full p-0.5 overflow-hidden"
+      style={{
+        background: "rgba(255,255,255,0.06)",
+        border: "1px solid rgba(237,229,255,0.12)",
+      }}
+    >
       {(["en", "ar"] as const).map((l) => (
         <button
           key={l}
           onClick={() => switchLocale(l)}
           disabled={isPending}
-          className={`px-3 py-1 rounded-full text-[9px] tracking-[0.22em] uppercase font-bold transition-all duration-250 ${
+          className={`px-3.5 py-[7px] rounded-full text-[9px] tracking-[0.24em] uppercase font-bold transition-all duration-300 ${
             locale === l
-              ? "bg-accent text-primary"
-              : "text-cream/55 hover:text-cream"
+              ? "bg-accent text-primary shadow-[0_2px_10px_rgba(187,138,60,0.40)]"
+              : "text-cream/50 hover:text-cream/80"
           }`}
         >
           {l === "en" ? "EN" : "AR"}

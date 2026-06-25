@@ -17,7 +17,7 @@ export default function Home() {
       <BrandStory />
       <WhyChooseUs />
       <OurServices />
-      <EliteServices />
+      {/* <EliteServices /> */}
       <ClientsReach />
       <ClosingStatement />
       <BookingForm />
