@@ -233,6 +233,7 @@ export default function BookingForm() {
         />
 
         <div
+          className="bf-outer-pad"
           style={{
             maxWidth: 1400,
             margin: "0 auto",
@@ -427,6 +428,7 @@ export default function BookingForm() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.6, ease: EASE }}
+                    className="bf-form-card"
                     style={{
                       position: "relative",
                       overflow: "hidden",
@@ -530,6 +532,7 @@ export default function BookingForm() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.05 }}
                     transition={{ duration: 0.9, delay: 0.16, ease: EASE }}
+                    className="bf-form-card"
                     style={{
                       position: "relative",
                       overflow: "hidden",
@@ -808,6 +811,21 @@ export default function BookingForm() {
         }
         @media (max-width: 599px) {
           .bf-two-col { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 767px) {
+          .bf-outer-pad {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+          }
+          .bf-editorial {
+            padding-left: clamp(20px, 5vw, 32px);
+            padding-right: clamp(20px, 5vw, 32px);
+          }
+          .bf-form-card {
+            border-radius: 0 !important;
+            border-left: none !important;
+            border-right: none !important;
+          }
         }
         .bf-input::placeholder {
           color: rgba(245,242,234,0.2);
