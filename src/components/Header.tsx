@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
@@ -232,11 +231,47 @@ export default function Header() {
                   <div key={item.key} onMouseEnter={handleDecoratingEnter} onMouseLeave={handleDecoratingLeave} className="relative">
                     <button className={`relative text-[10.5px] tracking-[0.15em] uppercase font-medium transition-colors duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${active || decoratingOpen ? "text-accent" : "text-cream/65 hover:text-cream"}`}>
                       {item.label}
-                      <svg width="9" height="9" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-350 ease-out ${decoratingOpen ? "rotate-180 text-accent" : ""}`}>
+                      <svg width="9" height="9" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-300 ease-out ${decoratingOpen ? "rotate-180" : ""}`}>
                         <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                       <span className={`hdr-nav-ind absolute -bottom-[3px] left-0 right-0 h-px bg-accent ${active || decoratingOpen ? "scale-x-100" : "scale-x-0"}`} />
                     </button>
+                    <AnimatePresence>
+                      {decoratingOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          transition={{ duration: 0.2, ease: [0.19, 1, 0.22, 1] }}
+                          className="absolute top-full left-1/2 -translate-x-1/2 mt-5 w-[230px] z-50"
+                        >
+                          <div className="relative rounded-2xl overflow-hidden border border-accent/20 shadow-[0_24px_56px_rgba(0,0,0,0.55),0_4px_16px_rgba(0,0,0,0.35)]" style={{ background: "rgba(14,8,32,0.97)", backdropFilter: "blur(24px)" }}>
+                            <div className="h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(187,138,60,0.7), transparent)" }} />
+                            {DECORATING_ITEMS.map((di) => (
+                              <Link
+                                key={di.slug}
+                                href={`/${locale}/decorating/${di.slug}`}
+                                onClick={() => setDecoratingOpen(false)}
+                                className="group/row flex flex-col px-5 py-[14px] no-underline border-b border-white/[0.05] last:border-0 transition-colors duration-200 hover:bg-white/[0.04]"
+                              >
+                                <span className="text-[8.5px] tracking-[0.32em] uppercase font-bold mb-[5px]" style={{ color: "rgba(187,138,60,0.5)" }}>
+                                  {isRTL ? di.eyebrowAr : di.eyebrow}
+                                </span>
+                                <span className="font-serif italic text-[14px] leading-tight transition-colors duration-200 group-hover/row:text-accent" style={{ color: "rgba(245,242,234,0.82)" }}>
+                                  {isRTL ? di.titleAr : di.title}
+                                </span>
+                              </Link>
+                            ))}
+                            <div className="px-5 py-3 border-t border-accent/10">
+                              <Link href={`/${locale}/decorating`} onClick={() => setDecoratingOpen(false)} className="flex items-center gap-2 no-underline text-[9.5px] tracking-[0.22em] uppercase font-bold transition-colors duration-200 hover:text-accent" style={{ color: "rgba(187,138,60,0.55)" }}>
+                                <span>{isRTL ? "جميع خدمات التزيين" : "View all decorating"}</span>
+                                <span>{isRTL ? "←" : "→"}</span>
+                              </Link>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 );
               }
@@ -246,11 +281,47 @@ export default function Header() {
                   <div key={item.key} onMouseEnter={handlePlanningEnter} onMouseLeave={handlePlanningLeave} className="relative">
                     <button className={`relative text-[10.5px] tracking-[0.15em] uppercase font-medium transition-colors duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${active || planningOpen ? "text-accent" : "text-cream/65 hover:text-cream"}`}>
                       {item.label}
-                      <svg width="9" height="9" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-350 ease-out ${planningOpen ? "rotate-180 text-accent" : ""}`}>
+                      <svg width="9" height="9" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-300 ease-out ${planningOpen ? "rotate-180" : ""}`}>
                         <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                       <span className={`hdr-nav-ind absolute -bottom-[3px] left-0 right-0 h-px bg-accent ${active || planningOpen ? "scale-x-100" : "scale-x-0"}`} />
                     </button>
+                    <AnimatePresence>
+                      {planningOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          transition={{ duration: 0.2, ease: [0.19, 1, 0.22, 1] }}
+                          className="absolute top-full left-1/2 -translate-x-1/2 mt-5 w-[230px] z-50"
+                        >
+                          <div className="relative rounded-2xl overflow-hidden border border-accent/20 shadow-[0_24px_56px_rgba(0,0,0,0.55),0_4px_16px_rgba(0,0,0,0.35)]" style={{ background: "rgba(14,8,32,0.97)", backdropFilter: "blur(24px)" }}>
+                            <div className="h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(187,138,60,0.7), transparent)" }} />
+                            {PLANNING_ITEMS.map((pi) => (
+                              <Link
+                                key={pi.slug}
+                                href={`/${locale}/planning/${pi.slug}`}
+                                onClick={() => setPlanningOpen(false)}
+                                className="group/row flex flex-col px-5 py-[14px] no-underline border-b border-white/[0.05] last:border-0 transition-colors duration-200 hover:bg-white/[0.04]"
+                              >
+                                <span className="text-[8.5px] tracking-[0.32em] uppercase font-bold mb-[5px]" style={{ color: "rgba(187,138,60,0.5)" }}>
+                                  {isRTL ? pi.eyebrowAr : pi.eyebrow}
+                                </span>
+                                <span className="font-serif italic text-[14px] leading-tight transition-colors duration-200 group-hover/row:text-accent" style={{ color: "rgba(245,242,234,0.82)" }}>
+                                  {isRTL ? pi.titleAr : pi.title}
+                                </span>
+                              </Link>
+                            ))}
+                            <div className="px-5 py-3 border-t border-accent/10">
+                              <Link href={`/${locale}/planning`} onClick={() => setPlanningOpen(false)} className="flex items-center gap-2 no-underline text-[9.5px] tracking-[0.22em] uppercase font-bold transition-colors duration-200 hover:text-accent" style={{ color: "rgba(187,138,60,0.55)" }}>
+                                <span>{isRTL ? "جميع خدمات التخطيط" : "View all planning"}</span>
+                                <span>{isRTL ? "←" : "→"}</span>
+                              </Link>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 );
               }
@@ -291,205 +362,6 @@ export default function Header() {
           </button>
         </div>
       </header>
-
-      {/* ══════════════════════════════════
-          MEGA MENU — Decorating
-          ══════════════════════════════════ */}
-      <AnimatePresence>
-        {decoratingOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.28, ease: [0.19, 1, 0.22, 1] }}
-            onMouseEnter={handleDecoratingEnter}
-            onMouseLeave={handleDecoratingLeave}
-            className="fixed top-[72px] left-0 right-0 z-40 px-6 md:px-10 pb-6"
-          >
-            <div
-              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.10),0_4px_20px_rgba(187,138,60,0.08)] border border-accent/20"
-              style={{ background: "#1e1347", backdropFilter: "blur(28px)" }}
-            >
-              {/* Bg accents */}
-              <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-20 right-[25%] w-[50px] h-[180px] bg-accent/6 rounded-full rotate-[-18deg]" />
-                <div className="absolute bottom-0 left-[8%] w-[36px] h-[120px] border border-accent/12 rounded-full rotate-[22deg]" />
-              </div>
-
-              {/* Header row */}
-              <div className="relative z-10 px-8 pt-7 pb-5 border-b border-accent/10 flex items-center justify-between">
-                <div className="flex items-center gap-4">
-                  <div className="w-5 h-px bg-accent opacity-60" />
-                  <span className="text-[9px] tracking-[0.45em] uppercase font-bold" style={{ color: "rgba(199,154,59,0.6)" }}>
-                    {isRTL ? "الديكور والتصميم" : "Décor & Design"}
-                  </span>
-                </div>
-                <p className="font-serif italic" style={{ fontSize: "11px", color: "rgba(245,242,234,0.2)" }}>
-                  {isRTL ? "تحويل كل مكان إلى لوحة فنية" : "Transforming every space into a work of art"}
-                </p>
-              </div>
-
-              {/* 3 editorial panels — no images */}
-              <div className="relative z-10 grid grid-cols-3 min-h-[300px] divide-x divide-accent/10">
-                {DECORATING_ITEMS.map((item, ci) => (
-                  <motion.div
-                    key={item.slug}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.04 + ci * 0.07, ease: [0.19, 1, 0.22, 1] }}
-                  >
-                    <Link
-                      href={`/${locale}/decorating/${item.slug}`}
-                      onClick={() => setDecoratingOpen(false)}
-                      className="group/card flex flex-col h-full min-h-[300px] px-8 py-7 no-underline transition-colors duration-300 hover:bg-white/[0.03]"
-                    >
-                      {/* Number */}
-                      <span className="font-serif font-light leading-none mb-5 block tabular-nums" style={{ fontSize: "46px", color: "rgba(199,154,59,0.16)" }}>
-                        0{ci + 1}
-                      </span>
-
-                      {/* Gold rule */}
-                      <div className="w-7 h-px mb-5" style={{ background: "rgba(199,154,59,0.55)" }} />
-
-                      {/* Eyebrow */}
-                      <p className="mb-3 font-bold" style={{ fontSize: "9px", letterSpacing: "0.38em", textTransform: "uppercase", color: "rgba(199,154,59,0.55)" }}>
-                        {isRTL ? item.eyebrowAr : item.eyebrow}
-                      </p>
-
-                      {/* Title */}
-                      <h3 className="font-serif italic font-light leading-tight mb-4 transition-colors duration-300 group-hover/card:text-accent" style={{ fontSize: "24px", color: "#F5F2EA" }}>
-                        {isRTL ? item.titleAr : item.title}
-                      </h3>
-
-                      {/* Description */}
-                      <p className="flex-1 transition-colors duration-300 group-hover/card:text-cream/65" style={{ fontSize: "12px", color: "rgba(245,242,234,0.40)", lineHeight: 1.78 }}>
-                        {isRTL ? item.descAr : item.desc}
-                      </p>
-
-                      {/* CTA */}
-                      <div className="flex items-center gap-2 font-bold transition-colors duration-200 group-hover/card:text-accent mt-6" style={{ fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(199,154,59,0.58)" }}>
-                        <span>{isRTL ? "اكتشف" : "Explore"}</span>
-                        <span className="translate-x-0 group-hover/card:translate-x-1 transition-transform inline-block">
-                          {isRTL ? "←" : "→"}
-                        </span>
-                      </div>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Bottom strip */}
-              <div className="border-t border-accent/15 px-6 py-4 flex items-center justify-between">
-                <p className="text-[11px] text-cream/25 tracking-[0.15em] uppercase">
-                  {isRTL ? "إيلي للتموين وتنظيم الفعاليات — الرياض، المملكة العربية السعودية" : "Elie Catering & Event Planning — Riyadh, Saudi Arabia"}
-                </p>
-                <Link
-                  href={`/${locale}/decorating`}
-                  onClick={() => setDecoratingOpen(false)}
-                  className="text-[12px] tracking-[0.15em] uppercase text-accent/70 hover:text-accent transition-colors no-underline font-semibold"
-                >
-                  {isRTL ? "← جميع خدمات التزيين" : "View all decorating →"}
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ══════════════════════════════════
-          MEGA MENU — Planning
-          ══════════════════════════════════ */}
-      <AnimatePresence>
-        {planningOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.28, ease: [0.19, 1, 0.22, 1] }}
-            onMouseEnter={handlePlanningEnter}
-            onMouseLeave={handlePlanningLeave}
-            className="fixed top-[72px] left-0 right-0 z-40 px-6 md:px-10 pb-6"
-          >
-            <div
-              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.10),0_4px_20px_rgba(187,138,60,0.08)] border border-accent/20"
-              style={{ background: "#1e1347", backdropFilter: "blur(28px)" }}
-            >
-              {/* Bg accents */}
-              <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-20 right-[30%] w-[50px] h-[180px] bg-accent/6 rounded-full rotate-[-18deg]" />
-                <div className="absolute bottom-0 left-[10%] w-[36px] h-[120px] border border-accent/12 rounded-full rotate-[22deg]" />
-              </div>
-
-              {/* 3 tall cinematic full-bleed cards */}
-              <div className="relative z-10 grid grid-cols-3 min-h-[400px]">
-                {PLANNING_ITEMS.map((item, ci) => (
-                  <motion.div
-                    key={item.slug}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.04 + ci * 0.08, ease: [0.19, 1, 0.22, 1] }}
-                    className="relative"
-                  >
-                    <Link
-                      href={`/${locale}/planning/${item.slug}`}
-                      onClick={() => setPlanningOpen(false)}
-                      className="group/card relative flex h-full min-h-[400px] overflow-hidden no-underline border-r border-white/10 last:border-0"
-                    >
-                      <Image
-                        src={item.img}
-                        alt={isRTL ? item.titleAr : item.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover/card:scale-105"
-                        sizes="500px"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,6,20,0.92)] via-[rgba(10,6,20,0.35)] to-[rgba(10,6,20,0.05)]" />
-                      <div className="absolute inset-0 bg-accent/0 group-hover/card:bg-accent/8 transition-colors duration-500" />
-
-                      <div className="absolute top-5 left-5">
-                        <span className="bg-accent text-primary px-3 py-1 rounded-full text-[10px] tracking-[0.18em] uppercase font-bold">
-                          {isRTL ? item.tagAr : item.tag}
-                        </span>
-                      </div>
-
-                      <div className="absolute bottom-0 left-0 right-0 p-7">
-                        <p className="text-[9px] tracking-[0.35em] uppercase text-accent font-bold mb-2">
-                          {isRTL ? item.eyebrowAr : item.eyebrow}
-                        </p>
-                        <h3 className="font-serif text-white text-[26px] font-light italic leading-tight mb-3">
-                          {isRTL ? item.titleAr : item.title}
-                        </h3>
-                        <p className="text-[12px] text-white/55 leading-relaxed line-clamp-2 mb-5 group-hover/card:text-white/75 transition-colors">
-                          {isRTL ? item.descAr : item.desc}
-                        </p>
-                        <div className="flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-accent/70 group-hover/card:text-accent transition-colors font-bold">
-                          <span>{isRTL ? "اكتشف" : "Explore"}</span>
-                          <span className="translate-x-0 group-hover/card:translate-x-1 transition-transform">
-                            {isRTL ? "←" : "→"}
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Bottom strip */}
-              <div className="border-t border-accent/15 px-6 py-4 flex items-center justify-between">
-                <p className="text-[11px] text-cream/25 tracking-[0.15em] uppercase">
-                  {isRTL ? "إيلي للتموين وتنظيم الفعاليات — الرياض، المملكة العربية السعودية" : "Elie Catering & Event Planning — Riyadh, Saudi Arabia"}
-                </p>
-                <Link
-                  href={`/${locale}/planning`}
-                  onClick={() => setPlanningOpen(false)}
-                  className="text-[12px] tracking-[0.15em] uppercase text-accent/70 hover:text-accent transition-colors no-underline font-semibold"
-                >
-                  {isRTL ? "← جميع خدمات التخطيط" : "View all planning →"}
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Mobile Menu */}
       <AnimatePresence>
