@@ -7,8 +7,6 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslations, useLocale } from "next-intl";
 import LanguageSwitcher from "./LanguageSwitcher";
-import { services } from "@/lib/services";
-
 /* ── Planning Mega Menu Data ── */
 const PLANNING_ITEMS = [
   {
@@ -96,22 +94,6 @@ const DECORATING_ITEMS = [
 ];
 
 /* ── Mega Menu Data ── */
-const MEGA_CATS = [
-  { id: "catering", title: "Catering",         titleAr: "التموين",              eyebrow: "Food & Beverage",      eyebrowAr: "الأغذية والمشروبات",  color: "from-amber-900/80",  tag: "Our Signature", tagAr: "علامتنا المميزة" },
-  { id: "planning", title: "Event Planning",   titleAr: "تنظيم الفعاليات",      eyebrow: "Full Coordination",    eyebrowAr: "التنسيق الكامل",       color: "from-violet-900/80", tag: "Most Booked",   tagAr: "الأكثر حجزاً"   },
-  { id: "decor",    title: "Décor & Design",   titleAr: "الديكور والتصميم",     eyebrow: "Ambiance & Aesthetics",eyebrowAr: "الأجواء والجماليات",   color: "from-rose-900/70",   tag: "Bespoke",       tagAr: "مخصص"            },
-  { id: "addons",   title: "Premium Add-ons",  titleAr: "الإضافات المميزة",     eyebrow: "Elevate Your Event",   eyebrowAr: "ارفع مستوى فعاليتك",  color: "from-slate-900/80",  tag: "Exclusive",     tagAr: "حصري"            },
-] as const;
-
-const MEGA_FEATURED = {
-  img: "https://images.unsplash.com/photo-1544148103-0773bf10d330?q=80&w=2070&auto=format&fit=crop",
-  tag: "Signature Experience",
-  tagAr: "تجربة مميزة",
-  title: "Crafted for the extraordinary.",
-  titleAr: "مصمم للاستثنائيين.",
-  cta: "Book a Consultation",
-  ctaAr: "احجز استشارة",
-};
 
 export default function Header() {
   const t = useTranslations("nav");
@@ -120,18 +102,15 @@ export default function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [megaOpen, setMegaOpen] = useState(false);
   const [decoratingOpen, setDecoratingOpen] = useState(false);
   const [planningOpen, setPlanningOpen] = useState(false);
-  const megaRef = useRef<HTMLDivElement>(null);
-  const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const decoratingLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const planningLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const NAV = [
     { key: "home",        label: t("home"),        href: `/${locale}`,            mega: false          },
     { key: "about",       label: t("about"),        href: `/${locale}/about`,      mega: false          },
-    { key: "services",    label: t("services"),     href: `/${locale}/services`,   mega: "services"     },
+    { key: "services",    label: t("services"),     href: `/${locale}/services`,   mega: false          },
     { key: "decorating",  label: t("decorating"),   href: `/${locale}/decorating`, mega: "decorating"   },
     { key: "planning",    label: t("planning"),     href: `/${locale}/planning`,   mega: "planning"     },
     { key: "menu",        label: "Menu",            href: `/${locale}/menu`,       mega: false          },
@@ -150,18 +129,8 @@ export default function Header() {
     return () => { document.body.style.overflow = "unset"; };
   }, [mobileOpen]);
 
-  function handleServicesEnter() {
-    if (leaveTimer.current) clearTimeout(leaveTimer.current);
-    setDecoratingOpen(false);
-    setPlanningOpen(false);
-    setMegaOpen(true);
-  }
-  function handleServicesLeave() {
-    leaveTimer.current = setTimeout(() => setMegaOpen(false), 120);
-  }
   function handleDecoratingEnter() {
     if (decoratingLeaveTimer.current) clearTimeout(decoratingLeaveTimer.current);
-    setMegaOpen(false);
     setPlanningOpen(false);
     setDecoratingOpen(true);
   }
@@ -170,7 +139,6 @@ export default function Header() {
   }
   function handlePlanningEnter() {
     if (planningLeaveTimer.current) clearTimeout(planningLeaveTimer.current);
-    setMegaOpen(false);
     setDecoratingOpen(false);
     setPlanningOpen(true);
   }
@@ -258,20 +226,6 @@ export default function Header() {
                 ? pathname.startsWith(item.href)
                 : pathname === `/${locale}` || pathname === `/${locale}/`;
 
-              if (item.mega === "services") {
-                const active = pathname.startsWith(`/${locale}/services`);
-                return (
-                  <div key={item.key} onMouseEnter={handleServicesEnter} onMouseLeave={handleServicesLeave} className="relative">
-                    <button className={`relative text-[10.5px] tracking-[0.15em] uppercase font-medium transition-colors duration-300 whitespace-nowrap bg-transparent border-none cursor-pointer flex items-center gap-1.5 ${active || megaOpen ? "text-accent" : "text-cream/65 hover:text-cream"}`}>
-                      {item.label}
-                      <svg width="9" height="9" viewBox="0 0 10 10" fill="none" className={`transition-transform duration-350 ease-out ${megaOpen ? "rotate-180 text-accent" : ""}`}>
-                        <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      <span className={`hdr-nav-ind absolute -bottom-[3px] left-0 right-0 h-px bg-accent ${active || megaOpen ? "scale-x-100" : "scale-x-0"}`} />
-                    </button>
-                  </div>
-                );
-              }
               if (item.mega === "decorating") {
                 const active = pathname.startsWith(`/${locale}/decorating`);
                 return (
@@ -337,159 +291,6 @@ export default function Header() {
           </button>
         </div>
       </header>
-
-      {/* ══════════════════════════════════
-          MEGA MENU — Services
-          ══════════════════════════════════ */}
-      <AnimatePresence>
-        {megaOpen && (
-          <motion.div
-            ref={megaRef}
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.28, ease: [0.19, 1, 0.22, 1] }}
-            onMouseEnter={handleServicesEnter}
-            onMouseLeave={handleServicesLeave}
-            className="fixed top-[72px] left-0 right-0 z-40 px-6 md:px-10 pb-6"
-          >
-            {/* Panel shell */}
-            <div
-              className="relative w-full rounded-[28px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.10),0_4px_20px_rgba(187,138,60,0.08)] border border-accent/20"
-              style={{ background: "#1e1347", backdropFilter: "blur(28px)" }}
-            >
-              {/* Subtle gold capsule bg accents */}
-              <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-24 right-[18%] w-[60px] h-[220px] bg-accent/6 rounded-full rotate-[-18deg]" />
-                <div className="absolute bottom-0 left-[6%] w-[40px] h-[140px] border border-accent/12 rounded-full rotate-[22deg]" />
-              </div>
-
-              <div className="relative z-10 grid grid-cols-[5fr_4fr_240px] min-h-[440px]">
-
-                {/* LEFT: Large cinematic hero image */}
-                <div className="relative overflow-hidden">
-                  <Image
-                    src={MEGA_FEATURED.img}
-                    alt="Services"
-                    fill
-                    className="object-cover"
-                    sizes="700px"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[rgba(10,6,20,0.04)] to-[rgba(10,6,20,0.55)]" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,6,20,0.88)] via-[rgba(10,6,20,0.15)] to-transparent" />
-                  <div className="relative z-10 h-full flex flex-col justify-end p-10">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-6 h-px bg-accent" />
-                      <span className="text-accent text-[10px] tracking-[0.4em] uppercase font-bold">
-                        {isRTL ? "خدماتنا" : "Our Services"}
-                      </span>
-                    </div>
-                    <h2 className="font-serif text-white text-[38px] font-light italic leading-[1.15]">
-                      {isRTL ? <>مصمم لكل<br />مناسبة.</> : <>Crafted for<br />every occasion.</>}
-                    </h2>
-                  </div>
-                </div>
-
-                {/* CENTER: Numbered editorial category list */}
-                <div className="border-x border-accent/12 bg-white/[0.04] flex flex-col divide-y divide-accent/8">
-                  {MEGA_CATS.map((cat, i) => {
-                    const catServices = services.filter((s) => s.category === cat.id);
-                    return (
-                      <Link
-                        key={cat.id}
-                        href={`/${locale}/services?category=${cat.id}`}
-                        onClick={() => setMegaOpen(false)}
-                        className="group/cat flex-1 flex flex-col justify-center px-7 py-5 hover:bg-accent/8 transition-all duration-200 no-underline"
-                      >
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2.5 mb-2">
-                              <span className="font-bold text-accent text-[11px] tracking-[0.15em] tabular-nums">
-                                0{i + 1}
-                              </span>
-                              <span className="w-4 h-px bg-accent/30" />
-                              <span className="text-[9px] tracking-[0.3em] uppercase text-cream/30 font-bold truncate">
-                                {isRTL ? cat.eyebrowAr : cat.eyebrow}
-                              </span>
-                            </div>
-                            <h3 className="font-serif italic text-[21px] text-cream/75 font-light leading-snug group-hover/cat:text-accent transition-colors duration-200 mb-2">
-                              {isRTL ? cat.titleAr : cat.title}
-                            </h3>
-                            <div className="flex flex-wrap gap-x-3 gap-y-0">
-                              {catServices.slice(0, 2).map((s) => (
-                                <span key={s.slug} className="text-[11px] text-cream/30 group-hover/cat:text-cream/50 transition-colors">
-                                  {isRTL ? s.titleAr : s.title}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                          <span className="text-accent text-[15px] opacity-0 -translate-x-1 group-hover/cat:opacity-100 group-hover/cat:translate-x-0 transition-all duration-200 flex-shrink-0 mt-1">
-                            {isRTL ? "←" : "→"}
-                          </span>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-
-                {/* RIGHT: Featured CTA panel */}
-                <div className="relative overflow-hidden flex flex-col">
-                  <Image
-                    src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop"
-                    alt="Featured"
-                    fill
-                    className="object-cover"
-                    sizes="260px"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/80 to-primary/15" />
-                  <div className="absolute top-5 right-5 w-7 h-16 rounded-full border border-accent/25 rotate-[-14deg]" />
-                  <div className="relative z-10 h-full flex flex-col justify-end p-6">
-                    <span className="text-[10px] tracking-[0.3em] uppercase text-accent font-bold block mb-2">
-                      {isRTL ? MEGA_FEATURED.tagAr : MEGA_FEATURED.tag}
-                    </span>
-                    <h4 className="font-serif text-white text-[22px] font-light italic leading-tight mb-5">
-                      {isRTL ? MEGA_FEATURED.titleAr : MEGA_FEATURED.title}
-                    </h4>
-                    <Link
-                      href={`/${locale}/contact`}
-                      onClick={() => setMegaOpen(false)}
-                      className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full text-[11px] tracking-[0.18em] uppercase font-bold bg-accent text-primary no-underline transition-all duration-300 hover:bg-white active:scale-95 shadow-[0_8px_28px_rgba(187,138,60,0.4)]"
-                    >
-                      {isRTL ? MEGA_FEATURED.ctaAr : MEGA_FEATURED.cta}
-                      <span>{isRTL ? "←" : "→"}</span>
-                    </Link>
-                    <div className="mt-5 pt-4 border-t border-white/15 grid grid-cols-2 gap-2">
-                      {(isRTL
-                        ? [["14+", "سنة"], ["500+", "فعالية"]]
-                        : [["14+", "Years"], ["500+", "Events"]]
-                      ).map(([num, lbl]) => (
-                        <div key={lbl}>
-                          <p className="font-serif text-accent text-[26px] font-light leading-none">{num}</p>
-                          <p className="text-[10px] tracking-[0.2em] uppercase text-white/40 mt-1">{lbl}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom strip */}
-              <div className="border-t border-accent/15 px-6 py-4 flex items-center justify-between">
-                <p className="text-[11px] text-cream/25 tracking-[0.15em] uppercase">
-                  {isRTL ? "إيلي للتموين وتنظيم الفعاليات — الرياض، المملكة العربية السعودية" : "Elie Catering & Event Planning — Riyadh, Saudi Arabia"}
-                </p>
-                <Link
-                  href={`/${locale}/services`}
-                  onClick={() => setMegaOpen(false)}
-                  className="text-[12px] tracking-[0.15em] uppercase text-accent/70 hover:text-accent transition-colors no-underline font-semibold"
-                >
-                  {isRTL ? "← جميع الخدمات" : "View all services →"}
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* ══════════════════════════════════
           MEGA MENU — Decorating
