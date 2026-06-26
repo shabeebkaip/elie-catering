@@ -102,3 +102,18 @@ html, body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ── Arabic (RTL) typography resets ─────────────────────────────────────
+   Arabic is a connected script. Tailwind's arbitrary tracking classes
+   (tracking-[0.38em] etc.) break ligatures and make text unreadable.
+   These rules fire globally whenever [dir="rtl"] is active (set by
+   LocaleHtmlSync on <html> for the Arabic locale).
+   ───────────────────────────────────────────────────────────────────── */
+[dir="rtl"] [class*="tracking-[0."] {
+  letter-spacing: 0.02em;
+}
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3 {
+  letter-spacing: 0;
+}

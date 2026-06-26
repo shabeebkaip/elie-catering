@@ -53,16 +53,18 @@ const HERO = {
 } as const;
 
 /* ── Count-up metric — luxury editorial ── */
-function StatMetric({ num, label, delay, isHero = false }: {
-  num: string; label: string; delay: number; isHero?: boolean;
+function StatMetric({ num, label, delay, isHero = false, isRTL = false }: {
+  num: string; label: string; delay: number; isHero?: boolean; isRTL?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-10%" });
   const [count, setCount] = useState(0);
 
-  const match = num.match(/^(\d+)(.*)$/);
-  const to = match ? parseInt(match[1]) : 0;
-  const suffix = match ? match[2] : "";
+  // Handles both "14+" (EN suffix) and "+14" (AR prefix) formats
+  const match = num.match(/^([^\d]*)(\d+)([^\d]*)$/);
+  const prefix = match ? match[1] : "";
+  const to     = match ? parseInt(match[2]) : 0;
+  const suffix = match ? match[3] : "";
 
   useEffect(() => {
     if (!inView) return;
@@ -91,22 +93,21 @@ function StatMetric({ num, label, delay, isHero = false }: {
       className="stat-item flex flex-col items-center text-center py-10 lg:py-14"
     >
       <p className={`stat-num font-serif font-light leading-none ${isHero ? "stat-num-hero" : ""}`}>
-        {count}{suffix}
+        {prefix}{count}{suffix}
       </p>
       <div className="stat-rule" />
-      <p className="stat-lbl">{label}</p>
+      <p className={`stat-lbl${isRTL ? " stat-lbl-ar" : ""}`}>{label}</p>
     </motion.div>
   );
 }
 
 const PILLAR_IMGS = [
-  "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=800&auto=format&fit=crop",
+  "/images/about/why-elie-1.webp",
+  "/images/about/why-elie-2.webp",
+  "/images/about/why-elie-3.webp",
 ];
 
 const BG = "#12092a";
-const SURFACE = "#1e1347";
 const PRIMARY = "#30205f";
 
 export default function AboutPage() {
@@ -115,9 +116,8 @@ export default function AboutPage() {
   const isRTL = locale === "ar";
   const h = HERO[isRTL ? "ar" : "en"];
 
-  const stats     = t.raw("stats")      as { num: string; label: string }[];
-  const pillars   = t.raw("pillars")    as { t: string; d: string }[];
-  const milestones = t.raw("milestones") as { year: string; t: string; d: string }[];
+  const stats   = t.raw("stats")   as { num: string; label: string }[];
+  const pillars = t.raw("pillars") as { t: string; d: string }[];
 
   return (
     <main className="min-h-screen overflow-x-hidden" style={{ background: BG }}>
@@ -135,8 +135,35 @@ export default function AboutPage() {
           transform: translateY(-2px) scale(1.02);
         }
         .about-cta-primary:active { transform: scale(0.97); }
-        .pillar-img  { transition: transform 2.5s cubic-bezier(0.19,1,0.22,1); }
-        .pillar-card:hover .pillar-img { transform: scale(1.08); }
+        /* Cinematic parallax — drift only, no zoom */
+        .pillar-img { transition: transform 3.6s cubic-bezier(0.19,1,0.22,1); transform-origin: center 55%; }
+        .pillar-card:hover .pillar-img { transform: translateY(-10px); }
+        /* Card shadow transition — independent of Framer Motion */
+        .pillar-card { transition: box-shadow 0.8s cubic-bezier(0.19,1,0.22,1); }
+        .pillar-card-shadow {
+          box-shadow:
+            0 2px 6px rgba(7,4,14,.36),
+            0 18px 52px rgba(7,4,14,.56),
+            0 52px 104px rgba(7,4,14,.30);
+        }
+        .pillar-card-shadow:hover {
+          box-shadow:
+            0 8px 24px rgba(7,4,14,.52),
+            0 32px 80px rgba(7,4,14,.66),
+            0 72px 140px rgba(7,4,14,.40);
+        }
+        .pillar-card-hero {
+          box-shadow:
+            0 4px 14px rgba(7,4,14,.44),
+            0 28px 72px rgba(7,4,14,.64),
+            0 72px 140px rgba(7,4,14,.36);
+        }
+        .pillar-card-hero:hover {
+          box-shadow:
+            0 12px 36px rgba(7,4,14,.54),
+            0 44px 104px rgba(7,4,14,.72),
+            0 96px 180px rgba(7,4,14,.46);
+        }
 
         /* ── Stats — luxury editorial typography ── */
 
@@ -193,6 +220,15 @@ export default function AboutPage() {
           transition: color 0.7s ease;
         }
         .stat-item:hover .stat-lbl { color: rgba(245,240,234,0.84); }
+        /* Arabic stat label — no letter-spacing (breaks Arabic ligatures), no uppercase */
+        .stat-lbl-ar {
+          letter-spacing: 0.02em;
+          text-transform: none;
+          max-width: 160px;
+          line-height: 1.9;
+          font-size: 11px;
+          direction: rtl;
+        }
         /* Vertical hairline separator between metrics — desktop only */
         .stat-vr {
           width: 1px;
@@ -222,7 +258,7 @@ export default function AboutPage() {
               transparent 100%
             ),
             radial-gradient(ellipse 52% 68% at 76% 40%, rgba(208,132,26,0.10) 0%, rgba(178,102,16,0.04) 44%, transparent 66%),
-            url("/images/about/founder.png");
+            url("/images/about/founder.webp");
           background-size: 100% 100%, 100% 100%, cover;
           background-position: 0 0, 0 0, 76% center;
           background-repeat: no-repeat, no-repeat, no-repeat;
@@ -244,7 +280,7 @@ export default function AboutPage() {
               transparent 100%
             ),
             radial-gradient(ellipse 52% 68% at 24% 40%, rgba(208,132,26,0.10) 0%, rgba(178,102,16,0.04) 44%, transparent 66%),
-            url("/images/about/founder.png");
+            url("/images/about/founder.webp");
           background-size: 100% 100%, 100% 100%, cover;
           background-position: 0 0, 0 0, 24% center;
           background-repeat: no-repeat, no-repeat, no-repeat;
@@ -315,7 +351,7 @@ export default function AboutPage() {
             <motion.div
               initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.0, delay: 0.18, ease }}
-              className="flex items-center gap-4 mb-9"
+              className={`flex items-center gap-4 mb-9 ${isRTL ? "flex-row-reverse" : ""}`}
             >
               <div className="w-10 h-px bg-accent" />
               <span className="text-accent text-[12px] tracking-[0.38em] uppercase font-bold">{h.eyebrow}</span>
@@ -346,7 +382,7 @@ export default function AboutPage() {
             <motion.div
               initial={{ scaleX: 0, opacity: 0 }} animate={{ scaleX: 1, opacity: 1 }}
               transition={{ duration: 0.9, delay: 0.68, ease }}
-              className="w-12 h-px bg-accent/40 mb-8 origin-left"
+              className={`w-12 h-px bg-accent/40 mb-8 ${isRTL ? "origin-right" : "origin-left"}`}
             />
 
             {/* Body copy */}
@@ -365,7 +401,7 @@ export default function AboutPage() {
               className="flex flex-col gap-2.5 mb-12 lg:mb-16"
             >
               <div className="w-8 h-px bg-accent/35 mb-1" />
-              <span className="font-serif italic text-cream/82 text-[19px] font-light leading-none">{t("founderName")}</span>
+              <span className={`font-serif ${isRTL ? "" : "italic"} text-cream/82 text-[19px] font-light leading-none`}>{t("founderName")}</span>
               <span className="text-accent/50 text-[9.5px] tracking-[0.4em] uppercase mt-2">{h.founderRole}</span>
             </motion.div>
 
@@ -401,7 +437,7 @@ export default function AboutPage() {
           className={`absolute bottom-8 hidden lg:flex flex-col items-start gap-2 z-[5] ${isRTL ? "right-14 xl:right-20" : "left-14 xl:left-20"}`}
         >
           <div className="w-px h-12 bg-gradient-to-b from-accent/55 to-transparent" />
-          <span className="text-cream/25 text-[9px] tracking-[0.42em] uppercase mt-1">Scroll</span>
+          {!isRTL && <span className="text-cream/25 text-[9px] tracking-[0.42em] uppercase mt-1">Scroll</span>}
         </motion.div>
       </section>
 
@@ -458,12 +494,12 @@ export default function AboutPage() {
           {/* Section header — full width */}
           <div className="mb-20 lg:mb-28">
             <motion.div {...fadeUp(0)}>
-              <div className="flex items-center gap-4 mb-10 lg:mb-12">
+              <div className={`flex items-center gap-4 mb-10 lg:mb-12 ${isRTL ? "flex-row-reverse" : ""}`}>
                 <div className="w-10 h-px bg-accent" />
                 <span className="text-accent text-[12px] tracking-[0.38em] uppercase font-bold">{t("storyEyebrow")}</span>
               </div>
               <h2
-                className="font-serif font-light uppercase tracking-tighter"
+                className={`font-serif font-light tracking-tighter ${isRTL ? "" : "uppercase"}`}
                 style={{ fontSize: "clamp(48px,7.2vw,100px)", lineHeight: 0.85 }}
               >
                 <span className="block text-cream">{t("storyH1")}</span>
@@ -473,7 +509,7 @@ export default function AboutPage() {
           </div>
 
           {/* Two-column: Image (55%) + Text (45%) */}
-          <div className="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-14 lg:gap-20 xl:gap-28 items-start">
+          <div className="flex flex-col lg:flex-row gap-14 lg:gap-20 xl:gap-28 items-start">
 
             {/* ── Image column ── */}
             <motion.div
@@ -481,6 +517,7 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 1.1, ease }}
+              className="lg:w-[55%] lg:shrink-0"
             >
               <div
                 className="relative overflow-hidden aspect-[3/4] lg:aspect-auto lg:h-[620px]"
@@ -509,7 +546,7 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.9, delay: 0.28, ease }}
-                className="flex items-center gap-3 mt-6"
+                className={`flex items-center gap-3 mt-6 ${isRTL ? "flex-row-reverse" : ""}`}
               >
                 <div className="w-5 h-px bg-accent/35" />
                 <span className="text-cream/28 text-[9.5px] tracking-[0.38em] uppercase font-medium">{t("storyTag")}</span>
@@ -517,7 +554,7 @@ export default function AboutPage() {
             </motion.div>
 
             {/* ── Text column ── */}
-            <div className="flex flex-col justify-start lg:pt-6">
+            <div className="flex flex-col justify-start lg:pt-6 lg:flex-1">
 
               {/* Expanding gold rule */}
               <motion.div
@@ -552,9 +589,9 @@ export default function AboutPage() {
                 transition={{ duration: 1.1, delay: 0.16, ease: "easeOut" }}
                 className="flex flex-col"
               >
-                <div className="w-8 h-px bg-accent/32 mb-5" />
+                <div className={`w-8 h-px bg-accent/32 mb-5 ${isRTL ? "ml-auto" : ""}`} />
                 <span
-                  className="font-serif italic text-cream/80 font-light leading-none mb-3"
+                  className={`font-serif ${isRTL ? "" : "italic"} text-cream/80 font-light leading-none mb-3`}
                   style={{ fontSize: "clamp(18px,1.8vw,22px)" }}
                 >
                   {t("founderName")}
@@ -576,7 +613,7 @@ export default function AboutPage() {
       <section
         className="relative overflow-hidden flex items-center"
         style={{
-          backgroundImage: `linear-gradient(90deg, rgba(8,5,18,.88) 0%, rgba(14,8,28,.82) 35%, rgba(22,12,42,.75) 60%, rgba(8,5,18,.90) 100%), url("/images/about/marble.png")`,
+          backgroundImage: `linear-gradient(90deg, rgba(8,5,18,.88) 0%, rgba(14,8,28,.82) 35%, rgba(22,12,42,.75) 60%, rgba(8,5,18,.90) 100%), url("/images/about/marble.webp")`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -610,7 +647,7 @@ export default function AboutPage() {
         {/* Content */}
         <div className="w-full relative z-10 py-28 lg:py-36">
 
-          {/* Section heading — editorial h2, same pattern as all other sections */}
+          {/* Section heading */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -618,17 +655,17 @@ export default function AboutPage() {
             transition={{ duration: 1.1, ease: [0.25, 0.46, 0.45, 0.94] }}
             className={`mb-20 lg:mb-28 px-10 xl:px-16 2xl:px-24 ${isRTL ? "text-right" : "text-left"}`}
           >
-            {/* Large heading */}
             <h2
-              className="font-serif font-light uppercase tracking-tighter text-cream leading-[0.88]"
+              className={`font-serif font-light tracking-tighter text-cream leading-[0.88] ${isRTL ? "" : "uppercase"}`}
               style={{ fontSize: "clamp(48px, 7vw, 100px)" }}
             >
-              By The <em className="text-accent not-italic">Numbers.</em>
+              {t("statsH1") && <>{t("statsH1")} </>}
+              <em className="text-accent not-italic">{t("statsH2")}</em>
             </h2>
           </motion.div>
 
           {/* ── Desktop: flex row with hairline separators + editorial nudges ── */}
-          <div className="hidden lg:flex items-stretch gap-0 w-full px-10 xl:px-16 2xl:px-24">
+          <div className={`hidden lg:flex items-stretch gap-0 w-full px-10 xl:px-16 2xl:px-24 ${isRTL ? "flex-row-reverse" : ""}`}>
             {stats.map((s, i) => {
               const nudge = [0, -14, 10, -8][i];
               return (
@@ -638,7 +675,7 @@ export default function AboutPage() {
                     className="flex-1"
                     style={nudge !== 0 ? { transform: `translateY(${nudge}px)` } : undefined}
                   >
-                    <StatMetric num={s.num} label={s.label} delay={0.22 + i * 0.13} isHero={i === 1} />
+                    <StatMetric num={s.num} label={s.label} delay={0.22 + i * 0.13} isHero={i === 1} isRTL={isRTL} />
                   </div>
                 </Fragment>
               );
@@ -646,9 +683,9 @@ export default function AboutPage() {
           </div>
 
           {/* ── Mobile: 2-column grid ── */}
-          <div className="grid grid-cols-2 gap-y-4 max-w-sm mx-auto px-8 lg:hidden">
+          <div className={`grid grid-cols-2 gap-y-4 max-w-sm mx-auto px-8 lg:hidden ${isRTL ? "direction-rtl" : ""}`}>
             {stats.map((s, i) => (
-              <StatMetric key={s.label} num={s.num} label={s.label} delay={0.18 + i * 0.12} />
+              <StatMetric key={s.label} num={s.num} label={s.label} delay={0.18 + i * 0.12} isRTL={isRTL} />
             ))}
           </div>
 
@@ -659,265 +696,586 @@ export default function AboutPage() {
           PILLARS / WHY ELIE
           ══════════════════════════════════════ */}
       <section className="relative overflow-hidden" style={{ background: BG }}>
-        <div className="absolute bottom-0 left-[-4%] w-40 h-[500px] bg-accent/4 rounded-full rotate-[10deg] pointer-events-none" />
+        {/* Ambient warm glow behind card area */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none z-[1]"
+          style={{ background: "radial-gradient(ellipse 70% 44% at 50% 74%, rgba(187,138,60,0.038) 0%, transparent 65%)" }}
+        />
 
         <div className="container-custom px-6 md:px-14 lg:px-20 py-24 md:py-36 relative z-10">
-          <div className="max-w-3xl mb-16 md:mb-20">
-            <motion.div {...fadeUp(0)}>
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-10 h-px bg-accent" />
-                <span className="text-accent text-[12px] tracking-[0.34em] uppercase font-bold">{t("pillarsEyebrow")}</span>
-              </div>
-              <h2 className="font-serif font-light text-[clamp(40px,6vw,90px)] text-cream uppercase leading-[0.88] tracking-tighter mb-6">
-                {t("pillarsH1")}<br />
-                <em className="text-accent italic not-italic">{t("pillarsH2")}</em>
-              </h2>
-              <p className="text-[clamp(14px,1.5vw,16px)] text-cream/40 font-light leading-relaxed max-w-lg">{t("pillarsSub")}</p>
-            </motion.div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* ── Heading — editorial headline + description side by side ── */}
+          <motion.div
+            {...fadeUp(0)}
+            className="mb-20 lg:mb-28"
+          >
+            <div className={`flex items-center gap-4 mb-10 ${isRTL ? "flex-row-reverse" : ""}`}>
+              <div className="w-10 h-px bg-accent" />
+              <span className="text-accent text-[12px] tracking-[0.34em] uppercase font-bold">{t("pillarsEyebrow")}</span>
+            </div>
+
+            {/* Headline left, description right */}
+            <div className="flex flex-col lg:flex-row lg:items-end gap-8 lg:gap-20">
+              <h2 className={`font-serif font-light text-[clamp(48px,6.4vw,94px)] text-cream leading-[0.88] tracking-tighter flex-shrink-0 ${isRTL ? "" : "uppercase"}`}>
+                {t("pillarsH1")}<br />
+                <em className="text-accent not-italic">{t("pillarsH2")}</em>
+              </h2>
+              <div className={`lg:pb-2 lg:max-w-[360px] ${isRTL ? "lg:mr-auto" : "lg:ml-auto"}`}>
+                <p className="text-[clamp(14px,1.4vw,16px)] text-cream/38 font-light leading-[2.0]">{t("pillarsSub")}</p>
+              </div>
+            </div>
+
+            {/* Expanding gold rule */}
+            <motion.div
+              initial={{ scaleX: 0, opacity: 0 }}
+              whileInView={{ scaleX: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.3, delay: 0.22, ease }}
+              className={`mt-14 h-px ${isRTL ? "origin-right" : "origin-left"}`}
+              style={{ background: `linear-gradient(${isRTL ? "to left" : "to right"}, rgba(187,138,60,0.50), rgba(187,138,60,0.08) 55%, transparent)` }}
+            />
+          </motion.div>
+
+          {/* ── Cards — full-width, center card is hero ── */}
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_1.22fr_1fr] gap-5 lg:gap-6 md:items-end">
             {pillars.map((p, i) => (
               <motion.div
                 key={p.t}
-                initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 52 }} whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ y: -8 }}
                 viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.85, delay: i * 0.12, ease }}
-                className={`pillar-card group relative overflow-hidden rounded-[32px] ${i === 1 ? "md:translate-y-10" : ""}`}
-                style={{ minHeight: 560 }}
+                transition={{ duration: 0.9, delay: i * 0.14, ease }}
+                className={`pillar-card ${i === 1 ? "pillar-card-hero" : "pillar-card-shadow"} group relative overflow-hidden rounded-[28px] ${i === 1 ? "md:-translate-y-8" : ""}`}
+                style={{ minHeight: i === 1 ? 880 : 720 }}
               >
+                {/* Image layer */}
                 <div className="absolute inset-0 overflow-hidden">
                   <Image
                     src={PILLAR_IMGS[i]}
                     alt={p.t}
                     fill
                     className="pillar-img object-cover"
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 34vw, 28vw"
+                    style={{ filter: "brightness(0.76)" }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#12092a]/98 via-[#12092a]/55 to-[#12092a]/15" />
-                  <div className="absolute inset-0 bg-[#12092a]/20 group-hover:bg-transparent transition-colors duration-700" />
+                  {/* Cinematic deep gradient — bottom anchors text, top lets image breathe */}
+                  <div className="absolute inset-0" style={{
+                    background: "linear-gradient(to top, rgba(7,4,14,0.97) 0%, rgba(7,4,14,0.78) 18%, rgba(10,6,18,0.40) 40%, rgba(10,6,18,0.08) 62%, transparent 82%)"
+                  }} />
+                  {/* Uniform cinematic tint */}
+                  <div className="absolute inset-0" style={{ background: "rgba(7,4,14,0.14)" }} />
                 </div>
 
+                {/* Inset gold border — quiet luxury */}
                 <div
                   aria-hidden="true"
-                  className="absolute top-6 right-7 font-serif text-cream/[0.048] font-light leading-none select-none"
-                  style={{ fontSize: "clamp(60px,10vw,88px)" }}
+                  className={`absolute inset-0 rounded-[28px] border transition-colors duration-700 z-[15] pointer-events-none ${i === 1 ? "border-accent/[0.12] group-hover:border-accent/[0.22]" : "border-accent/[0.07] group-hover:border-accent/[0.14]"}`}
+                />
+                {/* Polished lacquer top reflection */}
+                <div
+                  aria-hidden="true"
+                  className="absolute top-0 inset-x-0 z-[16] pointer-events-none"
+                  style={{
+                    height: "3px",
+                    background: "linear-gradient(to right, transparent 0%, rgba(230,195,130,0.06) 10%, rgba(245,215,160,0.28) 35%, rgba(252,228,178,0.42) 50%, rgba(245,215,160,0.28) 65%, rgba(230,195,130,0.06) 90%, transparent 100%)",
+                  }}
+                />
+
+                {/* Editorial word watermark */}
+                <div
+                  aria-hidden="true"
+                  className="absolute font-serif select-none pointer-events-none z-[10]"
+                  style={{
+                    top: "30px", right: "30px",
+                    opacity: 0.04,
+                    fontSize: "clamp(40px,4.4vw,64px)",
+                    letterSpacing: "0.30em",
+                    lineHeight: 1,
+                    fontWeight: 300,
+                    color: "#dbb878",
+                  }}
                 >
-                  {String(i + 1).padStart(2, "0")}
+                  {["CRAFT", "DESIGN", "EXECUTION"][i]}
                 </div>
 
-                <div className="relative z-10 h-full flex flex-col justify-end p-9">
-                  <div className="w-8 h-px bg-accent mb-5 group-hover:w-16 transition-all duration-500" />
-                  <h3 className="font-serif text-[clamp(22px,2.5vw,30px)] italic text-cream font-light leading-tight mb-4">{p.t}</h3>
-                  <p className="text-[13px] text-cream/45 leading-[1.9] font-light group-hover:text-cream/70 transition-colors duration-500">{p.d}</p>
+                {/* Content */}
+                <div className="relative z-10 h-full flex flex-col justify-end px-10 pt-10 pb-16 lg:px-11 lg:pb-[72px]">
+                  <div className="w-10 h-px mb-7" style={{ background: "linear-gradient(to right, rgba(187,138,60,0.88), rgba(187,138,60,0.20))" }} />
+                  <h3 className={`font-serif text-[clamp(24px,2.4vw,36px)] ${isRTL ? "" : "italic"} text-cream font-light leading-tight mb-5`}>{p.t}</h3>
+                  <div className="w-5 h-px mb-6" style={{ background: "rgba(187,138,60,0.18)" }} />
+                  <p className="text-[13px] text-cream/44 leading-[2.0] font-light group-hover:text-cream/70 transition-colors duration-700">{p.d}</p>
                 </div>
               </motion.div>
             ))}
           </div>
+
         </div>
       </section>
 
       {/* ══════════════════════════════════════
-          FOUNDER
+          FOUNDER — Editorial Portrait
           ══════════════════════════════════════ */}
-      <section className="relative bg-cream overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[-10%] right-[8%] w-20 h-64 rounded-full border border-primary/8 rotate-[-15deg]" />
-          <div className="absolute bottom-[-10%] left-[5%] w-32 h-[400px] bg-accent/4 rounded-full rotate-[12deg]" />
-        </div>
+      <section className="relative overflow-hidden" style={{ background: "#0b0719" }}>
+
+        {/* Marble wash — very faint */}
         <div
           aria-hidden="true"
-          className="absolute top-12 left-4 md:left-12 font-serif text-primary/[0.038] select-none pointer-events-none leading-none"
-          style={{ fontSize: "clamp(140px,22vw,300px)" }}
-        >
-          "
-        </div>
+          className="absolute inset-0 z-[0] pointer-events-none select-none"
+          style={{
+            backgroundImage: `url("/images/about/marble.webp")`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            opacity: 0.045,
+            mixBlendMode: "soft-light",
+          }}
+        />
+        {/* Paper grain */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-[1] pointer-events-none select-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.76' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundSize: "250px 250px",
+            opacity: 0.018,
+            mixBlendMode: "soft-light",
+          }}
+        />
+        {/* Warm ambient behind portrait */}
+        <div
+          aria-hidden="true"
+          className="absolute top-1/2 -translate-y-1/2 w-[640px] h-[640px] pointer-events-none z-[1]"
+          style={{
+            [isRTL ? "right" : "left"]: "-6%",
+            background: "radial-gradient(ellipse, rgba(187,138,60,0.042) 0%, transparent 68%)",
+          } as React.CSSProperties}
+        />
+        {/* Top gold hairline */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 h-px z-[2] pointer-events-none"
+          style={{ background: "linear-gradient(to right, transparent, rgba(187,138,60,0.26) 25%, rgba(187,138,60,0.38) 50%, rgba(187,138,60,0.26) 75%, transparent)" }}
+        />
+        {/* Bottom gold hairline */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-px z-[2] pointer-events-none"
+          style={{ background: "linear-gradient(to right, transparent, rgba(187,138,60,0.14) 25%, rgba(187,138,60,0.22) 50%, rgba(187,138,60,0.14) 75%, transparent)" }}
+        />
 
-        <div className="container-custom px-6 md:px-14 lg:px-20 py-24 md:py-36 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-28 items-center">
+        <div className="container-custom px-6 md:px-14 lg:px-20 py-28 md:py-36 lg:py-44 relative z-10">
+
+          {/* Eyebrow — centered with flanking hairlines */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.0, ease }}
+            className="flex items-center justify-center gap-6 mb-20 lg:mb-28"
+          >
+            <div className="h-px flex-1 max-w-[90px]" style={{ background: "linear-gradient(to right, transparent, rgba(187,138,60,0.40))" }} />
+            <span className="text-accent text-[10.5px] uppercase font-light whitespace-nowrap" style={{ letterSpacing: isRTL ? "0.06em" : "0.40em" }}>{t("founderEyebrow")}</span>
+            <div className="h-px flex-1 max-w-[90px]" style={{ background: "linear-gradient(to left, transparent, rgba(187,138,60,0.40))" }} />
+          </motion.div>
+
+          {/* ── Editorial grid: portrait + content ── */}
+          <div className="flex flex-col lg:flex-row gap-14 lg:gap-16 xl:gap-24 items-start">
+
+            {/* Portrait column */}
             <motion.div
-              initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, ease }}
-              className="relative"
+              initial={{ opacity: 0, y: 52 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 1.3, ease }}
+              className="relative lg:w-[44%] lg:shrink-0"
             >
-              <div
-                className="relative overflow-hidden shadow-[0_40px_90px_rgba(48,32,95,0.16)]"
-                style={{ borderRadius: "9999px 9999px 60px 60px", height: 580 }}
-              >
-                <Image
-                  src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=900&auto=format&fit=crop"
-                  alt={t("founderName")}
-                  fill
-                  className="object-cover object-top"
-                  sizes="500px"
+              {/* Aspect-ratio portrait container */}
+              <div className="relative w-full" style={{ aspectRatio: "4/5" }}>
+
+                {/* Offset gold shadow frame — behind portrait */}
+                <div
+                  aria-hidden="true"
+                  className="absolute z-[0] pointer-events-none"
+                  style={{
+                    inset: 0,
+                    transform: `translate(${isRTL ? "-16px" : "16px"}, 16px)`,
+                    border: "1px solid rgba(187,138,60,0.20)",
+                  }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/75 via-primary/10 to-transparent" />
-                <div className="absolute bottom-8 left-8 right-8">
-                  <div className="w-8 h-px bg-accent mb-3" />
-                  <p className="font-serif text-cream text-[28px] font-light italic">{t("founderName")}</p>
-                  <p className="text-accent/65 text-[11px] tracking-[0.3em] uppercase mt-1">{t("founderTitle")}</p>
+
+                {/* Portrait */}
+                <div
+                  className="absolute inset-0 overflow-hidden z-[1]"
+                  style={{
+                    boxShadow: "0 28px 80px rgba(3,1,10,0.60), 0 8px 24px rgba(3,1,10,0.38)",
+                  }}
+                >
+                  <Image
+                    src="/images/about/founder.webp"
+                    alt={t("founderName")}
+                    fill
+                    priority
+                    className="object-cover object-top"
+                    sizes="(max-width: 1024px) 100vw, 44vw"
+                    style={{ filter: "brightness(0.90)" }}
+                  />
+                  {/* Cinematic bottom vignette */}
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background: "linear-gradient(to top, rgba(5,2,14,0.88) 0%, rgba(5,2,14,0.24) 30%, transparent 56%)",
+                    }}
+                  />
+                </div>
+
+                {/* Inset gold border */}
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-0 z-[2] pointer-events-none"
+                  style={{ border: "1px solid rgba(187,138,60,0.14)" }}
+                />
+
+                {/* Name + title — portrait interior, bottom */}
+                <div className={`absolute bottom-0 inset-x-0 z-[3] px-8 pb-10 ${isRTL ? "text-right" : ""}`}>
+                  <div className={`h-px w-8 mb-5 ${isRTL ? "ml-auto" : ""}`} style={{ background: "rgba(187,138,60,0.68)" }} />
+                  <p
+                    className={`font-serif text-cream/90 font-light ${isRTL ? "" : "italic"} leading-tight mb-2`}
+                    style={{ fontSize: "clamp(19px,1.9vw,24px)" }}
+                  >
+                    {t("founderName")}
+                  </p>
+                  <p
+                    className="text-accent/52 font-light uppercase"
+                    style={{ fontSize: "9.5px", letterSpacing: isRTL ? "0.04em" : "0.28em" }}
+                  >
+                    {t("founderTitle")}
+                  </p>
                 </div>
               </div>
-              <div className="absolute top-10 right-[-12px] w-6 h-20 rounded-full border border-primary/15 rotate-[20deg]" />
             </motion.div>
 
-            <div>
-              <motion.div {...fadeUp(0)}>
-                <div className="flex items-center gap-4 mb-10">
-                  <div className="w-10 h-px bg-accent" />
-                  <span className="text-accent text-[12px] tracking-[0.34em] uppercase font-bold">{t("founderEyebrow")}</span>
+            {/* Content column */}
+            <div className={`flex flex-col justify-center pt-2 lg:pt-6 lg:flex-1 ${isRTL ? "text-right items-end" : ""}`}>
+
+              {/* Hero quote */}
+              <motion.div
+                initial={{ opacity: 0, y: 36 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 1.1, delay: 0.14, ease }}
+                className="mb-12 lg:mb-14"
+              >
+                <div
+                  aria-hidden="true"
+                  className={`font-serif text-accent/20 font-light select-none leading-none mb-2 ${isRTL ? "text-right" : ""}`}
+                  style={{ fontSize: "clamp(56px,6vw,84px)", lineHeight: 0.8 }}
+                >
+                  {isRTL ? "“" : "“"}
                 </div>
+                <blockquote
+                  className={`font-serif font-light ${isRTL ? "" : "italic"} text-cream/86 leading-[1.52]`}
+                  style={{ fontSize: "clamp(20px,2.3vw,32px)" }}
+                >
+                  {t("founderQuote")}
+                </blockquote>
               </motion.div>
 
-              <motion.blockquote
-                {...fadeUp(0.1)}
-                className="font-serif text-[clamp(20px,2.8vw,36px)] text-primary font-light italic leading-[1.35] mb-10"
-                style={{ borderLeft: "2px solid rgba(187,138,60,0.35)", paddingLeft: "clamp(20px,2.5vw,36px)" }}
-              >
-                {t("founderQuote")}
-              </motion.blockquote>
+              {/* Expanding gold hairline */}
+              <motion.div
+                initial={{ scaleX: 0, opacity: 0 }}
+                whileInView={{ scaleX: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, delay: 0.24, ease }}
+                className={`h-px mb-12 w-full ${isRTL ? "origin-right" : "origin-left"}`}
+                style={{
+                  background: `linear-gradient(${isRTL ? "to left" : "to right"}, rgba(187,138,60,0.52), rgba(187,138,60,0.07) 55%, transparent)`,
+                }}
+              />
 
-              <motion.p {...fadeUp(0.2)} className="text-[clamp(14px,1.5vw,16px)] text-body/55 leading-[1.95] font-light mb-12">
+              {/* Philosophy text */}
+              <motion.p
+                {...fadeUp(0.26)}
+                className={`text-[clamp(14.5px,1.42vw,17px)] text-cream/44 font-light leading-[2.1] mb-16 ${isRTL ? "" : "max-w-[480px]"}`}
+              >
                 {t("founderBio")}
               </motion.p>
 
-              <motion.div {...fadeUp(0.3)} className="flex items-start gap-12">
-                {[["500+", "Events Delivered"], ["14+", "Years of Excellence"]].map(([num, lbl]) => (
-                  <div key={lbl}>
-                    <p className="font-serif text-accent text-[46px] font-light leading-none">{num}</p>
-                    <div className="w-6 h-px bg-accent/30 my-2.5" />
-                    <p className="text-body/38 text-[10px] tracking-[0.32em] uppercase font-medium">{lbl}</p>
+              {/* Luxury metrics — static, no counters */}
+              <motion.div
+                {...fadeUp(0.34)}
+                className={`flex items-start gap-10 xl:gap-14 ${isRTL ? "flex-row-reverse" : ""}`}
+              >
+                {[
+                  { num: isRTL ? "+14" : "14+", label: stats[0].label },
+                  { num: isRTL ? "+500" : "500+", label: stats[1].label },
+                  { num: "98%", label: stats[3].label },
+                ].map((m) => (
+                  <div key={m.label} className={isRTL ? "text-right" : ""}>
+                    <p
+                      className="font-serif text-accent font-light leading-none"
+                      style={{ fontSize: "clamp(28px,3vw,46px)" }}
+                    >
+                      {m.num}
+                    </p>
+                    <div
+                      className={`h-px w-6 my-3.5 ${isRTL ? "ml-auto" : ""}`}
+                      style={{ background: "rgba(187,138,60,0.28)" }}
+                    />
+                    <p
+                      className="text-cream/30 font-light leading-[1.85]"
+                      style={{
+                        fontSize: "10px",
+                        letterSpacing: isRTL ? "0.02em" : "0.26em",
+                        textTransform: isRTL ? "none" : "uppercase",
+                        maxWidth: isRTL ? "110px" : "88px",
+                      }}
+                    >
+                      {m.label}
+                    </p>
                   </div>
                 ))}
               </motion.div>
+
             </div>
           </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════
-          TIMELINE / JOURNEY
+          CTA — EMOTIONAL CLIMAX
           ══════════════════════════════════════ */}
-      <section className="relative overflow-hidden" style={{ background: SURFACE }}>
-        <div className="absolute top-0 right-0 w-48 h-full bg-gradient-to-l from-accent/4 to-transparent pointer-events-none" />
+      <section className="relative overflow-hidden" style={{ background: "#09061a" }}>
+
+        {/* Paper grain */}
         <div
           aria-hidden="true"
-          className="absolute top-12 right-6 md:right-14 font-serif text-cream/[0.028] font-light leading-none select-none pointer-events-none"
-          style={{ fontSize: "clamp(120px,18vw,260px)" }}
-        >
-          II
-        </div>
+          className="absolute inset-0 z-[1] pointer-events-none select-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.76' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundSize: "250px 250px",
+            opacity: 0.022,
+            mixBlendMode: "soft-light",
+          }}
+        />
+        {/* Marble veining */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-[1] pointer-events-none select-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='700' height='700'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.022' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E")`,
+            backgroundSize: "700px 700px",
+            opacity: 0.015,
+            mixBlendMode: "soft-light",
+          }}
+        />
+        {/* Warm candlelight ambient — behind image column */}
+        <div
+          aria-hidden="true"
+          className="absolute w-[900px] h-[900px] rounded-full pointer-events-none z-[1]"
+          style={{
+            top: "-10%",
+            [isRTL ? "left" : "right"]: "-14%",
+            background: "radial-gradient(ellipse, rgba(187,138,60,0.058) 0%, rgba(187,138,60,0.016) 44%, transparent 66%)",
+          } as React.CSSProperties}
+        />
+        {/* Cool deep-purple accent — text side */}
+        <div
+          aria-hidden="true"
+          className="absolute w-[700px] h-[500px] rounded-full pointer-events-none z-[1]"
+          style={{
+            bottom: "5%",
+            [isRTL ? "right" : "left"]: "-12%",
+            background: "radial-gradient(ellipse, rgba(48,32,95,0.13) 0%, transparent 65%)",
+          } as React.CSSProperties}
+        />
 
-        <div className="container-custom px-6 md:px-14 lg:px-20 py-24 md:py-36 relative z-10">
-          <motion.div {...fadeUp(0)} className="max-w-2xl mb-16 md:mb-24">
-            <div className="flex items-center gap-4 mb-8">
-              <div className="w-10 h-px bg-accent" />
-              <span className="text-accent text-[12px] tracking-[0.34em] uppercase font-bold">{t("journeyEyebrow")}</span>
-            </div>
-            <h2 className="font-serif font-light text-[clamp(40px,6vw,90px)] text-cream uppercase leading-[0.88] tracking-tighter">
-              {t("journeyH1")}<br />
-              <em className="text-accent italic not-italic">{t("journeyH2")}</em>
-            </h2>
-          </motion.div>
+        {/* Top gold hairline */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 top-0 h-px z-[2] pointer-events-none"
+          style={{ background: "linear-gradient(to right, transparent, rgba(187,138,60,0.30) 25%, rgba(187,138,60,0.50) 50%, rgba(187,138,60,0.30) 75%, transparent)" }}
+        />
+        {/* Bottom gold hairline */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-px z-[2] pointer-events-none"
+          style={{ background: "linear-gradient(to right, transparent, rgba(187,138,60,0.18) 25%, rgba(187,138,60,0.28) 50%, rgba(187,138,60,0.18) 75%, transparent)" }}
+        />
 
-          <div className="relative">
+        {/* Corner ornaments */}
+        <svg aria-hidden="true" className="absolute top-7 left-7 z-[3] pointer-events-none" width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <path d="M44 1 L1 1 L1 44" stroke="rgba(187,138,60,0.22)" strokeWidth="0.75" />
+        </svg>
+        <svg aria-hidden="true" className="absolute bottom-7 right-7 z-[3] pointer-events-none" width="44" height="44" viewBox="0 0 44 44" fill="none">
+          <path d="M0 43 L43 43 L43 0" stroke="rgba(187,138,60,0.22)" strokeWidth="0.75" />
+        </svg>
+
+        <div className="container-custom px-6 md:px-14 lg:px-20 py-28 md:py-36 lg:py-44 relative z-10">
+
+          {/* 2-column flex — html[dir="rtl"] auto-swaps column order for Arabic */}
+          <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-20 xl:gap-28">
+
+            {/* ── Text column (52% desktop) ── */}
             <motion.div
-              initial={{ scaleY: 0 }} whileInView={{ scaleY: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.5, ease }}
-              className="absolute left-[22px] md:left-1/2 top-0 bottom-0 w-px origin-top"
-              style={{ background: "linear-gradient(to bottom, rgba(187,138,60,0.65), rgba(187,138,60,0.18), transparent)" }}
-            />
+              initial={{ opacity: 0, y: 48 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 1.2, ease }}
+              className="lg:w-[52%] lg:shrink-0"
+            >
 
-            <div className="space-y-0">
-              {milestones.map((m, i) => (
-                <motion.div
-                  key={m.year}
-                  initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.85, delay: 0.05, ease }}
-                  className={`relative flex items-start gap-8 md:gap-0 pb-16 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
+              {/* Eyebrow — centered flanking hairlines */}
+              <div className="flex items-center gap-5 mb-14">
+                <div className="h-px flex-1 max-w-[56px]" style={{ background: "linear-gradient(to right, transparent, rgba(187,138,60,0.42))" }} />
+                <span
+                  className="text-accent/68 font-light whitespace-nowrap"
+                  style={{ fontSize: "10.5px", letterSpacing: isRTL ? "0.06em" : "0.38em", textTransform: "uppercase" }}
                 >
-                  <div className={`md:w-[calc(50%-40px)] pl-14 md:pl-0 ${i % 2 === 0 ? "md:pr-16 md:text-right" : "md:pl-16"}`}>
-                    <span
-                      className="font-serif text-accent/12 font-light leading-none block mb-3"
-                      style={{ fontSize: "clamp(48px,5.5vw,72px)" }}
-                    >
-                      {m.year}
-                    </span>
-                    <h3 className="font-serif text-cream text-[clamp(18px,2vw,24px)] font-light italic mb-3">{m.t}</h3>
-                    <p className="text-[13px] text-cream/38 leading-relaxed font-light">{m.d}</p>
-                  </div>
-
-                  <div className="absolute left-[18px] md:left-1/2 md:-translate-x-1/2 top-7 flex-shrink-0">
-                    <div className="w-[10px] h-[10px] rounded-full bg-accent shadow-[0_0_16px_rgba(187,138,60,0.65),0_0_32px_rgba(187,138,60,0.25)]" />
-                  </div>
-
-                  <div className="hidden md:block md:w-[calc(50%-40px)]" />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════
-          CTA BANNER
-          ══════════════════════════════════════ */}
-      <section className="relative overflow-hidden" style={{ background: PRIMARY }}>
-        <div className="absolute inset-0">
-          <Image
-            src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=2070&auto=format&fit=crop"
-            alt=""
-            fill
-            aria-hidden="true"
-            className="object-cover opacity-15"
-            sizes="100vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/96 to-primary/80" />
-        </div>
-
-        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[10%] right-[5%] w-16 h-52 rounded-full border border-accent/12 rotate-[-18deg]" />
-          <div className="absolute top-[5%] right-[9%] w-8 h-28 rounded-full border border-accent/7 rotate-[-18deg]" />
-          <div className="absolute bottom-[-10%] left-[3%] w-20 h-64 bg-accent/6 rounded-full rotate-[14deg]" />
-        </div>
-
-        <div className="container-custom px-6 md:px-14 lg:px-20 py-24 md:py-36 relative z-10">
-          <div className="max-w-3xl">
-            <motion.div {...fadeUp(0)}>
-              <div className="flex items-center gap-4 mb-10">
-                <div className="w-10 h-px bg-accent" />
-                <span className="text-accent text-[12px] tracking-[0.34em] uppercase font-bold">{t("ctaEyebrow")}</span>
+                  {t("ctaEyebrow")}
+                </span>
+                <div className="h-px flex-1 max-w-[56px]" style={{ background: "linear-gradient(to left, transparent, rgba(187,138,60,0.42))" }} />
               </div>
 
-              <h2 className="font-serif font-light text-[clamp(48px,8vw,110px)] text-cream uppercase leading-[0.85] tracking-tighter mb-8">
-                {t("ctaH1")}<br />
-                <em className="text-accent italic not-italic">{t("ctaH2")}</em>
-              </h2>
+              {/* 3-line editorial headline */}
+              <motion.div {...fadeUp(0.06)} className="mb-10">
+                <h2 className="font-serif font-light tracking-tighter leading-[0.88]">
+                  <span
+                    className={`block text-cream ${isRTL ? "" : "uppercase"}`}
+                    style={{ fontSize: "clamp(42px,6.2vw,96px)" }}
+                  >
+                    {t("ctaH1a")}
+                  </span>
+                  <span
+                    className="block text-accent"
+                    style={{ fontSize: "clamp(50px,7.8vw,120px)", fontStyle: isRTL ? "normal" : "italic" }}
+                  >
+                    {t("ctaH1b")}
+                  </span>
+                  <span
+                    className={`block text-cream ${isRTL ? "" : "uppercase"}`}
+                    style={{ fontSize: "clamp(42px,6.2vw,96px)" }}
+                  >
+                    {t("ctaH1c")}
+                  </span>
+                </h2>
+              </motion.div>
 
-              <p className="font-serif italic text-[clamp(15px,1.8vw,20px)] text-cream/45 font-light mb-12 max-w-md leading-relaxed">
+              {/* Expanding gold rule */}
+              <motion.div
+                initial={{ scaleX: 0, opacity: 0 }}
+                whileInView={{ scaleX: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.2, delay: 0.18, ease }}
+                className={`h-px mb-12 ${isRTL ? "origin-right" : "origin-left"}`}
+                style={{ background: `linear-gradient(${isRTL ? "to left" : "to right"}, rgba(187,138,60,0.62), rgba(187,138,60,0.10) 55%, transparent)` }}
+              />
+
+              {/* Emotional body copy */}
+              <motion.p
+                {...fadeUp(0.22)}
+                className="text-[clamp(14.5px,1.45vw,17.5px)] text-cream/46 font-light leading-[2.1] mb-14"
+                style={{ maxWidth: isRTL ? "none" : "420px" }}
+              >
                 {t("ctaBody")}
-              </p>
+              </motion.p>
 
-              <motion.div {...fadeUp(0.15)} className="flex flex-wrap items-center gap-6">
+              {/* CTAs */}
+              <motion.div
+                {...fadeUp(0.30)}
+                className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8 mb-16 lg:mb-20"
+              >
                 <Link
                   href="#booking"
-                  className="about-cta-primary inline-flex items-center gap-3 px-9 py-5 rounded-full text-[11px] tracking-[0.22em] uppercase font-bold text-primary no-underline"
+                  className="about-cta-primary inline-flex items-center gap-3 px-9 py-[17px] rounded-full text-[11px] tracking-[0.22em] uppercase font-bold text-primary no-underline whitespace-nowrap"
                 >
                   {t("ctaBtn")}
                   <span className="text-[10px] opacity-65">{isRTL ? "←" : "→"}</span>
                 </Link>
                 <Link
-                  href={`/${locale}`}
-                  className="inline-flex items-center gap-2 text-cream/35 hover:text-accent transition-colors duration-300 text-[12px] tracking-[0.2em] uppercase font-medium no-underline"
+                  href={`/${locale}/services`}
+                  className="inline-flex items-center gap-2 text-cream/30 hover:text-accent/75 transition-colors duration-300 font-medium no-underline group whitespace-nowrap"
+                  style={{ fontSize: "10.5px", letterSpacing: isRTL ? "0.04em" : "0.20em", textTransform: "uppercase" }}
                 >
-                  {isRTL ? "→ العودة للرئيسية" : "← Back to Home"}
+                  {t("ctaServices")}
+                  <span className="text-[10px] group-hover:translate-x-0.5 transition-transform">{isRTL ? "←" : "→"}</span>
                 </Link>
               </motion.div>
+
+
             </motion.div>
+
+            {/* ── Image column (flex-1) ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 56 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 1.4, delay: 0.20, ease }}
+              className="w-full lg:flex-1"
+            >
+              <div className="relative">
+
+                {/* Offset gold shadow frame */}
+                <div
+                  aria-hidden="true"
+                  className="absolute z-[0] pointer-events-none"
+                  style={{
+                    inset: 0,
+                    transform: `translate(${isRTL ? "-18px" : "18px"}, 18px)`,
+                    border: "1px solid rgba(187,138,60,0.22)",
+                    borderRadius: "32px",
+                  }}
+                />
+
+                {/* Image + overlays */}
+                <div
+                  className="relative overflow-hidden z-[1]"
+                  style={{ borderRadius: "32px", aspectRatio: "3/4" }}
+                >
+                  <Image
+                    src="/images/about/why-elie-1.webp"
+                    alt="Elie Catering & Event Planning — luxury event experience"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 48vw"
+                    style={{ filter: "brightness(0.80)" }}
+                  />
+
+                  {/* Cinematic bottom vignette */}
+                  <div
+                    className="absolute inset-0"
+                    style={{ background: "linear-gradient(to top, rgba(9,6,26,0.92) 0%, rgba(9,6,26,0.22) 38%, transparent 62%)" }}
+                  />
+                  {/* Warm candlelight bloom */}
+                  <div
+                    className="absolute inset-0"
+                    style={{ background: "radial-gradient(ellipse 76% 38% at 50% 88%, rgba(180,110,18,0.09) 0%, transparent 52%)" }}
+                  />
+
+                  {/* Inset gold border */}
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-0 z-[2] pointer-events-none"
+                    style={{ border: "1px solid rgba(187,138,60,0.14)", borderRadius: "32px" }}
+                  />
+
+                  {/* Floating quote */}
+                  <div className={`absolute bottom-0 inset-x-0 z-[3] px-8 pb-10 ${isRTL ? "text-right" : ""}`}>
+                    <div
+                      className={`h-px w-7 mb-5 ${isRTL ? "ml-auto" : ""}`}
+                      style={{ background: "rgba(187,138,60,0.64)" }}
+                    />
+                    <p
+                      className={`font-serif font-light ${isRTL ? "" : "italic"} text-cream/70 leading-[1.58]`}
+                      style={{ fontSize: "clamp(13px,1.3vw,16px)" }}
+                    >
+                      {t("founderQuote")}
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </motion.div>
+
           </div>
         </div>
       </section>

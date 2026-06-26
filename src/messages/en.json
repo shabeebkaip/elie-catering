@@ -226,6 +226,8 @@
     "storyP2": "Every event we create is a reflection of our unwavering commitment to excellence — from the first consultation to the final flourish. We blend culinary artistry, meticulous planning, and inspired décor into moments that endure long after the last guest departs.",
     "storyTag": "Est. 2010 · Riyadh, KSA",
     "statsLabel": "By the numbers",
+    "statsH1": "By The",
+    "statsH2": "Numbers.",
     "stats": [
       { "num": "14+", "label": "Years of Excellence" },
       { "num": "500+", "label": "Events Delivered" },
@@ -233,8 +235,8 @@
       { "num": "98%", "label": "Client Satisfaction" }
     ],
     "pillarsEyebrow": "Why Elie",
-    "pillarsH1": "More than",
-    "pillarsH2": "a caterer.",
+    "pillarsH1": "We Design",
+    "pillarsH2": "Experiences.",
     "pillarsSub": "We are architects of atmosphere — every element conceived, coordinated, and crafted under one roof.",
     "pillars": [
       { "t": "In-House Expertise", "d": "Our culinary team, decorators, and planners operate under one roof — ensuring seamless coordination from concept to close." },
@@ -259,7 +261,11 @@
     "ctaEyebrow": "Begin the journey",
     "ctaH1": "Let's create",
     "ctaH2": "something extraordinary.",
-    "ctaBody": "Tell us your vision — we will handle every last detail.",
-    "ctaBtn": "Book a Consultation"
+    "ctaBody": "Every detail considered. Every moment crafted to endure. From the first conversation to the final flourish — we build experiences that live in memory long after the last guest departs.",
+    "ctaBtn": "Book a Consultation",
+    "ctaH1a": "Your Next",
+    "ctaH1b": "Celebration",
+    "ctaH1c": "Begins Here.",
+    "ctaServices": "Explore Our Services"
   }
 }
