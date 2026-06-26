@@ -1088,6 +1088,16 @@ export default function AboutPage() {
             background: "radial-gradient(ellipse, rgba(48,32,95,0.13) 0%, transparent 65%)",
           } as React.CSSProperties}
         />
+        {/* Warm gold glow — text column depth */}
+        <div
+          aria-hidden="true"
+          className="absolute w-[800px] h-[800px] rounded-full pointer-events-none z-[1]"
+          style={{
+            top: "0%",
+            [isRTL ? "right" : "left"]: "-10%",
+            background: "radial-gradient(circle at 70% 30%, rgba(212,175,55,0.06), transparent 40%)",
+          } as React.CSSProperties}
+        />
 
         {/* Top gold hairline */}
         <div
@@ -1121,7 +1131,7 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 1.2, ease }}
-              className="lg:w-[52%] lg:shrink-0"
+              className="lg:w-[46%] lg:shrink-0"
             >
 
               {/* Eyebrow — centered flanking hairlines */}
@@ -1173,16 +1183,47 @@ export default function AboutPage() {
               {/* Emotional body copy */}
               <motion.p
                 {...fadeUp(0.22)}
-                className="text-[clamp(14.5px,1.45vw,17.5px)] text-cream/46 font-light leading-[2.1] mb-14"
+                className="text-[clamp(14.5px,1.45vw,17.5px)] text-cream/46 font-light leading-[2.1] mb-10"
                 style={{ maxWidth: isRTL ? "none" : "420px" }}
               >
                 {t("ctaBody")}
               </motion.p>
 
+              {/* Animated gold divider — body → CTA */}
+              <motion.div
+                initial={{ scaleX: 0, opacity: 0 }}
+                whileInView={{ scaleX: 1, opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 1.0, delay: 0.28, ease }}
+                className={`h-px mb-10 ${isRTL ? "origin-right" : "origin-left"}`}
+                style={{ background: `linear-gradient(${isRTL ? "to left" : "to right"}, rgba(187,138,60,0.36), rgba(187,138,60,0.05) 60%, transparent)` }}
+              />
+
+              {/* Feature list */}
+              <motion.ul
+                {...fadeUp(0.28)}
+                className={`flex flex-col gap-3.5 mb-11 ${isRTL ? "items-end" : ""}`}
+              >
+                {([
+                  isRTL ? "استشارة أولية خاصة" : "Private first consultation",
+                  isRTL ? "تصميم مخصص بالكامل" : "Fully bespoke design",
+                  isRTL ? "تجربة ضيافة استثنائية" : "Exceptional hospitality experience",
+                ] as string[]).map((item) => (
+                  <li
+                    key={item}
+                    className={`flex items-center gap-3 text-cream/40 font-light ${isRTL ? "flex-row-reverse" : ""}`}
+                    style={{ fontSize: "10.5px", letterSpacing: isRTL ? "0.02em" : "0.10em" }}
+                  >
+                    <span className="text-accent/75 flex-shrink-0" style={{ fontSize: "9px" }}>✦</span>
+                    {item}
+                  </li>
+                ))}
+              </motion.ul>
+
               {/* CTAs */}
               <motion.div
-                {...fadeUp(0.30)}
-                className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8 mb-16 lg:mb-20"
+                {...fadeUp(0.34)}
+                className="flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8"
               >
                 <Link
                   href="#booking"
@@ -1259,16 +1300,18 @@ export default function AboutPage() {
                   />
 
                   {/* Floating quote */}
-                  <div className={`absolute bottom-0 inset-x-0 z-[3] px-8 pb-10 ${isRTL ? "text-right" : ""}`}>
+                  <div className={`absolute bottom-0 inset-x-0 z-[3] px-9 pb-11 ${isRTL ? "text-right" : ""}`}>
                     <div
-                      className={`h-px w-7 mb-5 ${isRTL ? "ml-auto" : ""}`}
-                      style={{ background: "rgba(187,138,60,0.64)" }}
+                      className={`h-px w-8 mb-6 ${isRTL ? "ml-auto" : ""}`}
+                      style={{ background: "linear-gradient(to right, rgba(187,138,60,0.80), rgba(187,138,60,0.20))" }}
                     />
                     <p
-                      className={`font-serif font-light ${isRTL ? "" : "italic"} text-cream/70 leading-[1.58]`}
-                      style={{ fontSize: "clamp(13px,1.3vw,16px)" }}
+                      className={`font-serif font-light ${isRTL ? "" : "italic"} text-cream/78 leading-[1.65]`}
+                      style={{ fontSize: "clamp(13.5px,1.35vw,17px)" }}
                     >
-                      {t("founderQuote")}
+                      {isRTL
+                        ? "الفخامة ليست في التكلفة، بل في كل تفصيلة لا يلاحظها الضيف."
+                        : "Luxury is not in the cost — it is in every detail the guest never notices."}
                     </p>
                   </div>
                 </div>
