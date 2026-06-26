@@ -262,12 +262,6 @@ export default function Header() {
                                 </span>
                               </Link>
                             ))}
-                            <div className="px-5 py-3 border-t border-accent/10">
-                              <Link href={`/${locale}/decorating`} onClick={() => setDecoratingOpen(false)} className="flex items-center gap-2 no-underline text-[9.5px] tracking-[0.22em] uppercase font-bold transition-colors duration-200 hover:text-accent" style={{ color: "rgba(187,138,60,0.55)" }}>
-                                <span>{isRTL ? "جميع خدمات التزيين" : "View all decorating"}</span>
-                                <span>{isRTL ? "←" : "→"}</span>
-                              </Link>
-                            </div>
                           </div>
                         </motion.div>
                       )}
@@ -312,12 +306,6 @@ export default function Header() {
                                 </span>
                               </Link>
                             ))}
-                            <div className="px-5 py-3 border-t border-accent/10">
-                              <Link href={`/${locale}/planning`} onClick={() => setPlanningOpen(false)} className="flex items-center gap-2 no-underline text-[9.5px] tracking-[0.22em] uppercase font-bold transition-colors duration-200 hover:text-accent" style={{ color: "rgba(187,138,60,0.55)" }}>
-                                <span>{isRTL ? "جميع خدمات التخطيط" : "View all planning"}</span>
-                                <span>{isRTL ? "←" : "→"}</span>
-                              </Link>
-                            </div>
                           </div>
                         </motion.div>
                       )}
