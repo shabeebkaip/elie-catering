@@ -12,6 +12,39 @@ const GOLD      = "#C9A15B";
 const CREAM     = "#F5F1E8";
 const GRAD_HERO = "linear-gradient(to top, rgba(5,5,5,0.98) 0%, rgba(5,5,5,0.62) 45%, rgba(5,5,5,0.18) 72%, transparent 100%)";
 
+const HERO_IMG: Record<string, string> = {
+  "wedding-planning":  "/images/services/wedding.webp",
+  "event-planning":    "/images/services/coorperate-events.webp",
+  "party-planning":    "/images/services/private-gathering.webp",
+};
+
+const GALLERY_IMGS: Record<string, string[]> = {
+  "wedding-planning":  ["/images/services/wedding.webp", "/images/services/event-styling.webp", "/images/services/private-gathering.webp", "/images/services/luxury-catering.webp"],
+  "event-planning":    ["/images/services/coorperate-events.webp", "/images/services/wedding.webp", "/images/services/event-styling.webp", "/images/services/vip.webp"],
+  "party-planning":    ["/images/services/private-gathering.webp", "/images/services/event-styling.webp", "/images/services/wedding.webp", "/images/services/luxury-catering.webp"],
+};
+
+const PROCESS: Record<string, { num: string; t: string; tAr: string; d: string; dAr: string }[]> = {
+  "wedding-planning": [
+    { num: "01", t: "Initial Consultation",  tAr: "الاستشارة الأولى",     d: "We meet to understand your vision, style, budget, and guest count.",           dAr: "نلتقي لنفهم رؤيتك وأسلوبك وميزانيتك وعدد ضيوفك." },
+    { num: "02", t: "Concept & Design",      tAr: "المفهوم والتصميم",       d: "A bespoke event concept — décor direction, mood board, palette — is crafted.", dAr: "تصميم مفهوم فريد للحفل — الديكور والألوان والأجواء." },
+    { num: "03", t: "Vendor Coordination",   tAr: "تنسيق الموردين",         d: "We secure the venue, florists, photographers, catering, and all logistics.",   dAr: "نؤمن القاعة والزهور والتصوير والتموين وكل اللوجستيات." },
+    { num: "04", t: "Your Day",              tAr: "يوم الحفل",              d: "Our team is on-site from first setup to final farewell — every moment managed.", dAr: "فريقنا حاضر من أول إعداد حتى آخر لحظة — كل شيء تحت السيطرة." },
+  ],
+  "event-planning": [
+    { num: "01", t: "Brief & Discovery",     tAr: "الاستيعاب والاكتشاف",   d: "We learn your event objectives, audience, brand, and desired atmosphere.",     dAr: "نفهم أهداف فعاليتك وجمهورك وعلامتك التجارية وأجوائها." },
+    { num: "02", t: "Creative Direction",    tAr: "التوجيه الإبداعي",       d: "A tailored event concept with full venue, staging, and production plan.",       dAr: "مفهوم فعالية مخصص مع خطة كاملة للقاعة والمسرح والإنتاج." },
+    { num: "03", t: "Production & Logistics",tAr: "الإنتاج واللوجستيات",   d: "End-to-end coordination of all suppliers, AV, catering, and guest flow.",      dAr: "تنسيق شامل لجميع الموردين والتقنيات والتموين وتدفق الضيوف." },
+    { num: "04", t: "Live Event Management", tAr: "إدارة الفعالية الحية",   d: "Our producers are on-site — briefed, positioned, and ready for every scenario.", dAr: "منظمونا في الموقع — جاهزون لكل سيناريو." },
+  ],
+  "party-planning": [
+    { num: "01", t: "Vision Session",        tAr: "جلسة الرؤية",            d: "We discuss the occasion, theme, guest list, and the moments that matter most.", dAr: "نناقش المناسبة والفكرة وقائمة الضيوف والأوقات الأهم." },
+    { num: "02", t: "Theme & Styling",       tAr: "المظهر والتصميم",         d: "Full creative direction — décor, flowers, lighting, colour palette, and flow.", dAr: "توجيه إبداعي كامل — الديكور والزهور والإضاءة والألوان." },
+    { num: "03", t: "Arrangement & Booking", tAr: "الترتيب والحجز",          d: "We handle all bookings, supplier negotiations, and timeline building.",          dAr: "نتولى كل الحجوزات والتفاوض مع الموردين وبناء الجدول الزمني." },
+    { num: "04", t: "Day-of Execution",      tAr: "تنفيذ يوم الحفل",         d: "Your team arrives, sets up, and manages so you enjoy every moment.",            dAr: "فريقنا يصل ويُعدّ ويدير كل شيء لتستمتع بكل لحظة." },
+  ],
+};
+
 type Props = { slug: string; locale: string };
 
 export default function PlanningDetailPageClient({ slug, locale }: Props) {
@@ -21,6 +54,9 @@ export default function PlanningDetailPageClient({ slug, locale }: Props) {
   if (!service) notFound();
 
   const related = planningServices.filter((p) => p.slug !== slug);
+  const heroImg = HERO_IMG[slug] ?? service.heroImg;
+  const galleryImgs = GALLERY_IMGS[slug] ?? service.gallery;
+  const process = PROCESS[slug] ?? PROCESS["event-planning"];
 
   return (
     <>
@@ -46,7 +82,7 @@ export default function PlanningDetailPageClient({ slug, locale }: Props) {
           {/* ── Hero ──────────────────────────────────────────────── */}
           <section className="relative h-[88vh] min-h-[580px] max-h-[860px] overflow-hidden flex items-end">
             <Image
-              src={service.heroImg}
+              src={heroImg}
               alt={isAr ? service.titleAr : service.title}
               fill
               className="object-cover"
@@ -364,6 +400,78 @@ export default function PlanningDetailPageClient({ slug, locale }: Props) {
             </div>
           </section>
 
+          {/* ── Process ───────────────────────────────────────────── */}
+          <section
+            className="px-6 md:px-14 py-20 md:py-28"
+            style={{ borderTop: "1px solid rgba(201,161,91,0.08)" }}
+          >
+            <div className="max-w-6xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="mb-14 md:mb-20"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-6 h-px" style={{ background: "rgba(201,161,91,0.45)" }} />
+                  <span className="text-[9px] tracking-[0.44em] uppercase font-bold" style={{ color: "rgba(201,161,91,0.6)" }}>
+                    {isAr ? "كيف نعمل" : "How We Work"}
+                  </span>
+                </div>
+                <h2 className="font-serif font-light" style={{ fontSize: "clamp(28px, 4vw, 52px)", color: CREAM }}>
+                  <em>
+                    {isAr
+                      ? <>من أول مكالمة إلى <span style={{ color: GOLD }}>آخر لحظة.</span></>
+                      : <>From first call to <span style={{ fontStyle: "italic", color: GOLD }}>last moment.</span></>
+                    }
+                  </em>
+                </h2>
+              </motion.div>
+
+              <div className="relative">
+                {/* Connector line */}
+                <div
+                  className="hidden lg:block absolute top-8 left-0 right-0 h-px"
+                  style={{ background: "linear-gradient(90deg, transparent 4%, rgba(201,161,91,0.18) 20%, rgba(201,161,91,0.18) 80%, transparent 96%)" }}
+                />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative">
+                  {process.map((step, i) => (
+                    <motion.div
+                      key={step.num}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.55, delay: i * 0.1 }}
+                    >
+                      <div
+                        className="w-16 h-16 rounded-full flex items-center justify-center mb-6 relative"
+                        style={{ background: "rgba(10,10,10,0.9)", border: `1px solid rgba(201,161,91,0.22)` }}
+                      >
+                        <span
+                          className="font-serif font-light"
+                          style={{ fontSize: "22px", color: GOLD, fontStyle: "italic" }}
+                        >
+                          {step.num}
+                        </span>
+                      </div>
+                      <h3
+                        className="font-serif font-light mb-3"
+                        style={{ fontSize: "clamp(16px, 1.6vw, 19px)", color: CREAM, fontStyle: isAr ? "normal" : "italic" }}
+                      >
+                        {isAr ? step.tAr : step.t}
+                      </h3>
+                      <div className="w-6 h-px mb-3" style={{ background: "rgba(201,161,91,0.2)" }} />
+                      <p style={{ fontSize: "13px", color: "rgba(245,241,232,0.48)", lineHeight: 1.75 }}>
+                        {isAr ? step.dAr : step.d}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* ── Gallery ───────────────────────────────────────────── */}
           <section className="px-6 md:px-14 pb-24">
             <div className="max-w-6xl mx-auto">
@@ -375,7 +483,7 @@ export default function PlanningDetailPageClient({ slug, locale }: Props) {
               </div>
 
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                {service.gallery.map((img, i) => (
+                {galleryImgs.map((img, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, scale: 0.97 }}
@@ -529,36 +637,53 @@ export default function PlanningDetailPageClient({ slug, locale }: Props) {
                   className="text-[10px] tracking-[0.4em] uppercase font-bold mb-6"
                   style={{ color: "rgba(201,161,91,0.65)" }}
                 >
-                  {isAr ? "ابدأ الرحلة" : "Begin the journey"}
+                  {isAr ? "احجز موعدك" : "Reserve Your Date"}
                 </p>
                 <h2
-                  className="font-serif font-light leading-[0.92] tracking-tight mb-5"
+                  className="font-serif font-light leading-[0.92] tracking-tight mb-3"
                   style={{ fontSize: "clamp(36px, 6vw, 68px)", color: CREAM }}
                 >
                   <em>
-                    {isAr ? `احجز ${service.titleAr}` : `Book ${service.title}`}
+                    {isAr ? `احجز ${service.titleAr}` : `Reserve Your ${service.title}`}
                   </em>
                 </h2>
                 <p
+                  className="text-[11px] tracking-[0.18em] uppercase font-bold mb-6"
+                  style={{ color: "rgba(201,161,91,0.55)" }}
+                >
+                  {isAr ? "جدول استشارة خاصة" : "Schedule a Private Consultation"}
+                </p>
+                <p
                   className="font-light max-w-sm mx-auto mb-10 leading-relaxed"
-                  style={{ fontSize: "14px", color: "rgba(245,241,232,0.36)" }}
+                  style={{ fontSize: "13.5px", color: "rgba(245,241,232,0.34)" }}
                 >
                   {isAr
-                    ? "تواصل معنا وسيتواصل فريقنا خلال 24 ساعة لبدء التخطيط لفعاليتك الاستثنائية."
-                    : "Get in touch and our team will reach out within 24 hours to begin planning your extraordinary event."}
+                    ? "جميع الاستفسارات تُعالج بسرية تامة. يتواصل فريقنا خلال 24 ساعة."
+                    : "All enquiries handled with complete discretion. Our team responds within 24 hours."}
                 </p>
-                <Link
-                  href={`/${locale}#booking`}
-                  className="inline-flex items-center gap-3 px-10 py-5 rounded-full text-[12px] tracking-[0.22em] uppercase font-bold no-underline transition-all duration-300 hover:scale-105 active:scale-95"
-                  style={{
-                    background: `linear-gradient(135deg, ${GOLD} 0%, #dfc07a 50%, ${GOLD} 100%)`,
-                    color: "#050505",
-                    boxShadow: "0 12px 44px rgba(201,161,91,0.36)",
-                  }}
-                >
-                  {isAr ? "ابدأ المحادثة" : "Start a conversation"}
-                  <span>{isAr ? "←" : "→"}</span>
-                </Link>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Link
+                    href={`/${locale}#booking`}
+                    className="inline-flex items-center gap-3 px-10 py-5 rounded-full text-[12px] tracking-[0.22em] uppercase font-bold no-underline transition-all duration-300 hover:scale-105 active:scale-95"
+                    style={{
+                      background: `linear-gradient(135deg, ${GOLD} 0%, #dfc07a 50%, ${GOLD} 100%)`,
+                      color: "#050505",
+                      boxShadow: "0 12px 44px rgba(201,161,91,0.36)",
+                    }}
+                  >
+                    {isAr ? "ابدأ استشارتك" : "Begin Your Consultation"}
+                    <span>{isAr ? "←" : "→"}</span>
+                  </Link>
+                  <Link
+                    href={`/${locale}/planning`}
+                    className="inline-flex items-center gap-2 text-[11px] tracking-[0.18em] uppercase font-bold no-underline transition-colors duration-300"
+                    style={{ color: "rgba(245,241,232,0.36)" }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = GOLD; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(245,241,232,0.36)"; }}
+                  >
+                    {isAr ? "← استكشف جميع الخدمات" : "Explore All Services →"}
+                  </Link>
+                </div>
               </motion.div>
             </div>
           </section>
