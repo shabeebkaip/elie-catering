@@ -12,6 +12,105 @@ const GOLD      = "#C9A15B";
 const CREAM     = "#F5F1E8";
 const GRAD_HERO = "linear-gradient(to top, rgba(5,5,5,0.98) 0%, rgba(5,5,5,0.62) 45%, rgba(5,5,5,0.18) 72%, transparent 100%)";
 
+// Override hero and gallery with branded local images per category
+const CATEGORY_HERO: Record<string, string> = {
+  catering: "/images/services/luxury-catering.webp",
+  planning:  "/images/services/wedding.webp",
+  decor:     "/images/services/event-styling.webp",
+  addons:    "/images/services/vip.webp",
+};
+
+const CATEGORY_GALLERY: Record<string, string[]> = {
+  catering: [
+    "/images/services/luxury-catering.webp",
+    "/images/services/wedding.webp",
+    "/images/services/event-styling.webp",
+    "/images/services/private-gathering.webp",
+  ],
+  planning: [
+    "/images/services/wedding.webp",
+    "/images/services/coorperate-events.webp",
+    "/images/services/private-gathering.webp",
+    "/images/services/event-styling.webp",
+  ],
+  decor: [
+    "/images/services/event-styling.webp",
+    "/images/services/wedding.webp",
+    "/images/services/luxury-catering.webp",
+    "/images/services/private-gathering.webp",
+  ],
+  addons: [
+    "/images/services/vip.webp",
+    "/images/services/coorperate-events.webp",
+    "/images/services/wedding.webp",
+    "/images/services/luxury-catering.webp",
+  ],
+};
+
+// Trust benefits per category
+const TRUST: Record<string, { t: string; tAr: string; d: string; dAr: string }[]> = {
+  catering: [
+    { t: "Custom Menu Creation",        tAr: "تصميم القائمة المخصص",  d: "Menus built around your event, guests, and culinary vision.",        dAr: "قوائم مبنية حول فعاليتك وضيوفك ورؤيتك الطهوية." },
+    { t: "Premium Ingredient Sourcing", tAr: "توفير مكونات فاخرة",    d: "Named farms, trusted suppliers, and finest seasonal produce.",        dAr: "مزارع معروفة وموردون موثوقون وأجود المنتجات." },
+    { t: "Dedicated Culinary Team",     tAr: "فريق طهوي مخصص",       d: "Trained chefs assigned exclusively to your event.",                   dAr: "طهاة مدربون مخصصون حصرياً لفعاليتك." },
+    { t: "White-Glove Service",         tAr: "خدمة القفاز الأبيض",    d: "Uniformed, trained service staff who anticipate every need.",         dAr: "طاقم بزي موحد ومدرب يستبق كل احتياج." },
+    { t: "Elegant Presentation",        tAr: "تقديم أنيق",            d: "Every dish plated with precision — beautiful before the first bite.", dAr: "كل طبق يُقدَّم بدقة — جميل قبل أول قضمة." },
+    { t: "End-to-End Coordination",     tAr: "تنسيق شامل",            d: "From first call to final clear — we manage everything.",              dAr: "من أول مكالمة إلى التنظيف الأخير — ندير كل شيء." },
+  ],
+  planning: [
+    { t: "Bespoke Concept",             tAr: "مفهوم خاص",             d: "Every event begins from a blank page — never templated.",            dAr: "كل فعالية تبدأ من صفحة بيضاء — لا قوالب." },
+    { t: "Single Point of Contact",     tAr: "نقطة اتصال واحدة",      d: "One dedicated producer from first call to final curtain.",           dAr: "منتج مخصص واحد من أول مكالمة إلى الإسدال الأخير." },
+    { t: "Complete Vendor Management",  tAr: "إدارة كاملة للموردين",  d: "We source, brief, and coordinate every supplier.",                   dAr: "نبحث ونوجّه وننسق كل مورد." },
+    { t: "Real-Time Communication",     tAr: "تواصل فوري",            d: "Always informed — never chasing updates on your own event.",         dAr: "دائماً على علم — لا تطارد التحديثات." },
+    { t: "Contingency Planning",        tAr: "تخطيط للطوارئ",         d: "Built-in protocols for every scenario — nothing left to chance.",    dAr: "بروتوكولات مدمجة لكل سيناريو — لا شيء للصدفة." },
+    { t: "Flawless Execution",          tAr: "تنفيذ لا عيوب",         d: "14 years of institutional knowledge behind every event.",            dAr: "14 عاماً من المعرفة المؤسسية خلف كل فعالية." },
+  ],
+  decor: [
+    { t: "Design Consultation",         tAr: "استشارة التصميم",       d: "A detailed session to align your vision with our creative direction.", dAr: "جلسة مفصلة لمواءمة رؤيتك مع اتجاهنا الإبداعي." },
+    { t: "Material Sourcing",           tAr: "توفير المواد",           d: "Premium fabrics, florals, and props curated to your palette.",        dAr: "أقمشة فاخرة وزهور ودعائم منتقاة وفق لوحتك." },
+    { t: "In-House Installation",       tAr: "تركيب داخلي",           d: "Our team installs everything — no third-party gaps.",                dAr: "فريقنا يركب كل شيء — لا ثغرات من أطراف ثالثة." },
+    { t: "Ambient Lighting Design",     tAr: "تصميم إضاءة جوية",      d: "Lighting that transforms mood and atmosphere at every hour.",        dAr: "إضاءة تحول المزاج والأجواء في كل ساعة." },
+    { t: "Floral Direction",            tAr: "توجيه زهري",            d: "Seasonal florals and centrepieces designed to the last petal.",     dAr: "زهور موسمية وقطع مركزية حتى آخر بتلة." },
+    { t: "Complete Removal",            tAr: "إزالة كاملة",           d: "Full strike and cleanup — the venue left exactly as we found it.", dAr: "فك كامل وتنظيف — المكان كما وجدناه تماماً." },
+  ],
+  addons: [
+    { t: "Professional Specialists",    tAr: "متخصصون محترفون",       d: "Trained to the highest standard in their respective craft.",        dAr: "مدربون على أعلى مستوى في حرفتهم." },
+    { t: "Premium Equipment",           tAr: "معدات فاخرة",           d: "Industry-leading gear maintained to professional standards.",       dAr: "معدات رائدة محافظ عليها وفق معايير احترافية." },
+    { t: "Seamless Integration",        tAr: "تكامل سلس",             d: "We work alongside your team — no handoff friction.",               dAr: "نعمل مع فريقك — لا احتكاك في التسليم." },
+    { t: "White-Glove Delivery",        tAr: "تسليم القفاز الأبيض",   d: "Every service delivered with precision timing and elegance.",      dAr: "كل خدمة تُسلَّم بدقة توقيت وأناقة." },
+    { t: "Dedicated Account Manager",   tAr: "مدير حساب مخصص",        d: "One contact from booking through the event night.",                dAr: "نقطة اتصال واحدة من الحجز حتى ليلة الفعالية." },
+    { t: "Quality Guarantee",           tAr: "ضمان الجودة",           d: "Our standards never slip — every detail reviewed before delivery.", dAr: "معاييرنا لا تتراجع — كل تفصيلة مراجعة." },
+  ],
+};
+
+// Process steps per category
+const PROCESS: Record<string, { num: string; t: string; tAr: string; d: string; dAr: string }[]> = {
+  catering: [
+    { num: "01", t: "Discovery Call",          tAr: "مكالمة الاستكشاف",  d: "We learn your event, guest count, and culinary vision.",         dAr: "نتعرف على فعاليتك وعدد الضيوف ورؤيتك الطهوية." },
+    { num: "02", t: "Menu Design",             tAr: "تصميم القائمة",     d: "Our culinary director crafts a bespoke menu for your brief.",    dAr: "مديرنا الطهوي يصنع قائمة خاصة لملخصك." },
+    { num: "03", t: "Planning & Coordination", tAr: "التخطيط والتنسيق", d: "Logistics, staffing, and timelines confirmed to every detail.",  dAr: "اللوجستيات والطواقم والجداول مؤكدة لكل تفصيلة." },
+    { num: "04", t: "Event Execution",         tAr: "تنفيذ الفعالية",    d: "Our team arrives early, executes flawlessly, leaves no trace.", dAr: "فريقنا يصل مبكراً وينفذ بلا عيوب ولا يترك أثراً." },
+  ],
+  planning: [
+    { num: "01", t: "Discovery Call",    tAr: "مكالمة الاستكشاف", d: "We understand your vision and requirements in full detail.",   dAr: "نفهم رؤيتك ومتطلباتك بالتفصيل الكامل." },
+    { num: "02", t: "Concept Design",    tAr: "تصميم المفهوم",    d: "Creative brief, mood board, and full concept presented to you.", dAr: "ملخص إبداعي ولوح مزاج ومفهوم كامل يُقدَّم إليك." },
+    { num: "03", t: "Vendor Management", tAr: "إدارة الموردين",   d: "We source, brief, and coordinate every supplier on your behalf.", dAr: "نبحث ونوجّه وننسق كل مورد نيابةً عنك." },
+    { num: "04", t: "Event Day",         tAr: "يوم الفعالية",     d: "Your producer on-site from first setup to final farewell.",    dAr: "المنتج في الموقع من أول إعداد إلى الوداع الأخير." },
+  ],
+  decor: [
+    { num: "01", t: "Design Consultation", tAr: "استشارة التصميم", d: "We explore your aesthetic vision, theme, and venue together.",  dAr: "نستكشف رؤيتك الجمالية وموضوعك ومكانك معاً." },
+    { num: "02", t: "Concept & Sourcing",  tAr: "المفهوم والتوريد",d: "Mood boards and material samples presented for your approval.", dAr: "ألواح المزاج وعينات المواد تُقدَّم لموافقتك." },
+    { num: "03", t: "Preparation",         tAr: "التحضير",          d: "All elements produced and tested at our atelier.",            dAr: "جميع العناصر تُنتج وتُختبر في أتيليهنا." },
+    { num: "04", t: "Installation",        tAr: "التركيب",          d: "We transform your venue — then remove everything after.",    dAr: "نحول مكانك — ثم نزيل كل شيء بعد ذلك." },
+  ],
+  addons: [
+    { num: "01", t: "Discovery Call",   tAr: "مكالمة الاستكشاف", d: "We confirm scope, requirements, and event logistics.",              dAr: "نؤكد النطاق والمتطلبات واللوجستيات." },
+    { num: "02", t: "Service Planning", tAr: "تخطيط الخدمة",     d: "Detailed timing and logistics aligned with your event brief.",     dAr: "التوقيت والخدمات التفصيلية متوافقة مع ملخصك." },
+    { num: "03", t: "Coordination",     tAr: "التنسيق",           d: "Seamless integration with your venue, team, and suppliers.",       dAr: "تكامل سلس مع مكانك وفريقك وموردينك." },
+    { num: "04", t: "Event Day",        tAr: "يوم الفعالية",      d: "Our specialists on-site and ready from arrival to departure.",    dAr: "متخصصونا في الموقع جاهزون من الوصول للمغادرة." },
+  ],
+};
+
 type Props = { slug: string; locale: string };
 
 export default function ServiceDetailPageClient({ slug, locale }: Props) {
@@ -20,7 +119,15 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
   const service = getServiceBySlug(slug);
   if (!service) notFound();
 
-  const related = getRelatedServices(slug, 3);
+  const related   = getRelatedServices(slug, 3);
+  const heroImg   = CATEGORY_HERO[service.category]    ?? service.heroImg;
+  const gallery   = CATEGORY_GALLERY[service.category] ?? service.gallery;
+  const trust     = TRUST[service.category]    ?? TRUST.catering;
+  const process   = PROCESS[service.category]  ?? PROCESS.catering;
+  const standVerb = service.category === "addons" ? "Stand" : "Stands";
+  const trustHeading = isAr
+    ? `لماذا خدمة ${service.categoryLabelAr} لدينا متميزة`
+    : `Why Our ${service.categoryLabel} ${standVerb} Apart`;
 
   return (
     <>
@@ -43,10 +150,10 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
 
         <main className="min-h-screen" style={{ background: "transparent" }}>
 
-          {/* ── Hero ─────────────────────────────────────────────── */}
+          {/* ══ HERO ══════════════════════════════════════════════ */}
           <section className="relative h-[90vh] min-h-[600px] max-h-[900px] overflow-hidden flex items-end">
             <Image
-              src={service.heroImg}
+              src={heroImg}
               alt={isAr ? service.titleAr : service.title}
               fill
               className="object-cover"
@@ -60,8 +167,8 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
             <div className="absolute top-28 left-6 md:left-14 z-20">
               <Link
                 href={`/${locale}/services`}
-                className="inline-flex items-center gap-2 hover:text-accent transition-colors no-underline text-[11px] tracking-[0.2em] uppercase font-bold group"
-                style={{ color: "rgba(245,241,232,0.55)" }}
+                className="inline-flex items-center gap-2 no-underline text-[11px] tracking-[0.2em] uppercase font-bold group transition-colors duration-300 hover:text-accent"
+                style={{ color: "rgba(245,241,232,0.52)" }}
               >
                 <span className="group-hover:-translate-x-1 transition-transform duration-300">
                   {isAr ? "→" : "←"}
@@ -70,7 +177,6 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
               </Link>
             </div>
 
-            {/* Hero text */}
             <div className="relative z-10 px-6 md:px-14 pb-16 max-w-5xl">
               <motion.div
                 initial={{ opacity: 0, y: 32 }}
@@ -93,7 +199,7 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                     style={{
                       background: "rgba(245,241,232,0.08)",
                       border: "1px solid rgba(245,241,232,0.15)",
-                      color: "rgba(245,241,232,0.6)",
+                      color: "rgba(245,241,232,0.58)",
                     }}
                   >
                     {isAr ? service.tagAr : service.tag}
@@ -109,7 +215,7 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
 
                 <p
                   className="font-light leading-relaxed max-w-2xl"
-                  style={{ fontSize: "clamp(15px, 1.8vw, 20px)", color: "rgba(245,241,232,0.55)" }}
+                  style={{ fontSize: "clamp(15px, 1.8vw, 20px)", color: "rgba(245,241,232,0.52)" }}
                 >
                   {isAr ? service.taglineAr : service.tagline}
                 </p>
@@ -117,11 +223,11 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
             </div>
           </section>
 
-          {/* ── Description & Included ────────────────────────────── */}
+          {/* ══ DESCRIPTION + INCLUDED ════════════════════════════ */}
           <section className="px-6 md:px-14 py-24 max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-16 lg:gap-20">
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-16 lg:gap-20">
 
-              {/* Left: Description */}
+              {/* Left: single crisp paragraph + CTA */}
               <motion.div
                 initial={{ opacity: 0, x: -24 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -136,19 +242,13 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                 </div>
 
                 <p
-                  className="font-light leading-relaxed mb-8"
-                  style={{ fontSize: "clamp(16px, 1.8vw, 20px)", color: "rgba(245,241,232,0.85)" }}
+                  className="font-light leading-relaxed mb-10"
+                  style={{ fontSize: "clamp(16px, 1.8vw, 21px)", color: "rgba(245,241,232,0.82)", lineHeight: 1.9 }}
                 >
                   {isAr ? service.descriptionAr : service.description}
                 </p>
-                <p
-                  className="font-light leading-relaxed"
-                  style={{ fontSize: "clamp(14px, 1.5vw, 17px)", color: "rgba(245,241,232,0.52)" }}
-                >
-                  {isAr ? service.bodyAr : service.body}
-                </p>
 
-                <div className="mt-12 flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-4">
                   <Link
                     href={`/${locale}#booking`}
                     className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-[11px] tracking-[0.2em] uppercase font-bold no-underline transition-all duration-300 hover:scale-105 active:scale-95"
@@ -158,26 +258,8 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                       boxShadow: "0 8px 32px rgba(201,161,91,0.38)",
                     }}
                   >
-                    {isAr ? "احجز الآن" : "Book this service"}
+                    {isAr ? "احجز استشارة خاصة" : "Schedule a Private Consultation"}
                     <span>{isAr ? "←" : "→"}</span>
-                  </Link>
-                  <Link
-                    href={`/${locale}/services`}
-                    className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-[11px] tracking-[0.2em] uppercase font-bold no-underline transition-all duration-300"
-                    style={{
-                      color: "rgba(245,241,232,0.55)",
-                      border: "1px solid rgba(245,241,232,0.15)",
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLElement).style.borderColor = "rgba(201,161,91,0.4)";
-                      (e.currentTarget as HTMLElement).style.color = GOLD;
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLElement).style.borderColor = "rgba(245,241,232,0.15)";
-                      (e.currentTarget as HTMLElement).style.color = "rgba(245,241,232,0.55)";
-                    }}
-                  >
-                    {isAr ? "← جميع الخدمات" : "All services →"}
                   </Link>
                 </div>
               </motion.div>
@@ -224,24 +306,18 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                             <path d="M2 4.5L3.8 6.3L7 3" stroke={GOLD} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                         </div>
-                        <span className="text-[14px] leading-snug" style={{ color: "rgba(245,241,232,0.68)" }}>
+                        <span className="text-[14px] leading-snug" style={{ color: "rgba(245,241,232,0.65)" }}>
                           {item}
                         </span>
                       </motion.li>
                     ))}
                   </ul>
 
-                  <div
-                    className="mt-8 pt-6"
-                    style={{ borderTop: "1px solid rgba(201,161,91,0.08)" }}
-                  >
-                    <p
-                      className="text-[11px] tracking-[0.15em] uppercase leading-relaxed"
-                      style={{ color: "rgba(245,241,232,0.3)" }}
-                    >
+                  <div className="mt-8 pt-6" style={{ borderTop: "1px solid rgba(201,161,91,0.08)" }}>
+                    <p className="text-[11px] tracking-[0.15em] uppercase leading-relaxed" style={{ color: "rgba(245,241,232,0.28)" }}>
                       {isAr
                         ? "سيتواصل فريقنا معك لمناقشة احتياجاتك المحددة."
-                        : "Our team will be in touch to discuss your specific requirements."}
+                        : "Our concierge team will be in touch within 24 hours."}
                     </p>
                   </div>
                 </div>
@@ -249,39 +325,191 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
             </div>
           </section>
 
-          {/* ── Gallery ───────────────────────────────────────────── */}
-          <section className="px-6 md:px-14 pb-24">
+          {/* ══ WHY WE STAND APART ════════════════════════════════ */}
+          <section
+            className="px-6 md:px-14 py-20 md:py-28"
+            style={{ borderTop: "1px solid rgba(201,161,91,0.08)" }}
+          >
             <div className="max-w-6xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="mb-12 md:mb-16"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-6 h-px" style={{ background: "rgba(201,161,91,0.45)" }} />
+                  <span className="text-[9px] tracking-[0.44em] uppercase font-bold" style={{ color: "rgba(201,161,91,0.6)" }}>
+                    {isAr ? "ما يميزنا" : "Our Difference"}
+                  </span>
+                </div>
+                <h2
+                  className="font-serif font-light"
+                  style={{ fontSize: "clamp(28px, 4vw, 52px)", color: CREAM }}
+                >
+                  {isAr
+                    ? <>{trustHeading.split("متميزة")[0]}<em className="italic" style={{ color: GOLD }}>متميزة</em></>
+                    : <>{trustHeading.split("Apart")[0]}<em className="italic" style={{ color: GOLD }}>Apart.</em></>
+                  }
+                </h2>
+              </motion.div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {trust.map((item, i) => (
+                  <motion.div
+                    key={item.t}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.55, delay: i * 0.07 }}
+                    className="rounded-2xl p-7 group transition-colors duration-300"
+                    style={{
+                      background: "rgba(10,10,10,0.82)",
+                      border: "1px solid rgba(201,161,91,0.08)",
+                    }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(201,161,91,0.22)"; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(201,161,91,0.08)"; }}
+                  >
+                    {/* Gold tick */}
+                    <div
+                      className="w-6 h-6 rounded-full flex items-center justify-center mb-5"
+                      style={{ background: "rgba(201,161,91,0.12)", border: "1px solid rgba(201,161,91,0.28)" }}
+                    >
+                      <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+                        <path d="M2 4.5L3.8 6.3L7 3" stroke={GOLD} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </div>
+
+                    <h3
+                      className="font-serif font-light mb-3"
+                      style={{ fontSize: "clamp(16px, 1.6vw, 19px)", color: CREAM, fontStyle: isAr ? "normal" : "italic" }}
+                    >
+                      {isAr ? item.tAr : item.t}
+                    </h3>
+                    <div className="w-7 h-px mb-3" style={{ background: "rgba(201,161,91,0.2)" }} />
+                    <p style={{ fontSize: "13px", color: "rgba(245,241,232,0.48)", lineHeight: 1.75 }}>
+                      {isAr ? item.dAr : item.d}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ══ PROCESS ═══════════════════════════════════════════ */}
+          <section
+            className="px-6 md:px-14 py-20 md:py-28"
+            style={{ borderTop: "1px solid rgba(201,161,91,0.08)" }}
+          >
+            <div className="max-w-6xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="mb-14"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-6 h-px" style={{ background: "rgba(201,161,91,0.45)" }} />
+                  <span className="text-[9px] tracking-[0.44em] uppercase font-bold" style={{ color: "rgba(201,161,91,0.6)" }}>
+                    {isAr ? "كيف نعمل" : "How We Work"}
+                  </span>
+                </div>
+                <h2
+                  className="font-serif font-light"
+                  style={{ fontSize: "clamp(28px, 4vw, 52px)", color: CREAM }}
+                >
+                  {isAr
+                    ? <>من أول مكالمة إلى <em style={{ color: GOLD, fontStyle: "normal" }}>اللحظة الأخيرة.</em></>
+                    : <>From first call to <em className="italic" style={{ color: GOLD }}>last moment.</em></>
+                  }
+                </h2>
+              </motion.div>
+
+              {/* 4-step timeline */}
+              <div className="relative">
+                {/* Connector line (desktop) */}
+                <div
+                  className="absolute top-8 left-0 right-0 h-px hidden lg:block"
+                  style={{ background: "linear-gradient(to right, transparent, rgba(201,161,91,0.2) 15%, rgba(201,161,91,0.2) 85%, transparent)" }}
+                />
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 relative">
+                  {process.map((step, i) => (
+                    <motion.div
+                      key={step.num}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6, delay: i * 0.1 }}
+                    >
+                      {/* Step number */}
+                      <div
+                        className="w-16 h-16 rounded-full flex items-center justify-center mb-6 relative"
+                        style={{
+                          background: "rgba(10,10,10,0.9)",
+                          border: "1px solid rgba(201,161,91,0.22)",
+                        }}
+                      >
+                        <span
+                          className="font-serif font-light"
+                          style={{ fontSize: "15px", color: GOLD, letterSpacing: "0.08em" }}
+                        >
+                          {step.num}
+                        </span>
+                      </div>
+
+                      <h3
+                        className="font-serif font-light mb-3"
+                        style={{ fontSize: "clamp(16px, 1.8vw, 20px)", color: CREAM, fontStyle: isAr ? "normal" : "italic" }}
+                      >
+                        {isAr ? step.tAr : step.t}
+                      </h3>
+                      <p style={{ fontSize: "13px", color: "rgba(245,241,232,0.45)", lineHeight: 1.8 }}>
+                        {isAr ? step.dAr : step.d}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ══ GALLERY ═══════════════════════════════════════════ */}
+          <section
+            className="px-6 md:px-14 pb-24"
+            style={{ borderTop: "1px solid rgba(201,161,91,0.08)" }}
+          >
+            <div className="max-w-6xl mx-auto pt-20">
               <div className="flex items-center gap-3 mb-10">
-                <div className="w-6 h-px" style={{ background: "rgba(201,161,91,0.5)" }} />
-                <span className="text-[10px] tracking-[0.4em] uppercase font-bold" style={{ color: "rgba(201,161,91,0.65)" }}>
+                <div className="w-6 h-px" style={{ background: "rgba(201,161,91,0.45)" }} />
+                <span className="text-[10px] tracking-[0.4em] uppercase font-bold" style={{ color: "rgba(201,161,91,0.62)" }}>
                   {isAr ? "معرض الصور" : "Gallery"}
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                {service.gallery.map((img, i) => (
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                {gallery.map((img, i) => (
                   <motion.div
                     key={i}
                     initial={{ opacity: 0, scale: 0.96 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true, margin: "-40px" }}
                     transition={{ duration: 0.5, delay: i * 0.08 }}
-                    className={`relative overflow-hidden rounded-2xl group ${
-                      i === 0 ? "lg:col-span-2 lg:row-span-2" : ""
-                    }`}
+                    className={`relative overflow-hidden rounded-2xl group ${i === 0 ? "lg:col-span-2 lg:row-span-2" : ""}`}
                     style={{ height: i === 0 ? "380px" : "180px" }}
                   >
                     <Image
                       src={img}
-                      alt={`${isAr ? service.titleAr : service.title} gallery ${i + 1}`}
+                      alt={`${isAr ? service.titleAr : service.title} ${i + 1}`}
                       fill
                       className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
                       sizes="(max-width: 1024px) 50vw, 25vw"
                     />
                     <div
                       className="absolute inset-0 transition-colors duration-500"
-                      style={{ background: "rgba(5,5,5,0.2)" }}
+                      style={{ background: "rgba(5,5,5,0.18)" }}
                     />
                   </motion.div>
                 ))}
@@ -289,7 +517,7 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
             </div>
           </section>
 
-          {/* ── Related Services ─────────────────────────────────── */}
+          {/* ══ RELATED SERVICES ══════════════════════════════════ */}
           {related.length > 0 && (
             <section
               className="px-6 md:px-14 pb-28 pt-20"
@@ -299,8 +527,8 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                 <div className="flex items-center justify-between mb-12">
                   <div>
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="w-6 h-px" style={{ background: "rgba(201,161,91,0.45)" }} />
-                      <span className="text-[10px] tracking-[0.4em] uppercase font-bold" style={{ color: "rgba(201,161,91,0.65)" }}>
+                      <div className="w-6 h-px" style={{ background: "rgba(201,161,91,0.4)" }} />
+                      <span className="text-[10px] tracking-[0.4em] uppercase font-bold" style={{ color: "rgba(201,161,91,0.6)" }}>
                         {isAr ? "خدمات ذات صلة" : "Related Services"}
                       </span>
                     </div>
@@ -314,7 +542,7 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                   <Link
                     href={`/${locale}/services`}
                     className="hidden sm:inline-flex items-center gap-2 text-[11px] tracking-[0.18em] uppercase no-underline font-bold transition-colors duration-300 hover:text-accent"
-                    style={{ color: "rgba(201,161,91,0.55)" }}
+                    style={{ color: "rgba(201,161,91,0.52)" }}
                   >
                     {isAr ? "← عرض الكل" : "View all →"}
                   </Link>
@@ -331,30 +559,26 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                     >
                       <Link
                         href={`/${locale}/services/${rel.slug}`}
-                        className="group block no-underline rounded-2xl overflow-hidden transition-all duration-500"
+                        className="group block no-underline rounded-2xl overflow-hidden transition-all duration-400"
                         style={{
                           background: "rgba(10,10,10,0.82)",
                           border: "1px solid rgba(201,161,91,0.08)",
                         }}
-                        onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLElement).style.borderColor = "rgba(201,161,91,0.28)";
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLElement).style.borderColor = "rgba(201,161,91,0.08)";
-                        }}
+                        onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(201,161,91,0.28)"; }}
+                        onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "rgba(201,161,91,0.08)"; }}
                       >
-                        <div className="relative overflow-hidden rounded-t-2xl" style={{ height: "220px" }}>
+                        <div
+                          className="relative overflow-hidden"
+                          style={{ height: "200px" }}
+                        >
                           <Image
-                            src={rel.img}
+                            src={CATEGORY_HERO[rel.category] ?? rel.img}
                             alt={isAr ? rel.titleAr : rel.title}
                             fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                            className="object-cover transition-transform duration-700 group-hover:scale-[1.05]"
                             sizes="(max-width: 640px) 100vw, 33vw"
                           />
-                          <div
-                            className="absolute inset-0 transition-colors duration-500"
-                            style={{ background: "rgba(5,5,5,0.28)" }}
-                          />
+                          <div className="absolute inset-0 transition-colors duration-500" style={{ background: "rgba(5,5,5,0.25)" }} />
                           <div className="absolute top-4 left-4">
                             <span
                               className="px-2.5 py-1 rounded-full text-[9px] tracking-[0.18em] uppercase font-bold backdrop-blur-sm"
@@ -370,14 +594,19 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                         </div>
                         <div className="p-5">
                           <h3
-                            className="font-serif font-light italic leading-tight transition-colors duration-300 group-hover:text-accent"
-                            style={{ fontSize: "18px", color: CREAM }}
+                            className="font-serif font-light italic leading-tight transition-colors duration-300 group-hover:text-accent mb-2"
+                            style={{ fontSize: "17px", color: CREAM }}
                           >
                             {isAr ? rel.titleAr : rel.title}
                           </h3>
-                          <p className="text-[12px] mt-1.5 line-clamp-1" style={{ color: "rgba(245,241,232,0.38)" }}>
-                            {isAr ? rel.descriptionAr : rel.description}
+                          <p className="text-[12px] line-clamp-1" style={{ color: "rgba(245,241,232,0.36)" }}>
+                            {isAr ? rel.taglineAr : rel.tagline}
                           </p>
+                          <div className="mt-4 flex items-center gap-1.5">
+                            <span className="text-[9px] tracking-[0.28em] uppercase font-bold transition-colors duration-300 group-hover:text-accent" style={{ color: "rgba(201,161,91,0.6)" }}>
+                              {isAr ? "استكشف ←" : "Explore →"}
+                            </span>
+                          </div>
                         </div>
                       </Link>
                     </motion.div>
@@ -387,9 +616,9 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
             </section>
           )}
 
-          {/* ── Final CTA ─────────────────────────────────────────── */}
+          {/* ══ CTA ═══════════════════════════════════════════════ */}
           <section
-            className="relative px-6 py-24 overflow-hidden"
+            className="relative px-6 py-28 md:py-36 overflow-hidden"
             style={{ borderTop: "1px solid rgba(201,161,91,0.08)" }}
           >
             <div className="absolute inset-0" style={{ background: "rgba(5,5,5,0.72)" }} />
@@ -407,42 +636,65 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.7 }}
+                transition={{ duration: 0.8, ease: [0.19, 1, 0.22, 1] }}
               >
-                <p
-                  className="text-[10px] tracking-[0.4em] uppercase font-bold mb-6"
-                  style={{ color: "rgba(201,161,91,0.65)" }}
-                >
-                  {isAr ? "احجز فعاليتك" : "Reserve Your Date"}
-                </p>
+                <div className="flex items-center justify-center gap-3 mb-10">
+                  <div className="w-9 h-px" style={{ background: "rgba(201,161,91,0.32)" }} />
+                  <span className="text-[9px] tracking-[0.44em] uppercase font-bold" style={{ color: "rgba(201,161,91,0.52)" }}>
+                    {isAr ? "احجز موعدك" : "Reserve Your Date"}
+                  </span>
+                  <div className="w-9 h-px" style={{ background: "rgba(201,161,91,0.32)" }} />
+                </div>
+
                 <h2
                   className="font-serif font-light leading-[0.9] tracking-tight mb-5"
-                  style={{ fontSize: "clamp(36px, 6vw, 72px)", color: CREAM }}
+                  style={{ fontSize: "clamp(40px, 7vw, 86px)", color: CREAM }}
                 >
                   <em>
-                    {isAr ? `احجز ${service.titleAr}` : `Book ${service.title}`}
+                    {isAr
+                      ? `احجز ${service.titleAr}`
+                      : `Reserve Your ${service.title}`}
                   </em>
                 </h2>
+
                 <p
-                  className="font-light max-w-md mx-auto mb-10"
-                  style={{ fontSize: "15px", color: "rgba(245,241,232,0.38)", lineHeight: 1.75 }}
+                  className="font-light mb-3"
+                  style={{ fontSize: "clamp(13px, 1.4vw, 16px)", color: "rgba(201,161,91,0.7)", letterSpacing: "0.08em" }}
+                >
+                  {isAr ? "استشارة خاصة مع فريق التنظيم لدينا" : "Schedule a Private Consultation"}
+                </p>
+
+                <p
+                  className="font-light leading-relaxed mx-auto mb-12"
+                  style={{ fontSize: "clamp(13px, 1.3vw, 15px)", color: "rgba(245,241,232,0.34)", maxWidth: "380px" }}
                 >
                   {isAr
-                    ? "تواصل معنا لنبدأ في تصميم فعاليتك الاستثنائية."
-                    : "Get in touch and let us begin crafting your extraordinary event."}
+                    ? "فريق الاستقبال لدينا يرد خلال 24 ساعة. جميع الاستفسارات تُعالج بسرية تامة."
+                    : "Our event concierge team responds within 24 hours. All enquiries handled with complete discretion."}
                 </p>
-                <Link
-                  href={`/${locale}#booking`}
-                  className="inline-flex items-center gap-3 px-10 py-5 rounded-full text-[12px] tracking-[0.22em] uppercase font-bold no-underline transition-all duration-300 hover:scale-105 active:scale-95"
-                  style={{
-                    background: `linear-gradient(135deg, ${GOLD} 0%, #dfc07a 50%, ${GOLD} 100%)`,
-                    color: "#050505",
-                    boxShadow: "0 12px 44px rgba(201,161,91,0.36)",
-                  }}
-                >
-                  {isAr ? "ابدأ المحادثة" : "Start a conversation"}
-                  <span>{isAr ? "←" : "→"}</span>
-                </Link>
+
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Link
+                    href={`/${locale}#booking`}
+                    className="inline-flex items-center gap-3 px-10 py-5 rounded-full text-[11px] tracking-[0.24em] uppercase font-bold no-underline transition-all duration-300 hover:scale-105 active:scale-95"
+                    style={{
+                      background: `linear-gradient(135deg, ${GOLD} 0%, #dfc07a 50%, ${GOLD} 100%)`,
+                      color: "#050505",
+                      boxShadow: "0 12px 44px rgba(201,161,91,0.36)",
+                    }}
+                  >
+                    {isAr ? "ابدأ المحادثة" : "Begin Your Consultation"}
+                    <span className="opacity-60">{isAr ? "←" : "→"}</span>
+                  </Link>
+                  <Link
+                    href={`/${locale}/services`}
+                    className="inline-flex items-center gap-2 text-[10.5px] tracking-[0.2em] uppercase font-bold no-underline transition-colors duration-300 hover:text-[#C9A15B]"
+                    style={{ color: "rgba(245,241,232,0.24)" }}
+                  >
+                    {isAr ? "جميع الخدمات" : "Explore All Services"}
+                    <span>{isAr ? "←" : "→"}</span>
+                  </Link>
+                </div>
               </motion.div>
             </div>
           </section>
