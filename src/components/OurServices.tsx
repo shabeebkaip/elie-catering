@@ -264,25 +264,27 @@ function MobileTab({
         border: "none",
         outline: "none",
         cursor: "pointer",
-        padding: "16px 0",
-        marginRight: "26px",
+        padding: "12px 14px 12px 0",
+        marginRight: "4px",
         position: "relative",
         minHeight: "44px",
+        minWidth: "44px",
       }}
     >
       <span
         style={{
-          fontSize: "9px",
-          letterSpacing: "0.38em",
+          fontSize: "10px",
+          letterSpacing: "0.18em",
           textTransform: "uppercase",
           fontFamily: "var(--font-fraunces), Georgia, serif",
           color: isActive ? CREAM : CREAM_MUTED,
           display: "block",
-          paddingBottom: "7px",
+          paddingBottom: "6px",
+          whiteSpace: "nowrap",
           transition: "color 0.35s ease",
         }}
       >
-        {service.num}
+        {service.title}
       </span>
       <motion.div
         animate={{ scaleX: isActive ? 1 : 0, opacity: isActive ? 0.80 : 0 }}

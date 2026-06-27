@@ -259,14 +259,14 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                   </p>
                   <Link
                     href={`/${locale}#booking`}
-                    className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-[11px] tracking-[0.2em] uppercase font-bold no-underline transition-all duration-300 hover:scale-105 active:scale-95"
+                    className="inline-flex items-center gap-2 px-6 sm:px-8 py-4 rounded-full text-[10px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold no-underline transition-all duration-300 hover:scale-105 active:scale-95"
                     style={{
                       background: `linear-gradient(135deg, ${GOLD} 0%, #dfc07a 50%, ${GOLD} 100%)`,
                       color: "#050505",
                       boxShadow: "0 8px 32px rgba(201,161,91,0.38)",
                     }}
                   >
-                    {isAr ? "احجز استشارة خاصة" : "Schedule a Private Consultation"}
+                    {isAr ? "احجز استشارة خاصة" : "Book a Consultation"}
                     <span>{isAr ? "←" : "→"}</span>
                   </Link>
                 </motion.div>
@@ -683,7 +683,7 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Link
                     href={`/${locale}#booking`}
-                    className="inline-flex items-center gap-3 px-10 py-5 rounded-full text-[11px] tracking-[0.24em] uppercase font-bold no-underline transition-all duration-300 hover:scale-105 active:scale-95"
+                    className="inline-flex items-center gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full text-[10px] sm:text-[11px] tracking-[0.16em] sm:tracking-[0.24em] uppercase font-bold no-underline transition-all duration-300 hover:scale-105 active:scale-95"
                     style={{
                       background: `linear-gradient(135deg, ${GOLD} 0%, #dfc07a 50%, ${GOLD} 100%)`,
                       color: "#050505",

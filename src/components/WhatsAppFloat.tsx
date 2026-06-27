@@ -13,8 +13,8 @@ export default function WhatsAppFloat() {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <div className="fixed bottom-6 right-6 z-[999] flex items-center gap-3">
-      {/* Tooltip label */}
+    <div className="fixed bottom-6 right-4 sm:right-6 z-[999] flex items-center gap-3">
+      {/* Tooltip — desktop hover only */}
       <AnimatePresence>
         {hovered && (
           <motion.div
@@ -22,7 +22,7 @@ export default function WhatsAppFloat() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
             transition={{ duration: 0.2 }}
-            className="bg-[#1a1a1a] text-white text-[12px] font-medium tracking-wide px-4 py-2 rounded-full shadow-xl whitespace-nowrap"
+            className="hidden sm:block bg-[#1a1a1a] text-white text-[12px] font-medium tracking-wide px-4 py-2 rounded-full shadow-xl whitespace-nowrap"
           >
             Chat on WhatsApp
           </motion.div>

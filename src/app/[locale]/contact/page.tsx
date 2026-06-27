@@ -83,31 +83,22 @@ export default function ContactPage() {
 
   return (
     <>
+      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+        <Image src="/images/about/marble.webp" alt="" fill className="object-cover" priority />
+        <div className="absolute inset-0" style={{ background: "rgba(5,5,5,0.92)" }} />
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 70% 45% at 18% 22%, rgba(201,161,91,0.05), transparent), radial-gradient(ellipse 55% 50% at 82% 78%, rgba(201,161,91,0.04), transparent)" }} />
+      </div>
+      <div style={{ position: "relative", zIndex: 1 }}>
       <Header />
-      <main className="bg-primary min-h-screen overflow-x-hidden">
+      <main className="min-h-screen overflow-x-hidden">
 
         {/* ══════════════════════════════════════
             HERO
             ══════════════════════════════════════ */}
         <section className="relative overflow-hidden pt-36 md:pt-44 pb-20 md:pb-28 px-6">
 
-          {/* Capsule decorations */}
+          {/* Ambient glow */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <motion.div
-              initial={{ opacity: 0, y: -60 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.6, delay: 0.3 }}
-              className="absolute -top-20 right-[8%] w-[100px] h-[480px] rounded-full border border-accent/18 rotate-[-14deg]"
-            />
-            <motion.div
-              initial={{ opacity: 0, y: -40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.8, delay: 0.5 }}
-              className="absolute -top-10 right-[16%] w-[60px] h-[300px] rounded-full bg-accent/8 rotate-[-14deg]"
-            />
-            <div className="absolute bottom-0 left-[-3%] w-[80px] h-[360px] rounded-full bg-[#c38ed8]/8 rotate-[20deg]" />
-            <div className="absolute top-[30%] left-[40%] w-[40px] h-[160px] rounded-full border border-accent/8 rotate-[-30deg]" />
-            {/* Ambient glow */}
             <div className="absolute top-[20%] right-[20%] w-[400px] h-[400px] rounded-full bg-accent/5 blur-[120px]" />
           </div>
 
@@ -126,7 +117,7 @@ export default function ContactPage() {
               </div>
 
               {/* Headline */}
-              <h1 className="font-serif font-light text-[clamp(52px,10vw,130px)] text-cream uppercase leading-[0.84] tracking-tighter max-w-4xl">
+              <h1 className="font-serif font-light text-[clamp(34px,10vw,130px)] text-cream uppercase leading-[0.84] tracking-tighter max-w-4xl">
                 Let&apos;s Create<br />
                 <em
                   className="text-accent italic"
@@ -161,7 +152,7 @@ export default function ContactPage() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.6 }}
                     className="rounded-3xl border border-accent/25 p-12 md:p-16 text-center"
-                    style={{ background: "rgba(255,255,255,0.03)" }}
+                    style={{ background: "rgba(10,10,10,0.82)" }}
                   >
                     <div className="w-16 h-16 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center mx-auto mb-8">
                       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#bb8a3c" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -188,8 +179,8 @@ export default function ContactPage() {
                 ) : (
                   <form
                     onSubmit={handleSubmit}
-                    className="rounded-3xl border border-white/8 p-8 md:p-10 lg:p-12"
-                    style={{ background: "rgba(255,255,255,0.025)" }}
+                    className="rounded-3xl border border-[rgba(201,161,91,0.1)] p-8 md:p-10 lg:p-12"
+                    style={{ background: "rgba(10,10,10,0.82)" }}
                   >
                     <div className="flex items-center gap-3 mb-10">
                       <div className="w-6 h-px bg-accent/50" />
@@ -323,8 +314,8 @@ export default function ContactPage() {
                   <motion.div
                     key={item.label}
                     {...fadeUp(0.1 + i * 0.1)}
-                    className="group rounded-2xl border border-white/8 p-6 hover:border-accent/25 transition-all duration-400"
-                    style={{ background: "rgba(255,255,255,0.025)" }}
+                    className="group rounded-2xl border border-[rgba(201,161,91,0.1)] p-6 hover:border-accent/25 transition-all duration-400"
+                    style={{ background: "rgba(10,10,10,0.82)" }}
                   >
                     <div className="flex items-start gap-4">
                       <div className="flex-shrink-0 w-10 h-10 rounded-full bg-accent/12 border border-accent/20 flex items-center justify-center text-accent group-hover:bg-accent/20 transition-colors duration-300">
@@ -352,7 +343,7 @@ export default function ContactPage() {
                     className="object-cover"
                     sizes="380px"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/40 to-transparent" />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(5,5,5,0.92) 0%, rgba(5,5,5,0.4) 50%, transparent 100%)" }} />
                   <div className="absolute bottom-6 left-6 right-6">
                     <p
                       className="text-cream text-[20px] font-light leading-tight"
@@ -369,8 +360,8 @@ export default function ContactPage() {
                 {/* Quick links */}
                 <motion.div
                   {...fadeUp(0.5)}
-                  className="rounded-2xl border border-white/8 p-6"
-                  style={{ background: "rgba(255,255,255,0.02)" }}
+                  className="rounded-2xl border border-[rgba(201,161,91,0.1)] p-6"
+                  style={{ background: "rgba(10,10,10,0.82)" }}
                 >
                   <p className="text-[9px] tracking-[0.36em] uppercase text-cream/35 font-bold mb-5">
                     Quick Links
@@ -429,6 +420,7 @@ export default function ContactPage() {
 
       </main>
       <Footer />
+      </div>
     </>
   );
 }

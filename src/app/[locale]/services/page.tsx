@@ -184,7 +184,7 @@ export default function ServicesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.05, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
                 className="font-serif font-light leading-[0.86] tracking-tight mb-8"
-                style={{ fontSize: "clamp(54px, 11.5vw, 136px)", color: CREAM }}
+                style={{ fontSize: "clamp(26px, 8.5vw, 136px)", color: CREAM }}
               >
                 {isAr ? (
                   <>
@@ -245,7 +245,7 @@ export default function ServicesPage() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.9, delay: 0.65 }}
-                className="flex items-center justify-center gap-3 flex-wrap"
+                className="hidden sm:flex items-center justify-center gap-3 flex-wrap"
               >
                 {(isAr
                   ? ["التموين", "تنظيم الفعاليات", "الديكور والتصميم", "الإضافات المميزة"]
