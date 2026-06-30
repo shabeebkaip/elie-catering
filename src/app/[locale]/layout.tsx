@@ -4,6 +4,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
 import LocaleHtmlSync from "@/components/LocaleHtmlSync";
+import { MyEventProvider } from "@/state/MyEventProvider";
+import MyEventTray from "@/components/my-event/MyEventTray";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -28,8 +30,11 @@ export default async function LocaleLayout({
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
       <LocaleHtmlSync />
-      {children}
-      <WhatsAppFloat />
+      <MyEventProvider>
+        {children}
+        <MyEventTray />
+        <WhatsAppFloat />
+      </MyEventProvider>
     </NextIntlClientProvider>
   );
 }

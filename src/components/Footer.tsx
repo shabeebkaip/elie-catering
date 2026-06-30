@@ -20,7 +20,6 @@ const CONTENT = {
     location: "Riyadh, Saudi Arabia",
     phone: "+966 54 435 6564",
     email: "info@elie-catering.com",
-    hours: "Sunday – Thursday · 10:00 – 18:00",
     whatsapp: "WhatsApp",
     services: "Services",
     serviceLinks: ["Weddings", "Corporate", "Private Dining", "Galas"],
@@ -46,7 +45,6 @@ const CONTENT = {
     location: "الرياض، المملكة العربية السعودية",
     phone: "+966 54 435 6564",
     email: "info@elie-catering.com",
-    hours: "الأحد – الخميس · ١٠:٠٠ – ١٨:٠٠",
     whatsapp: "واتساب",
     services: "الخدمات",
     serviceLinks: ["الأعراس", "المؤسسات", "العشاء الخاص", "الحفلات الكبرى"],
@@ -365,9 +363,6 @@ export default function Footer() {
                   style={{ fontSize: 11, letterSpacing: "0.01em" }}>
                   {c.email}
                 </a>
-                <span style={{ fontSize: 11, color: CREAM_MUTED, letterSpacing: "0.015em", lineHeight: 1.4 }}>
-                  {c.hours}
-                </span>
                 <div style={{ marginTop: 5 }}>
                   <a
                     href="https://wa.me/966544356564"

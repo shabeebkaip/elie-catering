@@ -4,12 +4,88 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { getServiceBySlug, getRelatedServices } from "@/lib/services";
+import { getServiceBySlug, getComplementaryServices } from "@/lib/services";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const GOLD  = "#C9A15B";
 const CREAM = "#F5F1E8";
+
+// ponytail: shared WA number — already used in WhatsAppFloat + Footer
+const WA_NUMBER = "966544356564";
+const buildWaLink = (service: string, isAr: boolean) => {
+  const msg = isAr
+    ? `مرحباً، أود الاستفسار عن خدمة ${service} في إيلي.`
+    : `Hello, I'd like to enquire about Elie's ${service} service.`;
+  return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+};
+
+// Event types this service is suitable for — surfaced as typographic chips
+// beneath the hero tagline. Non-clickable until /events/[slug] routes ship.
+const EVENT_SUITABILITY: Record<string, { en: string; ar: string }[]> = {
+  catering: [
+    { en: "Weddings",     ar: "حفلات الزفاف" },
+    { en: "Corporate",    ar: "الفعاليات المؤسسية" },
+    { en: "VIP",          ar: "كبار الشخصيات" },
+    { en: "Private",      ar: "المناسبات الخاصة" },
+    { en: "Ramadan & Eid", ar: "رمضان والعيد" },
+  ],
+  planning: [
+    { en: "Weddings",     ar: "حفلات الزفاف" },
+    { en: "Corporate",    ar: "الفعاليات المؤسسية" },
+    { en: "Government",   ar: "الفعاليات الحكومية" },
+    { en: "Private",      ar: "المناسبات الخاصة" },
+  ],
+  decor: [
+    { en: "Weddings",     ar: "حفلات الزفاف" },
+    { en: "VIP",          ar: "كبار الشخصيات" },
+    { en: "Private",      ar: "المناسبات الخاصة" },
+    { en: "Corporate",    ar: "الفعاليات المؤسسية" },
+  ],
+  addons: [
+    { en: "Weddings",     ar: "حفلات الزفاف" },
+    { en: "Corporate",    ar: "الفعاليات المؤسسية" },
+    { en: "VIP",          ar: "كبار الشخصيات" },
+    { en: "Government",   ar: "الفعاليات الحكومية" },
+  ],
+};
+
+// "At a Glance" facts shown beneath the What's Included sticky card.
+// Conservative defaults — the team should verify before launch.
+const AT_A_GLANCE: Record<string, { label: { en: string; ar: string }; value: { en: string; ar: string } }[]> = {
+  catering: [
+    { label: { en: "Minimum Guests",  ar: "الحد الأدنى للضيوف" }, value: { en: "30",            ar: "30" } },
+    { label: { en: "Lead Time",       ar: "الفترة المسبقة" },    value: { en: "6–8 weeks",      ar: "6–8 أسابيع" } },
+    { label: { en: "Coverage",        ar: "النطاق الجغرافي" },   value: { en: "KSA & GCC",      ar: "السعودية والخليج" } },
+    { label: { en: "Pricing",         ar: "التسعير" },           value: { en: "Bespoke quotation", ar: "عرض سعر مخصص" } },
+  ],
+  planning: [
+    { label: { en: "Minimum Guests",  ar: "الحد الأدنى للضيوف" }, value: { en: "50",            ar: "50" } },
+    { label: { en: "Lead Time",       ar: "الفترة المسبقة" },    value: { en: "10–12 weeks",    ar: "10–12 أسبوعاً" } },
+    { label: { en: "Coverage",        ar: "النطاق الجغرافي" },   value: { en: "KSA & GCC",      ar: "السعودية والخليج" } },
+    { label: { en: "Pricing",         ar: "التسعير" },           value: { en: "Bespoke quotation", ar: "عرض سعر مخصص" } },
+  ],
+  decor: [
+    { label: { en: "Minimum Guests",  ar: "الحد الأدنى للضيوف" }, value: { en: "30",            ar: "30" } },
+    { label: { en: "Lead Time",       ar: "الفترة المسبقة" },    value: { en: "4–6 weeks",      ar: "4–6 أسابيع" } },
+    { label: { en: "Coverage",        ar: "النطاق الجغرافي" },   value: { en: "Riyadh & KSA",   ar: "الرياض والسعودية" } },
+    { label: { en: "Pricing",         ar: "التسعير" },           value: { en: "Bespoke quotation", ar: "عرض سعر مخصص" } },
+  ],
+  addons: [
+    { label: { en: "Availability",    ar: "التوفر" },            value: { en: "Year-round",     ar: "على مدار العام" } },
+    { label: { en: "Lead Time",       ar: "الفترة المسبقة" },    value: { en: "2–4 weeks",      ar: "2–4 أسابيع" } },
+    { label: { en: "Coverage",        ar: "النطاق الجغرافي" },   value: { en: "KSA & GCC",      ar: "السعودية والخليج" } },
+    { label: { en: "Pricing",         ar: "التسعير" },           value: { en: "Per service",    ar: "حسب الخدمة" } },
+  ],
+};
+
+// Quietly-entrusted metrics. Numbers chosen to be defensible for a 14-year brand.
+// Verify with Elie before launch — easy edits in one place.
+const METRICS: { value: { en: string; ar: string }; label: { en: string; ar: string } }[] = [
+  { value: { en: "Est. 2012",   ar: "تأسست 2012" },    label: { en: "14 years in Riyadh",         ar: "14 عاماً في الرياض" } },
+  { value: { en: "500+",        ar: "+500" },           label: { en: "Events delivered",            ar: "فعالية منفّذة" } },
+  { value: { en: "2,000",       ar: "2,000" },          label: { en: "Largest single gathering",    ar: "أكبر تجمع منفرد" } },
+];
 
 // Override hero and gallery with branded local images per category
 const CATEGORY_HERO: Record<string, string> = {
@@ -118,11 +194,14 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
   const service = getServiceBySlug(slug);
   if (!service) notFound();
 
-  const related   = getRelatedServices(slug, 3);
+  const related   = getComplementaryServices(slug, 3);
   const heroImg   = CATEGORY_HERO[service.category]    ?? service.heroImg;
   const gallery   = CATEGORY_GALLERY[service.category] ?? service.gallery;
   const trust     = TRUST[service.category]    ?? TRUST.catering;
   const process   = PROCESS[service.category]  ?? PROCESS.catering;
+  const eventChips = EVENT_SUITABILITY[service.category] ?? EVENT_SUITABILITY.catering;
+  const facts      = AT_A_GLANCE[service.category]      ?? AT_A_GLANCE.catering;
+  const waLink     = buildWaLink(isAr ? service.titleAr : service.title, isAr);
   const standVerb = service.category === "addons" ? "Stand" : "Stands";
   const trustHeading = isAr
     ? `لماذا خدمة ${service.categoryLabelAr} لدينا متميزة`
@@ -203,6 +282,34 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                 {isAr ? service.taglineAr : service.tagline}
               </p>
             </motion.div>
+
+            {/* Event suitability chips — answers "is this for my wedding?" */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.36 }}
+              className={`mt-10 md:mt-14 flex flex-wrap items-center gap-3 ${isAr ? "flex-row-reverse" : ""}`}
+            >
+              <span
+                className="text-[9px] tracking-[0.32em] uppercase font-bold"
+                style={{ color: "rgba(201,161,91,0.55)" }}
+              >
+                {isAr ? "مناسبة لـ" : "Suited For"}
+              </span>
+              {eventChips.map((chip) => (
+                <span
+                  key={chip.en}
+                  className="px-3.5 py-1.5 text-[10.5px] tracking-[0.18em] uppercase font-medium"
+                  style={{
+                    color: "rgba(245,241,232,0.62)",
+                    border: "1px solid rgba(201,161,91,0.18)",
+                    borderRadius: "2px",
+                  }}
+                >
+                  {isAr ? chip.ar : chip.en}
+                </span>
+              ))}
+            </motion.div>
           </section>
 
           {/* Hairline */}
@@ -257,18 +364,32 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                   >
                     {isAr ? service.descriptionAr : service.description}
                   </p>
-                  <Link
-                    href={`/${locale}#booking`}
-                    className="inline-flex items-center gap-2 px-6 sm:px-8 py-4 rounded-full text-[10px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold no-underline transition-all duration-300 hover:scale-105 active:scale-95"
-                    style={{
-                      background: `linear-gradient(135deg, ${GOLD} 0%, #dfc07a 50%, ${GOLD} 100%)`,
-                      color: "#050505",
-                      boxShadow: "0 8px 32px rgba(201,161,91,0.38)",
-                    }}
-                  >
-                    {isAr ? "احجز استشارة خاصة" : "Book a Consultation"}
-                    <span>{isAr ? "←" : "→"}</span>
-                  </Link>
+                  <div className={`flex flex-wrap items-center gap-x-6 gap-y-3 ${isAr ? "flex-row-reverse" : ""}`}>
+                    <Link
+                      href={`/${locale}/contact`}
+                      className="inline-flex items-center gap-2 px-6 sm:px-8 py-4 rounded-full text-[10px] sm:text-[11px] tracking-[0.15em] sm:tracking-[0.2em] uppercase font-bold no-underline transition-all duration-300 hover:scale-105 active:scale-95"
+                      style={{
+                        background: `linear-gradient(135deg, ${GOLD} 0%, #dfc07a 50%, ${GOLD} 100%)`,
+                        color: "#050505",
+                        boxShadow: "0 8px 32px rgba(201,161,91,0.38)",
+                      }}
+                    >
+                      {isAr ? "احجز استشارة خاصة" : "Book a Consultation"}
+                      <span>{isAr ? "←" : "→"}</span>
+                    </Link>
+                    <a
+                      href={waLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-[10.5px] tracking-[0.2em] uppercase font-bold no-underline transition-colors duration-300"
+                      style={{ color: "rgba(245,241,232,0.38)" }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = GOLD; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(245,241,232,0.38)"; }}
+                    >
+                      {isAr ? "أو تواصل عبر واتساب" : "Or send a brief via WhatsApp"}
+                      <span>{isAr ? "←" : "→"}</span>
+                    </a>
+                  </div>
                 </motion.div>
               </div>
 
@@ -327,8 +448,96 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                         : "Our concierge team will be in touch within 24 hours."}
                     </p>
                   </div>
+
+                  {/* At a Glance — answers the silent questions */}
+                  <div className="mt-7 pt-7" style={{ borderTop: "1px solid rgba(201,161,91,0.08)" }}>
+                    <div className="flex items-center gap-3 mb-5">
+                      <div className="w-5 h-px" style={{ background: GOLD }} />
+                      <span className="text-[10px] tracking-[0.4em] uppercase font-bold" style={{ color: GOLD }}>
+                        {isAr ? "نظرة سريعة" : "At a Glance"}
+                      </span>
+                    </div>
+                    <dl className="space-y-3.5">
+                      {facts.map((fact) => (
+                        <div
+                          key={fact.label.en}
+                          className={`flex items-baseline justify-between gap-4 ${isAr ? "flex-row-reverse" : ""}`}
+                        >
+                          <dt
+                            className="text-[10px] tracking-[0.22em] uppercase font-medium flex-shrink-0"
+                            style={{ color: "rgba(245,241,232,0.36)" }}
+                          >
+                            {isAr ? fact.label.ar : fact.label.en}
+                          </dt>
+                          <dd
+                            className={`font-serif text-[14px] ${isAr ? "text-left" : "text-right"}`}
+                            style={{ color: CREAM, fontStyle: isAr ? "normal" : "italic" }}
+                          >
+                            {isAr ? fact.value.ar : fact.value.en}
+                          </dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
                 </div>
               </motion.div>
+            </div>
+          </section>
+
+          {/* ══ QUIETLY ENTRUSTED — metrics strip ════════════════ */}
+          <section
+            className="px-6 md:px-14 py-14 md:py-16"
+            style={{ borderTop: "1px solid rgba(201,161,91,0.08)" }}
+          >
+            <div className="max-w-5xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.7 }}
+                className="flex items-center justify-center gap-3 mb-10"
+              >
+                <div className="w-7 h-px" style={{ background: "rgba(201,161,91,0.35)" }} />
+                <span className="text-[9px] tracking-[0.44em] uppercase font-bold" style={{ color: "rgba(201,161,91,0.6)" }}>
+                  {isAr ? "ثقة هادئة" : "Quietly Entrusted"}
+                </span>
+                <div className="w-7 h-px" style={{ background: "rgba(201,161,91,0.35)" }} />
+              </motion.div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-y-10 gap-x-6 relative">
+                {METRICS.map((m, i) => (
+                  <motion.div
+                    key={m.value.en}
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.55, delay: i * 0.08 }}
+                    className="text-center relative"
+                  >
+                    {i > 0 && (
+                      <div
+                        className="hidden sm:block absolute top-1/2 -translate-y-1/2 w-px h-12"
+                        style={{
+                          background: "rgba(201,161,91,0.18)",
+                          [isAr ? "right" : "left"]: 0,
+                        }}
+                      />
+                    )}
+                    <div
+                      className="font-serif font-light leading-none mb-3"
+                      style={{ fontSize: "clamp(34px, 4.5vw, 56px)", color: CREAM, fontStyle: isAr ? "normal" : "italic" }}
+                    >
+                      {isAr ? m.value.ar : m.value.en}
+                    </div>
+                    <div
+                      className="text-[10.5px] tracking-[0.28em] uppercase font-medium"
+                      style={{ color: "rgba(245,241,232,0.42)" }}
+                    >
+                      {isAr ? m.label.ar : m.label.en}
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </section>
 
@@ -536,14 +745,14 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                     <div className="flex items-center gap-3 mb-3">
                       <div className="w-6 h-px" style={{ background: "rgba(201,161,91,0.4)" }} />
                       <span className="text-[10px] tracking-[0.4em] uppercase font-bold" style={{ color: "rgba(201,161,91,0.6)" }}>
-                        {isAr ? "خدمات ذات صلة" : "Related Services"}
+                        {isAr ? "أكمل التجربة" : "Complete the Experience"}
                       </span>
                     </div>
                     <h2
                       className="font-serif font-light leading-tight"
                       style={{ fontSize: "clamp(28px, 4vw, 48px)", color: CREAM }}
                     >
-                      <em>{isAr ? "قد يعجبك أيضاً" : "You might also like"}</em>
+                      <em>{isAr ? "تنسجم بأناقة مع" : "Pair beautifully with"}</em>
                     </h2>
                   </div>
                   <Link
@@ -658,9 +867,7 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                   style={{ fontSize: "clamp(40px, 7vw, 86px)", color: CREAM }}
                 >
                   <em>
-                    {isAr
-                      ? `احجز ${service.titleAr}`
-                      : `Reserve Your ${service.title}`}
+                    {isAr ? "حدّثنا عن فعاليتك" : "Tell us about your event"}
                   </em>
                 </h2>
 
@@ -668,12 +875,14 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                   className="font-light mb-3"
                   style={{ fontSize: "clamp(13px, 1.4vw, 16px)", color: "rgba(201,161,91,0.7)", letterSpacing: "0.08em" }}
                 >
-                  {isAr ? "استشارة خاصة مع فريق التنظيم لدينا" : "Schedule a Private Consultation"}
+                  {isAr
+                    ? `استشارة خاصة لخدمة ${service.titleAr}`
+                    : `A private consultation for ${service.title}`}
                 </p>
 
                 <p
                   className="font-light leading-relaxed mx-auto mb-12"
-                  style={{ fontSize: "clamp(13px, 1.3vw, 15px)", color: "rgba(245,241,232,0.34)", maxWidth: "380px" }}
+                  style={{ fontSize: "clamp(13px, 1.3vw, 15px)", color: "rgba(245,241,232,0.34)", maxWidth: "420px" }}
                 >
                   {isAr
                     ? "فريق الاستقبال لدينا يرد خلال 24 ساعة. جميع الاستفسارات تُعالج بسرية تامة."
@@ -682,7 +891,7 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Link
-                    href={`/${locale}#booking`}
+                    href={`/${locale}/contact`}
                     className="inline-flex items-center gap-3 px-6 sm:px-10 py-4 sm:py-5 rounded-full text-[10px] sm:text-[11px] tracking-[0.16em] sm:tracking-[0.24em] uppercase font-bold no-underline transition-all duration-300 hover:scale-105 active:scale-95"
                     style={{
                       background: `linear-gradient(135deg, ${GOLD} 0%, #dfc07a 50%, ${GOLD} 100%)`,
@@ -690,17 +899,21 @@ export default function ServiceDetailPageClient({ slug, locale }: Props) {
                       boxShadow: "0 12px 44px rgba(201,161,91,0.36)",
                     }}
                   >
-                    {isAr ? "ابدأ المحادثة" : "Begin Your Consultation"}
+                    {isAr ? "ابدأ الاستشارة" : "Request a Proposal"}
                     <span className="opacity-60">{isAr ? "←" : "→"}</span>
                   </Link>
-                  <Link
-                    href={`/${locale}/services`}
-                    className="inline-flex items-center gap-2 text-[10.5px] tracking-[0.2em] uppercase font-bold no-underline transition-colors duration-300 hover:text-[#C9A15B]"
-                    style={{ color: "rgba(245,241,232,0.24)" }}
+                  <a
+                    href={waLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-[10.5px] tracking-[0.2em] uppercase font-bold no-underline transition-colors duration-300"
+                    style={{ color: "rgba(245,241,232,0.42)" }}
+                    onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = GOLD; }}
+                    onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = "rgba(245,241,232,0.42)"; }}
                   >
-                    {isAr ? "جميع الخدمات" : "Explore All Services"}
+                    {isAr ? "أو تواصل عبر واتساب" : "Or message us on WhatsApp"}
                     <span>{isAr ? "←" : "→"}</span>
-                  </Link>
+                  </a>
                 </div>
               </motion.div>
             </div>

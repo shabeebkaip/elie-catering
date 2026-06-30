@@ -7,16 +7,20 @@
     "build": "NODE_OPTIONS=--max-old-space-size=4096 next build",
     "start": "next start",
     "lint": "eslint",
+    "images:generate": "tsx --env-file=.env.local scripts/generate-images.ts",
     "postinstall": "mkdir -p node_modules/.fseventsd && touch node_modules/.fseventsd/no_log node_modules/.metadata_never_index"
   },
   "dependencies": {
+    "@fal-ai/client": "^1.10.1",
     "framer-motion": "^12.38.0",
     "lenis": "^1.3.23",
     "lucide-react": "^1.8.0",
     "next": "16.2.4",
     "next-intl": "^4.9.1",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "sharp": "^0.35.2",
+    "tsx": "^4.22.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

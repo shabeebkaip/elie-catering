@@ -16,6 +16,7 @@
 /test-results
 /tests/screenshots
 .playwright-mcp/
+/*.png
 
 # next.js
 /.next/

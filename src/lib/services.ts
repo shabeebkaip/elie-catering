@@ -854,3 +854,29 @@ export function getRelatedServices(slug: string, count = 3): Service[] {
   );
   return [...sameCategory, ...others].slice(0, count);
 }
+
+/* Cross-category complements per service category — drives the
+   "Complete the Experience" upsell. Catering pairs with décor + add-ons,
+   never with another catering offering. */
+const COMPLEMENTARY_CATEGORIES: Record<Service["category"], Service["category"][]> = {
+  catering: ["decor", "addons"],
+  planning: ["catering", "decor"],
+  decor:    ["catering", "addons"],
+  addons:   ["catering", "decor"],
+};
+
+export function getComplementaryServices(slug: string, count = 3): Service[] {
+  const current = getServiceBySlug(slug);
+  if (!current) return [];
+  const preferredCats = COMPLEMENTARY_CATEGORIES[current.category] ?? [];
+  const complementary = services.filter(
+    (s) => s.slug !== slug && preferredCats.includes(s.category)
+  );
+  const fallback = services.filter(
+    (s) =>
+      s.slug !== slug &&
+      s.category !== current.category &&
+      !complementary.includes(s)
+  );
+  return [...complementary, ...fallback].slice(0, count);
+}
