@@ -13,15 +13,15 @@ const CREAM     = "#F5F1E8";
 const GRAD_HERO = "linear-gradient(to top, rgba(5,5,5,0.98) 0%, rgba(5,5,5,0.62) 45%, rgba(5,5,5,0.18) 72%, transparent 100%)";
 
 const HERO_IMG: Record<string, string> = {
-  "wedding-planning":  "/images/services/wedding.webp",
-  "event-planning":    "/images/services/coorperate-events.webp",
-  "party-planning":    "/images/services/private-gathering.webp",
+  "wedding-planning":  "/images/services/wedding.png",
+  "event-planning":    "/images/services/coorperate-events.png",
+  "party-planning":    "/images/services/private-gathering.png",
 };
 
 const GALLERY_IMGS: Record<string, string[]> = {
-  "wedding-planning":  ["/images/services/wedding.webp", "/images/services/event-styling.webp", "/images/services/private-gathering.webp", "/images/services/luxury-catering.webp"],
-  "event-planning":    ["/images/services/coorperate-events.webp", "/images/services/wedding.webp", "/images/services/event-styling.webp", "/images/services/vip.webp"],
-  "party-planning":    ["/images/services/private-gathering.webp", "/images/services/event-styling.webp", "/images/services/wedding.webp", "/images/services/luxury-catering.webp"],
+  "wedding-planning":  ["/images/services/wedding.png", "/images/services/event-styling.png", "/images/services/private-gathering.png", "/images/services/luxury-catering.png"],
+  "event-planning":    ["/images/services/coorperate-events.png", "/images/services/wedding.png", "/images/services/event-styling.png", "/images/services/vip.png"],
+  "party-planning":    ["/images/services/private-gathering.png", "/images/services/event-styling.png", "/images/services/wedding.png", "/images/services/luxury-catering.png"],
 };
 
 const PROCESS: Record<string, { num: string; t: string; tAr: string; d: string; dAr: string }[]> = {

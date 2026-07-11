@@ -89,36 +89,36 @@ const METRICS: { value: { en: string; ar: string }; label: { en: string; ar: str
 
 // Override hero and gallery with branded local images per category
 const CATEGORY_HERO: Record<string, string> = {
-  catering: "/images/services/luxury-catering.webp",
-  planning:  "/images/services/wedding.webp",
-  decor:     "/images/services/event-styling.webp",
-  addons:    "/images/services/vip.webp",
+  catering: "/images/services/luxury-catering.png",
+  planning:  "/images/services/wedding.png",
+  decor:     "/images/services/event-styling.png",
+  addons:    "/images/services/vip.png",
 };
 
 const CATEGORY_GALLERY: Record<string, string[]> = {
   catering: [
-    "/images/services/luxury-catering.webp",
-    "/images/services/wedding.webp",
-    "/images/services/event-styling.webp",
-    "/images/services/private-gathering.webp",
+    "/images/services/luxury-catering.png",
+    "/images/services/wedding.png",
+    "/images/services/event-styling.png",
+    "/images/services/private-gathering.png",
   ],
   planning: [
-    "/images/services/wedding.webp",
-    "/images/services/coorperate-events.webp",
-    "/images/services/private-gathering.webp",
-    "/images/services/event-styling.webp",
+    "/images/services/wedding.png",
+    "/images/services/coorperate-events.png",
+    "/images/services/private-gathering.png",
+    "/images/services/event-styling.png",
   ],
   decor: [
-    "/images/services/event-styling.webp",
-    "/images/services/wedding.webp",
-    "/images/services/luxury-catering.webp",
-    "/images/services/private-gathering.webp",
+    "/images/services/event-styling.png",
+    "/images/services/wedding.png",
+    "/images/services/luxury-catering.png",
+    "/images/services/private-gathering.png",
   ],
   addons: [
-    "/images/services/vip.webp",
-    "/images/services/coorperate-events.webp",
-    "/images/services/wedding.webp",
-    "/images/services/luxury-catering.webp",
+    "/images/services/vip.png",
+    "/images/services/coorperate-events.png",
+    "/images/services/wedding.png",
+    "/images/services/luxury-catering.png",
   ],
 };
 
